@@ -120,7 +120,9 @@ export default function OnboardingRole() {
 
   const [role, setRole] = useState<string>(initial.role ?? "");
   const [useCase, setUseCase] = useState<string>(initial.useCase ?? "");
-  const [experience, setExperience] = useState<string>(initial.experience ?? "");
+  const [experience, setExperience] = useState<string>(
+    initial.experience ?? "",
+  );
   const [targetIndustry, setTargetIndustry] = useState<string>(
     initial.targetIndustry ?? "",
   );
@@ -183,9 +185,20 @@ export default function OnboardingRole() {
                 className="flex flex-wrap gap-2"
               >
                 {ROLES.map((r) => (
-                  <motion.div key={r.label} whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.99 }}>
-                    <PillOption id={`role-${r.label}`} selected={role === r.label}>
-                      <RadioGroupItem id={`role-${r.label}`} value={r.label} className="sr-only" />
+                  <motion.div
+                    key={r.label}
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.99 }}
+                  >
+                    <PillOption
+                      id={`role-${r.label}`}
+                      selected={role === r.label}
+                    >
+                      <RadioGroupItem
+                        id={`role-${r.label}`}
+                        value={r.label}
+                        className="sr-only"
+                      />
                       <r.icon className="h-4 w-4 text-valasys-blue" />
                       <span>{r.label}</span>
                     </PillOption>
@@ -207,9 +220,20 @@ export default function OnboardingRole() {
                 className="flex flex-wrap gap-2"
               >
                 {GOALS.map((g) => (
-                  <motion.div key={g.label} whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.99 }}>
-                    <PillOption id={`goal-${g.label}`} selected={useCase === g.label}>
-                      <RadioGroupItem id={`goal-${g.label}`} value={g.label} className="sr-only" />
+                  <motion.div
+                    key={g.label}
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.99 }}
+                  >
+                    <PillOption
+                      id={`goal-${g.label}`}
+                      selected={useCase === g.label}
+                    >
+                      <RadioGroupItem
+                        id={`goal-${g.label}`}
+                        value={g.label}
+                        className="sr-only"
+                      />
                       <span className="text-valasys-blue">🎯</span>
                       <span>{g.label}</span>
                     </PillOption>
@@ -231,9 +255,20 @@ export default function OnboardingRole() {
                 className="flex flex-wrap gap-2"
               >
                 {EXPERIENCES.map((e) => (
-                  <motion.div key={e.label} whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.99 }}>
-                    <PillOption id={`exp-${e.label}`} selected={experience === e.label}>
-                      <RadioGroupItem id={`exp-${e.label}`} value={e.label} className="sr-only" />
+                  <motion.div
+                    key={e.label}
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.99 }}
+                  >
+                    <PillOption
+                      id={`exp-${e.label}`}
+                      selected={experience === e.label}
+                    >
+                      <RadioGroupItem
+                        id={`exp-${e.label}`}
+                        value={e.label}
+                        className="sr-only"
+                      />
                       <span className="text-valasys-blue">⚡</span>
                       <span>{e.label}</span>
                     </PillOption>
@@ -255,9 +290,20 @@ export default function OnboardingRole() {
                 className="flex flex-wrap gap-2"
               >
                 {INDUSTRIES.map((i) => (
-                  <motion.div key={i.label} whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.99 }}>
-                    <PillOption id={`ind-${i.label}`} selected={targetIndustry === i.label}>
-                      <RadioGroupItem id={`ind-${i.label}`} value={i.label} className="sr-only" />
+                  <motion.div
+                    key={i.label}
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.99 }}
+                  >
+                    <PillOption
+                      id={`ind-${i.label}`}
+                      selected={targetIndustry === i.label}
+                    >
+                      <RadioGroupItem
+                        id={`ind-${i.label}`}
+                        value={i.label}
+                        className="sr-only"
+                      />
                       <span className="text-valasys-blue">🏭</span>
                       <span>{i.label}</span>
                     </PillOption>
@@ -279,9 +325,20 @@ export default function OnboardingRole() {
                 className="flex flex-wrap gap-2"
               >
                 {CATEGORIES.map((c) => (
-                  <motion.div key={c.label} whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.99 }}>
-                    <PillOption id={`cat-${c.label}`} selected={vaisCategory === c.label}>
-                      <RadioGroupItem id={`cat-${c.label}`} value={c.label} className="sr-only" />
+                  <motion.div
+                    key={c.label}
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.99 }}
+                  >
+                    <PillOption
+                      id={`cat-${c.label}`}
+                      selected={vaisCategory === c.label}
+                    >
+                      <RadioGroupItem
+                        id={`cat-${c.label}`}
+                        value={c.label}
+                        className="sr-only"
+                      />
                       <span className="text-valasys-blue">💼</span>
                       <span>{c.label}</span>
                     </PillOption>

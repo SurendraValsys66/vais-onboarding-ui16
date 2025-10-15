@@ -99,9 +99,7 @@ export default function OnboardingSummaryPanel({
                           exit="exit"
                           transition={{ duration: 0.18 }}
                         >
-                          <Badge
-                            className="bg-valasys-blue text-white border-transparent shadow-sm"
-                          >
+                          <Badge className="bg-valasys-blue text-white border-transparent shadow-sm">
                             <span className="mr-1.5">
                               {emojiFor(key, v as string)}
                             </span>
@@ -134,7 +132,9 @@ export default function OnboardingSummaryPanel({
               transition={{ duration: 0.2 }}
             >
               <div className="text-sm text-valasys-gray-800">
-                Awesome! You’re a {values.role} exploring {values.useCase} in the {values.targetIndustry} industry — VAIS is ready to personalize your experience.
+                Awesome! You’re a {values.role} exploring {values.useCase} in
+                the {values.targetIndustry} industry — VAIS is ready to
+                personalize your experience.
               </div>
             </motion.div>
           )}
