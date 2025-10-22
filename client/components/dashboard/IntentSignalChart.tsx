@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   ChartContainer,
   ChartTooltip,
@@ -19,6 +20,7 @@ import {
 } from "recharts";
 import { Building2, MapPin, DollarSign, Target } from "lucide-react";
 import { cn } from "@/lib/utils";
+import IntentSignalUnlockModal from "./IntentSignalUnlockModal";
 
 interface IntentSignalData {
   compositeScore: number;
