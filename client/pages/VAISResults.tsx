@@ -949,8 +949,11 @@ export default function VAISResults() {
                           className="sticky top-0 z-20 bg-white cursor-pointer hover:bg-gray-100 transition-colors"
                           onClick={() => handleSort("intentSignal")}
                         >
-                          <div className="flex items-center justify-between">
-                            Intent Signal
+                          <div className="flex items-center justify-between group">
+                            <div className="flex items-center space-x-2">
+                              <span>Intent Signal</span>
+                              <Info className="w-4 h-4 text-gray-400 opacity-0 group-hover:opacity-100 transition-opacity" />
+                            </div>
                             <div className="ml-2">
                               {sortField === "intentSignal" ? (
                                 <span className="text-valasys-orange">
