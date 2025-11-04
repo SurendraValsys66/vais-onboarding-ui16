@@ -77,7 +77,7 @@ export default function OnboardingUseCase() {
                   htmlFor={`usecase-${opt.label}`}
                   className={`flex items-center gap-3 rounded-lg border-2 p-4 cursor-pointer transition-all ${
                     value === opt.label
-                      ? "border-valasys-orange bg-valasys-orange/5"
+                      ? "border-valasys-orange bg-valasys-orange/10 text-valasys-orange"
                       : "border-valasys-gray-200 hover:border-valasys-orange/40"
                   }`}
                 >
