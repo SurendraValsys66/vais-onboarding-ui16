@@ -51,9 +51,7 @@ export default function OnboardingVideoLayout({
               {/* Content and Personalization side by side */}
               <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                 {/* Left side - Main form content */}
-                <div className="lg:col-span-2">
-                  {content}
-                </div>
+                <div className="lg:col-span-2">{content}</div>
 
                 {/* Right side - Personalization panel inside card */}
                 <div className="lg:col-span-1">

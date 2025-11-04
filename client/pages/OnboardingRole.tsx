@@ -114,10 +114,7 @@ export default function OnboardingRole() {
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.99 }}
               >
-                <PillOption
-                  id={`role-${r.label}`}
-                  selected={role === r.label}
-                >
+                <PillOption id={`role-${r.label}`} selected={role === r.label}>
                   <RadioGroupItem
                     id={`role-${r.label}`}
                     value={r.label}

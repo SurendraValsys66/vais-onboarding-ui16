@@ -59,7 +59,8 @@ export default function OnboardingThankYou() {
           <Card className="border-valasys-gray-200 bg-valasys-blue/5">
             <CardHeader>
               <CardTitle className="text-base flex items-center gap-2 text-valasys-gray-900">
-                <CheckCircle2 className="h-5 w-5 text-valasys-green" /> Your Profile
+                <CheckCircle2 className="h-5 w-5 text-valasys-green" /> Your
+                Profile
               </CardTitle>
             </CardHeader>
             <CardContent>
