@@ -102,7 +102,7 @@ export default function OnboardingIndustry() {
                   htmlFor={`industry-${option.label}`}
                   className={`flex items-center gap-2 rounded-lg border-2 p-3 cursor-pointer transition-all ${
                     value === option.label
-                      ? "border-valasys-orange bg-valasys-orange/5"
+                      ? "border-valasys-orange bg-valasys-orange/10 text-valasys-orange"
                       : "border-valasys-gray-200 hover:border-valasys-orange/40"
                   }`}
                 >
