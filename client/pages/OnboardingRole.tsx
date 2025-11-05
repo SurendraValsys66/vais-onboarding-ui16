@@ -117,7 +117,7 @@ export default function OnboardingRole() {
             <button
               type="button"
               onClick={onSkip}
-              className="text-sm font-semibold text-valasys-gray-600 transition-colors hover:text-valasys-blue focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-valasys-blue underline-offset-4 hover:underline"
+              className="text-sm font-semibold text-valasys-gray-600 transition-colors hover:text-valasys-orange focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-valasys-orange underline-offset-4 hover:underline"
             >
               Skip for now
             </button>
