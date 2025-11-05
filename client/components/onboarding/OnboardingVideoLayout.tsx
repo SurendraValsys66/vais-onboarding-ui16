@@ -7,6 +7,7 @@ export default function OnboardingVideoLayout({
   content,
   summaryValues,
   summaryTotal,
+  currentStep,
   logoSrc,
   logoAlt = "VAIS Logo",
   videoSrc = "https://cdn.builder.io/o/assets%2Fca3c5e060b9e43be9ac23c9d5ca30b53%2F4cc5fc7138e447e19726c8591642a50b?alt=media&token=db33d9de-75b4-4476-bd4c-3e6af0d53bcc&apiKey=ca3c5e060b9e43be9ac23c9d5ca30b53",
@@ -14,6 +15,7 @@ export default function OnboardingVideoLayout({
   content: React.ReactNode;
   summaryValues: SummaryValues;
   summaryTotal: number;
+  currentStep: number;
   logoSrc?: string;
   logoAlt?: string;
   videoSrc?: string;
