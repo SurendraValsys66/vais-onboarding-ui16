@@ -178,25 +178,43 @@ export default function Login() {
 
   if (show2FA) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-valasys-gray-50 via-white to-valasys-orange/5 flex items-center justify-center p-4 relative overflow-hidden">
+      <div className="min-h-screen bg-gradient-to-br from-green-50 via-white to-red-50/20 flex items-center justify-center p-4 relative overflow-hidden">
+        {/* Christmas header images */}
+        <div className="absolute top-0 left-0 w-48 h-48 pointer-events-none z-5">
+          <img
+            src="https://cdn.builder.io/api/v1/image/assets%2Fc26421d34fec44edb181e1dd5158def3%2Fcccf25b6bddb4b7b947b89359a939ebd?format=webp&width=800"
+            alt="Christmas decorations"
+            className="w-full h-full object-contain drop-shadow-lg"
+          />
+        </div>
+        <div className="absolute top-0 right-0 w-48 h-48 pointer-events-none z-5">
+          <img
+            src="https://cdn.builder.io/api/v1/image/assets%2Fc26421d34fec44edb181e1dd5158def3%2F6b4de052f9d046a4af5ee587927af33b?format=webp&width=800"
+            alt="Christmas bells"
+            className="w-full h-full object-contain drop-shadow-lg"
+          />
+        </div>
+
         {/* Background AI Elements */}
         <div className="absolute inset-0 overflow-hidden">
           {aiElements.map((element, index) => (
             <div
               key={index}
-              className={`absolute ${element.size} ${element.color} rounded-full animate-pulse`}
+              className={`absolute ${element.size} rounded-full animate-pulse`}
               style={{
                 top: element.top,
                 left: element.left,
                 right: element.right,
                 animationDelay: element.delay,
+                backgroundColor: index % 2 === 0 ? 'rgba(220, 38, 38, 0.3)' : 'rgba(22, 163, 74, 0.3)'
               }}
             />
           ))}
         </div>
 
         {/* 2FA Card */}
-        <Card className="w-full max-w-md border-valasys-gray-200 shadow-xl bg-white/95 backdrop-blur-sm relative z-10">
+        <Card className="w-full max-w-md border-green-200 shadow-xl bg-white/95 backdrop-blur-sm relative z-10">
+          <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-red-500 via-green-500 to-red-500"></div>
           <CardHeader className="text-center space-y-4">
             <img
               src="https://cdn.builder.io/api/v1/image/assets%2F76d83d63beb8455692b1855a78aa9524%2F5ee47be8ea214f9c9b220b553ddb9ad1?format=webp&width=800"
@@ -204,10 +222,10 @@ export default function Login() {
               className="mx-auto h-16 w-auto object-contain"
             />
             <div>
-              <CardTitle className="text-xl font-semibold text-valasys-gray-900">
-                Two-Factor Authentication
+              <CardTitle className="text-xl font-semibold text-green-800">
+                🎄 Two-Factor Authentication
               </CardTitle>
-              <p className="text-valasys-gray-600 text-sm mt-2">
+              <p className="text-green-700 text-sm mt-2">
                 Enter the 6-digit verification code sent to your device
               </p>
             </div>
@@ -215,7 +233,7 @@ export default function Login() {
           <CardContent className="space-y-6">
             <form onSubmit={handleVerify2FA} className="space-y-4">
               <div className="space-y-2">
-                <Label className="text-valasys-gray-700">
+                <Label className="text-green-700">
                   Verification Code
                 </Label>
                 <div className="flex justify-center">
@@ -228,27 +246,27 @@ export default function Login() {
                     <InputOTPGroup>
                       <InputOTPSlot
                         index={0}
-                        className="border-valasys-gray-300 focus:border-valasys-orange focus:ring-valasys-orange/20"
+                        className="border-green-200 focus:border-red-500 focus:ring-red-500/20"
                       />
                       <InputOTPSlot
                         index={1}
-                        className="border-valasys-gray-300 focus:border-valasys-orange focus:ring-valasys-orange/20"
+                        className="border-green-200 focus:border-red-500 focus:ring-red-500/20"
                       />
                       <InputOTPSlot
                         index={2}
-                        className="border-valasys-gray-300 focus:border-valasys-orange focus:ring-valasys-orange/20"
+                        className="border-green-200 focus:border-red-500 focus:ring-red-500/20"
                       />
                       <InputOTPSlot
                         index={3}
-                        className="border-valasys-gray-300 focus:border-valasys-orange focus:ring-valasys-orange/20"
+                        className="border-green-200 focus:border-red-500 focus:ring-red-500/20"
                       />
                       <InputOTPSlot
                         index={4}
-                        className="border-valasys-gray-300 focus:border-valasys-orange focus:ring-valasys-orange/20"
+                        className="border-green-200 focus:border-red-500 focus:ring-red-500/20"
                       />
                       <InputOTPSlot
                         index={5}
-                        className="border-valasys-gray-300 focus:border-valasys-orange focus:ring-valasys-orange/20"
+                        className="border-green-200 focus:border-red-500 focus:ring-red-500/20"
                       />
                     </InputOTPGroup>
                   </InputOTP>
@@ -258,7 +276,7 @@ export default function Login() {
               <Button
                 type="submit"
                 disabled={isVerifying || otpValue.length !== 6}
-                className="w-full bg-valasys-orange hover:bg-valasys-orange-light text-white font-medium py-3 shadow-lg hover:shadow-xl transition-all duration-200 hover:scale-102"
+                className="w-full bg-red-600 hover:bg-red-700 text-white font-medium py-3 shadow-lg hover:shadow-xl transition-all duration-200 hover:scale-102"
               >
                 {isVerifying ? (
                   <div className="flex items-center space-x-2">
@@ -280,8 +298,8 @@ export default function Login() {
                 disabled={!canResendOTP}
                 className={`text-sm font-medium transition-colors ${
                   canResendOTP
-                    ? "text-valasys-orange hover:text-valasys-orange-light"
-                    : "text-valasys-gray-400 cursor-not-allowed"
+                    ? "text-red-600 hover:text-red-700"
+                    : "text-gray-400 cursor-not-allowed"
                 }`}
               >
                 {canResendOTP ? (
@@ -297,7 +315,7 @@ export default function Login() {
 
             <button
               onClick={() => setShow2FA(false)}
-              className="w-full text-sm text-valasys-gray-600 hover:text-valasys-gray-800 transition-colors"
+              className="w-full text-sm text-green-700 hover:text-green-800 transition-colors"
             >
               ← Back to login
             </button>
