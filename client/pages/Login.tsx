@@ -484,18 +484,18 @@ export default function Login() {
                       id="remember"
                       checked={rememberMe}
                       onCheckedChange={setRememberMe}
-                      className="border-valasys-gray-300 hover:border-valasys-orange transition-colors duration-200"
+                      className="border-green-300 hover:border-red-500 transition-colors duration-200"
                     />
                     <Label
                       htmlFor="remember"
-                      className="text-sm text-valasys-gray-600 cursor-pointer"
+                      className="text-sm text-green-700 cursor-pointer"
                     >
                       Remember me
                     </Label>
                   </div>
                   <Link
                     to="/forgot-password"
-                    className="text-sm text-valasys-orange hover:text-valasys-orange-light font-medium transition-colors duration-200 hover:underline"
+                    className="text-sm text-red-600 hover:text-red-700 font-medium transition-colors duration-200 hover:underline"
                   >
                     Forgot password?
                   </Link>
