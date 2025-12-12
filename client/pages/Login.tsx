@@ -308,14 +308,30 @@ export default function Login() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-valasys-gray-50 via-white to-valasys-orange/5 lg:grid lg:grid-cols-2 relative overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-br from-green-50 via-white to-red-50/20 lg:grid lg:grid-cols-2 relative overflow-hidden">
+      {/* Christmas header images - Top corners */}
+      <div className="absolute top-0 left-0 w-48 h-48 pointer-events-none z-5">
+        <img
+          src="https://cdn.builder.io/api/v1/image/assets%2Fc26421d34fec44edb181e1dd5158def3%2Fcccf25b6bddb4b7b947b89359a939ebd?format=webp&width=800"
+          alt="Christmas decorations"
+          className="w-full h-full object-contain drop-shadow-lg"
+        />
+      </div>
+      <div className="absolute top-0 right-0 w-48 h-48 pointer-events-none z-5">
+        <img
+          src="https://cdn.builder.io/api/v1/image/assets%2Fc26421d34fec44edb181e1dd5158def3%2F6b4de052f9d046a4af5ee587927af33b?format=webp&width=800"
+          alt="Christmas bells"
+          className="w-full h-full object-contain drop-shadow-lg"
+        />
+      </div>
+
       {/* Background AI/Neural Network Elements */}
       <div className="absolute inset-0 overflow-hidden">
-        {/* Gradient mesh background with subtle brand colors */}
-        <div className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_top_left,rgba(255,106,0,0.15),transparent_50%),radial-gradient(ellipse_at_bottom_right,rgba(26,115,232,0.12),transparent_50%),radial-gradient(ellipse_at_top_right,rgba(0,196,140,0.12),transparent_40%)]"></div>
-        {/* Glowing orbs */}
-        <div className="absolute -top-24 -left-24 w-72 h-72 rounded-full bg-valasys-orange/25 blur-3xl"></div>
-        <div className="absolute -bottom-24 -right-24 w-96 h-96 rounded-full bg-valasys-blue/25 blur-3xl"></div>
+        {/* Gradient mesh background with Christmas colors */}
+        <div className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_top_left,rgba(220,38,38,0.12),transparent_50%),radial-gradient(ellipse_at_bottom_right,rgba(22,163,74,0.12),transparent_50%),radial-gradient(ellipse_at_top_right,rgba(255,215,0,0.1),transparent_40%)]"></div>
+        {/* Glowing orbs - Christmas themed */}
+        <div className="absolute -top-24 -left-24 w-72 h-72 rounded-full bg-red-500/20 blur-3xl"></div>
+        <div className="absolute -bottom-24 -right-24 w-96 h-96 rounded-full bg-green-500/20 blur-3xl"></div>
 
         {aiElements.map((element, index) => (
           <div
