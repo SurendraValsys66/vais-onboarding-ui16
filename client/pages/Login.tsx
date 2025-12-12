@@ -579,14 +579,14 @@ export default function Login() {
             </p>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="flex items-start space-x-3">
-                <div className="w-8 h-8 rounded-lg border border-valasys-orange text-valasys-orange flex items-center justify-center shadow-sm">
+                <div className="w-8 h-8 rounded-lg border border-red-600 text-red-600 flex items-center justify-center shadow-sm">
                   <Brain className="w-4 h-4" />
                 </div>
                 <div>
-                  <div className="font-semibold text-valasys-gray-900">
+                  <div className="font-semibold text-green-900">
                     AI-Powered Insights
                   </div>
-                  <p className="text-xs text-valasys-gray-600">
+                  <p className="text-xs text-green-700">
                     Advanced algorithms that deliver actionable intelligence
                   </p>
                 </div>
