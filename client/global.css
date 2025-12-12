@@ -220,6 +220,80 @@
     }
   }
 
+  /* Wavy top edge for sign-in button */
+  .sign-in-button {
+    position: relative;
+    overflow: visible;
+  }
+
+  .sign-in-button::before {
+    content: "";
+    position: absolute;
+    top: -12px;
+    left: 0;
+    right: 0;
+    height: 12px;
+    background: inherit;
+    background-color: rgb(220, 38, 38);
+    clip-path: polygon(
+      0% 100%,
+      2% 95%,
+      4% 85%,
+      6% 75%,
+      8% 70%,
+      10% 65%,
+      12% 62%,
+      14% 60%,
+      16% 62%,
+      18% 65%,
+      20% 70%,
+      22% 75%,
+      24% 85%,
+      26% 95%,
+      28% 100%,
+      30% 95%,
+      32% 85%,
+      34% 75%,
+      36% 70%,
+      38% 65%,
+      40% 62%,
+      42% 60%,
+      44% 62%,
+      46% 65%,
+      48% 70%,
+      50% 75%,
+      52% 85%,
+      54% 95%,
+      56% 100%,
+      58% 95%,
+      60% 85%,
+      62% 75%,
+      64% 70%,
+      66% 65%,
+      68% 62%,
+      70% 60%,
+      72% 62%,
+      74% 65%,
+      76% 70%,
+      78% 75%,
+      80% 85%,
+      82% 95%,
+      84% 100%,
+      86% 95%,
+      88% 85%,
+      90% 75%,
+      92% 70%,
+      94% 65%,
+      96% 62%,
+      98% 60%,
+      100% 62%
+    );
+  }
+
+  .sign-in-button:hover::before {
+    background-color: rgb(185, 28, 28);
+  }
+
   /* Tooltip entrance animation */
   @keyframes tooltipIn {
     from {
