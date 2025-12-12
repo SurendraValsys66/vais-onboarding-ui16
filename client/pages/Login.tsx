@@ -502,11 +502,11 @@ export default function Login() {
                       id="remember"
                       checked={rememberMe}
                       onCheckedChange={setRememberMe}
-                      className="border-green-300 hover:border-red-500 transition-colors duration-200"
+                      className="border-slate-300 hover:border-red-500 transition-colors duration-200"
                     />
                     <Label
                       htmlFor="remember"
-                      className="text-sm text-green-700 cursor-pointer"
+                      className="text-sm text-slate-700 cursor-pointer"
                     >
                       Remember me
                     </Label>
