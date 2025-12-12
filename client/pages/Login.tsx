@@ -326,7 +326,7 @@ export default function Login() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-green-50 via-white to-red-50/20 lg:grid lg:grid-cols-2 relative overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-red-50/10 lg:grid lg:grid-cols-2 relative overflow-hidden">
       {/* Christmas header images - Top corners */}
       <div className="absolute top-0 left-0 w-48 h-48 pointer-events-none z-5">
         <img
@@ -346,10 +346,10 @@ export default function Login() {
       {/* Background AI/Neural Network Elements */}
       <div className="absolute inset-0 overflow-hidden">
         {/* Gradient mesh background with Christmas colors */}
-        <div className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_top_left,rgba(220,38,38,0.12),transparent_50%),radial-gradient(ellipse_at_bottom_right,rgba(22,163,74,0.12),transparent_50%),radial-gradient(ellipse_at_top_right,rgba(255,215,0,0.1),transparent_40%)]"></div>
+        <div className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_top_left,rgba(220,38,38,0.1),transparent_50%),radial-gradient(ellipse_at_bottom_right,rgba(100,116,139,0.08),transparent_50%),radial-gradient(ellipse_at_top_right,rgba(255,215,0,0.08),transparent_40%)]"></div>
         {/* Glowing orbs - Christmas themed */}
-        <div className="absolute -top-24 -left-24 w-72 h-72 rounded-full bg-red-500/20 blur-3xl"></div>
-        <div className="absolute -bottom-24 -right-24 w-96 h-96 rounded-full bg-green-500/20 blur-3xl"></div>
+        <div className="absolute -top-24 -left-24 w-72 h-72 rounded-full bg-red-500/15 blur-3xl"></div>
+        <div className="absolute -bottom-24 -right-24 w-96 h-96 rounded-full bg-slate-500/10 blur-3xl"></div>
 
         {aiElements.map((element, index) => (
           <div
