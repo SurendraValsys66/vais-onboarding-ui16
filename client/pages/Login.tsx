@@ -614,10 +614,10 @@ export default function Login() {
                   <TrendingUp className="w-4 h-4" />
                 </div>
                 <div>
-                  <div className="font-semibold text-green-900">
+                  <div className="font-semibold text-slate-900">
                     Scoring System
                   </div>
-                  <p className="text-xs text-green-700">
+                  <p className="text-xs text-slate-700">
                     AI-driven lead and account ranking.
                   </p>
                 </div>
@@ -627,10 +627,10 @@ export default function Login() {
                   <Megaphone className="w-4 h-4" />
                 </div>
                 <div>
-                  <div className="font-semibold text-green-900">
+                  <div className="font-semibold text-slate-900">
                     Campaign Management
                   </div>
-                  <p className="text-xs text-green-700">
+                  <p className="text-xs text-slate-700">
                     Campaign tracking with reports and insights.
                   </p>
                 </div>
@@ -640,10 +640,10 @@ export default function Login() {
                   <Activity className="w-4 h-4" />
                 </div>
                 <div>
-                  <div className="font-semibold text-green-900">
+                  <div className="font-semibold text-slate-900">
                     Real-time Analytics
                   </div>
-                  <p className="text-xs text-green-700">
+                  <p className="text-xs text-slate-700">
                     Live data processing and instant reporting
                   </p>
                 </div>
