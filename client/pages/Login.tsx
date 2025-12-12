@@ -447,14 +447,14 @@ export default function Login() {
                 <div className="space-y-2">
                   <Label
                     htmlFor="password"
-                    className="text-valasys-gray-700 flex items-center space-x-1"
+                    className="text-green-700 flex items-center space-x-1"
                   >
                     <Lock className="h-3 w-3" />
                     <span>Password</span>
                   </Label>
                   <div className="relative">
                     <Lock
-                      className={`absolute left-3 top-3 h-4 w-4 transition-colors duration-200 ${focusedField === "password" ? "text-valasys-orange" : "text-valasys-gray-400"}`}
+                      className={`absolute left-3 top-3 h-4 w-4 transition-colors duration-200 ${focusedField === "password" ? "text-red-600" : "text-gray-400"}`}
                     />
                     <Input
                       id="password"
@@ -464,13 +464,13 @@ export default function Login() {
                       onChange={(e) => setPassword(e.target.value)}
                       onFocus={() => setFocusedField("password")}
                       onBlur={() => setFocusedField(null)}
-                      className="pl-10 pr-10 border-valasys-gray-300 focus:border-valasys-orange focus:ring-valasys-orange/20 transition-all duration-200"
+                      className="pl-10 pr-10 border-green-200 focus:border-red-500 focus:ring-red-500/20 transition-all duration-200"
                       required
                     />
                     <button
                       type="button"
                       onClick={() => setShowPassword(!showPassword)}
-                      className="absolute right-3 top-3 h-4 w-4 text-valasys-gray-400 hover:text-valasys-orange transition-colors duration-200"
+                      className="absolute right-3 top-3 h-4 w-4 text-gray-400 hover:text-red-600 transition-colors duration-200"
                     >
                       {showPassword ? <EyeOff /> : <Eye />}
                     </button>
