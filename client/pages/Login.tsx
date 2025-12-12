@@ -206,7 +206,10 @@ export default function Login() {
                 left: element.left,
                 right: element.right,
                 animationDelay: element.delay,
-                backgroundColor: index % 2 === 0 ? 'rgba(220, 38, 38, 0.2)' : 'rgba(100, 116, 139, 0.15)'
+                backgroundColor:
+                  index % 2 === 0
+                    ? "rgba(220, 38, 38, 0.2)"
+                    : "rgba(100, 116, 139, 0.15)",
               }}
             />
           ))}
@@ -233,9 +236,7 @@ export default function Login() {
           <CardContent className="space-y-6">
             <form onSubmit={handleVerify2FA} className="space-y-4">
               <div className="space-y-2">
-                <Label className="text-slate-700">
-                  Verification Code
-                </Label>
+                <Label className="text-slate-700">Verification Code</Label>
                 <div className="flex justify-center">
                   <InputOTP
                     maxLength={6}
@@ -553,10 +554,7 @@ export default function Login() {
 
               {/* Account signup text - moved inside card */}
               <div className="text-center pt-4">
-                <p
-                  className="text-slate-700"
-                  style={{ fontSize: "16px" }}
-                >
+                <p className="text-slate-700" style={{ fontSize: "16px" }}>
                   Don't have an account?{" "}
                   <Link
                     to="/free-trial"
