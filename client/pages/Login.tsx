@@ -644,7 +644,7 @@ export default function Login() {
                   />
                   <span>Powered by 50+ Integrations</span>
                 </h3>
-                <p className="text-slate-700 text-sm">
+                <p className="text-slate-700 text-xs">
                   Connect seamlessly with your existing tech stack
                 </p>
               </div>
