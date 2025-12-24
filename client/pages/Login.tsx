@@ -593,60 +593,6 @@ export default function Login() {
               accelerate decision-making, and drive meaningful business
               outcomes.
             </p>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="flex items-start space-x-3">
-                <div className="w-8 h-8 rounded-lg border border-red-600 text-red-600 flex items-center justify-center shadow-sm">
-                  <Brain className="w-4 h-4" />
-                </div>
-                <div>
-                  <div className="font-semibold text-slate-900">
-                    AI-Powered Insights
-                  </div>
-                  <p className="text-xs text-slate-700">
-                    Advanced algorithms that deliver actionable intelligence
-                  </p>
-                </div>
-              </div>
-              <div className="flex items-start space-x-3">
-                <div className="w-8 h-8 rounded-lg border border-red-600 text-red-600 flex items-center justify-center shadow-sm">
-                  <TrendingUp className="w-4 h-4" />
-                </div>
-                <div>
-                  <div className="font-semibold text-slate-900">
-                    Scoring System
-                  </div>
-                  <p className="text-xs text-slate-700">
-                    AI-driven lead and account ranking.
-                  </p>
-                </div>
-              </div>
-              <div className="flex items-start space-x-3">
-                <div className="w-8 h-8 rounded-lg border border-red-600 text-red-600 flex items-center justify-center shadow-sm">
-                  <Megaphone className="w-4 h-4" />
-                </div>
-                <div>
-                  <div className="font-semibold text-slate-900">
-                    Campaign Management
-                  </div>
-                  <p className="text-xs text-slate-700">
-                    Campaign tracking with reports and insights.
-                  </p>
-                </div>
-              </div>
-              <div className="flex items-start space-x-3">
-                <div className="w-8 h-8 rounded-lg border border-red-600 text-red-600 flex items-center justify-center shadow-sm">
-                  <Activity className="w-4 h-4" />
-                </div>
-                <div>
-                  <div className="font-semibold text-slate-900">
-                    Real-time Analytics
-                  </div>
-                  <p className="text-xs text-slate-700">
-                    Live data processing and instant reporting
-                  </p>
-                </div>
-              </div>
-            </div>
           </div>
 
           {/* Video Section */}
