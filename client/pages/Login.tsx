@@ -685,6 +685,9 @@ export default function Login() {
                 alt="Salesforce"
                 className="h-6 w-auto object-contain"
               />
+              <span className="text-sm font-medium text-slate-900">
+                Salesforce
+              </span>
             </div>
             <div className="flex items-center space-x-2 hover:scale-105 transition-transform duration-300 cursor-pointer">
               <img
@@ -692,6 +695,9 @@ export default function Login() {
                 alt="HubSpot"
                 className="h-6 w-auto object-contain"
               />
+              <span className="text-sm font-medium text-slate-900">
+                HubSpot
+              </span>
             </div>
             <div className="flex items-center space-x-2 hover:scale-105 transition-transform duration-300 cursor-pointer">
               <div className="p-2 bg-red-100 rounded-full backdrop-blur-sm">
