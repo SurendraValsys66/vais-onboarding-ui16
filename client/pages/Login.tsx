@@ -676,9 +676,23 @@ export default function Login() {
 
           {/* Trust Badges */}
           <div
-            className={`flex items-center justify-center space-x-6 pt-6 border-t border-slate-200 transform transition-all duration-700 ${mounted ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"}`}
+            className={`flex items-center justify-center flex-wrap gap-4 pt-6 border-t border-slate-200 transform transition-all duration-700 ${mounted ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"}`}
             style={{ transitionDelay: "1000ms" }}
           >
+            <div className="flex items-center space-x-2 hover:scale-105 transition-transform duration-300 cursor-pointer">
+              <img
+                src="https://upload.wikimedia.org/wikipedia/commons/f/f9/Salesforce.com_logo.svg"
+                alt="Salesforce"
+                className="h-6 w-auto object-contain"
+              />
+            </div>
+            <div className="flex items-center space-x-2 hover:scale-105 transition-transform duration-300 cursor-pointer">
+              <img
+                src="https://www.hubspot.com/hubfs/HubSpot_Logos/HubSpot-Inversed-Favicon.png"
+                alt="HubSpot"
+                className="h-6 w-auto object-contain"
+              />
+            </div>
             <div className="flex items-center space-x-2 hover:scale-105 transition-transform duration-300 cursor-pointer">
               <div className="p-2 bg-red-100 rounded-full backdrop-blur-sm">
                 <CheckCircle className="h-4 w-4 text-red-600" />
