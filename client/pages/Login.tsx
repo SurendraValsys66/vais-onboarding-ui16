@@ -580,24 +580,10 @@ export default function Login() {
         <div className="absolute inset-0 bg-gradient-to-br from-slate-100/10 via-white/20 to-red-100/15"></div>
 
         <div className="relative z-10 flex flex-col justify-center space-y-8 p-8 w-full">
-          {/* VAIS Highlights */}
+          {/* Video Section - Top */}
           <div
             className={`space-y-4 transform transition-all duration-700 ease-out ${mounted ? "translate-y-0 opacity-100" : "translate-y-6 opacity-0"}`}
             style={{ transitionDelay: "150ms" }}
-          >
-            <h2 className="text-2xl font-bold text-slate-900">
-              Welcome back to <span className="text-red-600">VAIS</span>
-            </h2>
-            <p className="text-slate-700">
-              Access your AI-powered scoring platform to unlock deeper insights,
-              accelerate decision-making, and drive meaningful business
-              outcomes.
-            </p>
-          </div>
-
-          {/* Video Section */}
-          <div
-            className={`space-y-4 transform transition-all duration-700 ease-out ${mounted ? "translate-y-0 opacity-100" : "translate-y-6 opacity-0"}`}
           >
             <div className="text-center space-y-2">
               <h2 className="text-2xl font-bold text-slate-900 flex items-center justify-center space-x-2">
@@ -631,69 +617,63 @@ export default function Login() {
 
           {/* Integrations + Association Section (side-by-side) */}
           <div
-            className={`transform transition-all duration-700 ease-out ${mounted ? "translate-y-0 opacity-100" : "translate-y-6 opacity-0"}`}
+            className={`grid grid-cols-2 gap-8 transform transition-all duration-700 ease-out ${mounted ? "translate-y-0 opacity-100" : "translate-y-6 opacity-0"}`}
             style={{ transitionDelay: "300ms" }}
           >
-            <div className="md:block">
-              {/* Left: Integrations (removed) */}
-              <div className="space-y-4 hidden">
-                <div className="text-center space-y-2">
-                  <h3 className="text-xl font-semibold text-valasys-gray-900 flex items-center justify-center space-x-2">
-                    <Globe
-                      className="h-5 w-5 text-valasys-blue animate-spin"
-                      style={{ animationDuration: "6s" }}
-                    />
-                    <span>Powered by 50+ Integrations</span>
-                  </h3>
-                  <p className="text-valasys-gray-600 text-sm">
-                    Connect seamlessly with your existing tech stack
-                  </p>
-                </div>
-                <div className="grid grid-cols-2 gap-4">
-                  {integrations.map((integration, index) => (
-                    <div
-                      key={index}
-                      className={`bg-white/80 backdrop-blur-sm rounded-xl p-4 text-center hover:bg-white/90 transition-all duration-300 group cursor-pointer hover:scale-105 transform shadow-lg border border-white/30 ${mounted ? "scale-100 opacity-100" : "scale-95 opacity-0"}`}
-                      style={{ transitionDelay: `${400 + index * 100}ms` }}
-                    >
-                      <div className="h-10 w-10 mx-auto mb-3 bg-white rounded-lg p-2 group-hover:scale-110 group-hover:rotate-3 transition-all duration-200 shadow-md">
-                        <img
-                          src={integration.logo}
-                          alt={integration.name}
-                          className="w-full h-full object-contain"
-                          onError={(e) => {
-                            e.currentTarget.style.display = "none";
-                            e.currentTarget.parentElement!.innerHTML = `<div class=\"w-full h-full ${integration.color} rounded flex items-center justify-center text-white text-xs font-bold\">${integration.name[0]}</div>`;
-                          }}
-                        />
-                      </div>
-                      <h4 className="font-semibold text-valasys-gray-900 text-sm group-hover:text-valasys-orange transition-colors duration-200">
-                        {integration.name}
-                      </h4>
-                      <p className="text-xs text-valasys-gray-600 group-hover:text-valasys-gray-800 transition-colors duration-200">
-                        {integration.description}
-                      </p>
-                    </div>
-                  ))}
-                </div>
+            {/* Left: In Association With */}
+            <div className="space-y-4">
+              <div className="text-center space-y-2">
+                <h3 className="text-xl font-semibold text-slate-900 flex items-center justify-center space-x-2">
+                  <Sparkles className="h-5 w-5 text-red-600" />
+                  <span>In Association With</span>
+                </h3>
+                <p className="text-slate-700 text-sm">
+                  Trusted data and reviews partners
+                </p>
               </div>
+              <AssociationPartners />
+            </div>
 
-              {/* Divider */}
-              <div className="hidden" aria-hidden="true" />
-              <div className="hidden" aria-hidden="true" />
-
-              {/* Right: In Association With */}
-              <div className="space-y-4">
-                <div className="text-center space-y-2">
-                  <h3 className="text-xl font-semibold text-slate-900 flex items-center justify-center space-x-2">
-                    <Sparkles className="h-5 w-5 text-red-600" />
-                    <span>In Association With</span>
-                  </h3>
-                  <p className="text-slate-700 text-sm">
-                    Trusted data and reviews partners
-                  </p>
-                </div>
-                <AssociationPartners />
+            {/* Right: Integrations */}
+            <div className="space-y-4">
+              <div className="text-center space-y-2">
+                <h3 className="text-xl font-semibold text-slate-900 flex items-center justify-center space-x-2">
+                  <Globe
+                    className="h-5 w-5 text-red-600 animate-spin"
+                    style={{ animationDuration: "6s" }}
+                  />
+                  <span>Powered by 50+ Integrations</span>
+                </h3>
+                <p className="text-slate-700 text-sm">
+                  Connect seamlessly with your existing tech stack
+                </p>
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                {integrations.map((integration, index) => (
+                  <div
+                    key={index}
+                    className={`bg-white/80 backdrop-blur-sm rounded-xl p-4 text-center hover:bg-white/90 transition-all duration-300 group cursor-pointer hover:scale-105 transform shadow-lg border border-white/30 ${mounted ? "scale-100 opacity-100" : "scale-95 opacity-0"}`}
+                    style={{ transitionDelay: `${400 + index * 100}ms` }}
+                  >
+                    <div className="h-10 w-10 mx-auto mb-3 bg-white rounded-lg p-2 group-hover:scale-110 group-hover:rotate-3 transition-all duration-200 shadow-md">
+                      <img
+                        src={integration.logo}
+                        alt={integration.name}
+                        className="w-full h-full object-contain"
+                        onError={(e) => {
+                          e.currentTarget.style.display = "none";
+                          e.currentTarget.parentElement!.innerHTML = `<div class=\"w-full h-full ${integration.color} rounded flex items-center justify-center text-white text-xs font-bold\">${integration.name[0]}</div>`;
+                        }}
+                      />
+                    </div>
+                    <h4 className="font-semibold text-slate-900 text-sm group-hover:text-red-600 transition-colors duration-200">
+                      {integration.name}
+                    </h4>
+                    <p className="text-xs text-slate-700 group-hover:text-slate-900 transition-colors duration-200">
+                      {integration.description}
+                    </p>
+                  </div>
+                ))}
               </div>
             </div>
           </div>
