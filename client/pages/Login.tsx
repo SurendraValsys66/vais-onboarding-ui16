@@ -17,23 +17,11 @@ import {
   Lock,
   ArrowRight,
   Brain,
-  Cpu,
-  Sparkles,
-  Network,
-  Zap,
   Shield,
-  Globe,
   CheckCircle,
   RefreshCw,
-  ExternalLink,
-  Play,
-  Activity,
-  TrendingUp,
-  Megaphone,
 } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
-import IntegrationsFooter from "@/components/auth/IntegrationsFooter";
-import AssociationPartners from "@/components/auth/AssociationPartners";
 import ServicesCarousel from "@/components/carousel/ServicesCarousel";
 
 export default function Login() {
