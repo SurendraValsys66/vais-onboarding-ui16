@@ -532,9 +532,9 @@ export default function Login() {
       </div>
 
       {/* Right Side - Video & Integrations */}
-      <div className="hidden lg:flex relative bg-gradient-to-br from-slate-50/50 via-white/50 to-red-50/50 backdrop-blur-sm">
+      <div className="hidden lg:flex relative bg-gradient-to-br from-valasys-orange/10 via-valasys-blue/10 to-valasys-green/10 backdrop-blur-sm">
         {/* Background overlay */}
-        <div className="absolute inset-0 bg-gradient-to-br from-slate-100/10 via-white/20 to-red-100/15"></div>
+        <div className="absolute inset-0 bg-gradient-to-br from-valasys-orange/15 via-valasys-orange-light/10 to-valasys-blue/15"></div>
 
         <div className="relative z-10 flex flex-col justify-center space-y-8 p-8 w-full">
           {/* Video Section - Top */}
