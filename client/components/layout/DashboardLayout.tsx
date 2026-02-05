@@ -302,7 +302,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
     try {
       localStorage.clear();
     } catch {}
-    window.location.href = "/";
+    window.location.href = "/login";
   };
 
   return (
@@ -1006,7 +1006,10 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
 
                       <DropdownMenuSeparator />
 
-                      <DropdownMenuItem className="cursor-pointer text-red-600 items-start gap-3 py-3">
+                      <DropdownMenuItem
+                        onClick={handleLogout}
+                        className="cursor-pointer text-red-600 items-start gap-3 py-3"
+                      >
                         <LogOut className="h-4 w-4" />
                         <div>
                           <div className="font-medium">Sign Out</div>
