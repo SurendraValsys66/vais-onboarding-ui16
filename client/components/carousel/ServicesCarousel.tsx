@@ -117,7 +117,7 @@ export default function ServicesCarousel() {
                   ? "opacity-100 translate-x-0"
                   : index < currentSlide
                     ? "opacity-0 -translate-x-full"
-                    : "opacity-0 translate-x-full"
+                    : "opacity-0 translate-x-full",
               )}
             >
               {/* Background Image */}
@@ -160,7 +160,7 @@ export default function ServicesCarousel() {
               "h-2 rounded-full transition-all duration-300 cursor-pointer",
               index === currentSlide
                 ? "w-8 bg-valasys-orange"
-                : "w-2 bg-valasys-gray-300 hover:bg-valasys-gray-400"
+                : "w-2 bg-valasys-gray-300 hover:bg-valasys-gray-400",
             )}
             aria-label={`Go to slide ${index + 1}`}
           />
