@@ -34,6 +34,7 @@ import {
 import { Link, useNavigate } from "react-router-dom";
 import IntegrationsFooter from "@/components/auth/IntegrationsFooter";
 import AssociationPartners from "@/components/auth/AssociationPartners";
+import ServicesCarousel from "@/components/carousel/ServicesCarousel";
 
 export default function Login() {
   const [showPassword, setShowPassword] = useState(false);
