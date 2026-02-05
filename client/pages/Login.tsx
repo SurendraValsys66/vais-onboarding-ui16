@@ -401,14 +401,14 @@ export default function Login() {
                 <div className="space-y-2">
                   <Label
                     htmlFor="email"
-                    className="text-slate-700 flex items-center space-x-1"
+                    className="text-valasys-gray-700 flex items-center space-x-1"
                   >
                     <Mail className="h-3 w-3" />
                     <span>Email Address</span>
                   </Label>
                   <div className="relative">
                     <Mail
-                      className={`absolute left-3 top-3 h-4 w-4 transition-colors duration-200 ${focusedField === "email" ? "text-red-600" : "text-gray-400"}`}
+                      className={`absolute left-3 top-3 h-4 w-4 transition-colors duration-200 ${focusedField === "email" ? "text-valasys-orange" : "text-gray-400"}`}
                     />
                     <Input
                       id="email"
@@ -418,7 +418,7 @@ export default function Login() {
                       onChange={(e) => setEmail(e.target.value)}
                       onFocus={() => setFocusedField("email")}
                       onBlur={() => setFocusedField(null)}
-                      className="pl-10 border-slate-200 focus:border-red-500 focus:ring-red-500/20 transition-all duration-200"
+                      className="pl-10 border-valasys-gray-300 focus:border-valasys-orange focus:ring-valasys-orange/20 transition-all duration-200"
                       required
                     />
                   </div>
