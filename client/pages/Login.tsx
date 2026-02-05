@@ -196,8 +196,8 @@ export default function Login() {
         </div>
 
         {/* 2FA Card */}
-        <Card className="w-full max-w-md border-slate-200 shadow-xl bg-white/95 backdrop-blur-sm relative z-10">
-          <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-red-500 via-red-400 to-red-500"></div>
+        <Card className="w-full max-w-md border-valasys-gray-200 shadow-xl bg-white/95 backdrop-blur-sm relative z-10">
+          <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-valasys-orange via-valasys-orange-light to-valasys-orange"></div>
           <CardHeader className="text-center space-y-4">
             <img
               src="https://cdn.builder.io/api/v1/image/assets%2F76d83d63beb8455692b1855a78aa9524%2F5ee47be8ea214f9c9b220b553ddb9ad1?format=webp&width=800"
@@ -205,10 +205,10 @@ export default function Login() {
               className="mx-auto h-16 w-auto object-contain"
             />
             <div>
-              <CardTitle className="text-xl font-semibold text-slate-900">
-                🎄 Two-Factor Authentication
+              <CardTitle className="text-xl font-semibold text-valasys-gray-900">
+                Two-Factor Authentication
               </CardTitle>
-              <p className="text-slate-700 text-sm mt-2">
+              <p className="text-valasys-gray-600 text-sm mt-2">
                 Enter the 6-digit verification code sent to your device
               </p>
             </div>
