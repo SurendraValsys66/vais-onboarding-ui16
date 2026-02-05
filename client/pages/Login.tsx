@@ -216,7 +216,7 @@ export default function Login() {
           <CardContent className="space-y-6">
             <form onSubmit={handleVerify2FA} className="space-y-4">
               <div className="space-y-2">
-                <Label className="text-slate-700">Verification Code</Label>
+                <Label className="text-valasys-gray-700">Verification Code</Label>
                 <div className="flex justify-center">
                   <InputOTP
                     maxLength={6}
@@ -227,27 +227,27 @@ export default function Login() {
                     <InputOTPGroup>
                       <InputOTPSlot
                         index={0}
-                        className="border-slate-200 focus:border-red-500 focus:ring-red-500/20"
+                        className="border-valasys-gray-300 focus:border-valasys-orange focus:ring-valasys-orange/20"
                       />
                       <InputOTPSlot
                         index={1}
-                        className="border-slate-200 focus:border-red-500 focus:ring-red-500/20"
+                        className="border-valasys-gray-300 focus:border-valasys-orange focus:ring-valasys-orange/20"
                       />
                       <InputOTPSlot
                         index={2}
-                        className="border-slate-200 focus:border-red-500 focus:ring-red-500/20"
+                        className="border-valasys-gray-300 focus:border-valasys-orange focus:ring-valasys-orange/20"
                       />
                       <InputOTPSlot
                         index={3}
-                        className="border-slate-200 focus:border-red-500 focus:ring-red-500/20"
+                        className="border-valasys-gray-300 focus:border-valasys-orange focus:ring-valasys-orange/20"
                       />
                       <InputOTPSlot
                         index={4}
-                        className="border-slate-200 focus:border-red-500 focus:ring-red-500/20"
+                        className="border-valasys-gray-300 focus:border-valasys-orange focus:ring-valasys-orange/20"
                       />
                       <InputOTPSlot
                         index={5}
-                        className="border-slate-200 focus:border-red-500 focus:ring-red-500/20"
+                        className="border-valasys-gray-300 focus:border-valasys-orange focus:ring-valasys-orange/20"
                       />
                     </InputOTPGroup>
                   </InputOTP>
