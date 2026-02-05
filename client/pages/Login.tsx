@@ -385,14 +385,13 @@ export default function Login() {
             />
           </div>
           {/* Login Card */}
-          <Card className="border-slate-200 shadow-xl hover:shadow-2xl transition-all duration-400 backdrop-blur-sm bg-white/95 relative overflow-hidden">
-            {/* Festive top border */}
-            <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-red-500 via-red-400 to-red-500"></div>
+          <Card className="border-valasys-gray-200 shadow-xl hover:shadow-2xl transition-all duration-400 backdrop-blur-sm bg-white/95 relative overflow-hidden">
+            <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-valasys-orange via-valasys-orange-light to-valasys-orange"></div>
             <CardHeader className="space-y-1 pb-4 text-center">
-              <CardTitle className="text-lg font-semibold text-slate-900">
-                🎄 Sign in
+              <CardTitle className="text-lg font-semibold text-valasys-gray-900">
+                Sign in
               </CardTitle>
-              <p className="text-sm text-slate-700">
+              <p className="text-sm text-valasys-gray-700">
                 to your Valasys AI Score account
               </p>
             </CardHeader>
