@@ -538,60 +538,8 @@ export default function Login() {
         <div className="absolute inset-0 bg-gradient-to-br from-valasys-orange/15 via-valasys-orange-light/10 to-valasys-blue/15"></div>
 
         <div className="relative z-10 flex flex-col justify-center space-y-8 p-8 w-full">
-          {/* Video Section - Top */}
-          <div
-            className={`space-y-4 transform transition-all duration-700 ease-out ${mounted ? "translate-y-0 opacity-100" : "translate-y-6 opacity-0"}`}
-            style={{ transitionDelay: "150ms" }}
-          >
-            <div className="text-center space-y-2">
-              <h2 className="text-2xl font-bold text-valasys-gray-900 flex items-center justify-center space-x-2">
-                <Play className="h-6 w-6 text-valasys-orange" />
-                <span>See VAIS in Action</span>
-              </h2>
-              <p className="text-valasys-gray-700">
-                Watch how AI transforms your sales process
-              </p>
-            </div>
-
-            {/* Video Container */}
-            <div className="relative rounded-2xl overflow-hidden shadow-2xl bg-black/10 backdrop-blur-sm border border-white/20">
-              <video
-                autoPlay
-                muted
-                loop
-                playsInline
-                className="w-full h-64 object-cover"
-                poster="/placeholder.svg"
-              >
-                <source
-                  src="https://cdn.builder.io/o/assets%2F30afb9e14ebd49aea9f5ae01cdf07930%2F8104f428ea2041e4b1e7817c489b1720?alt=media&token=183f0972-b931-4c24-bb07-a6086bd27c3a&apiKey=30afb9e14ebd49aea9f5ae01cdf07930"
-                  type="video/mp4"
-                />
-                Your browser does not support the video tag.
-              </video>
-              <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
-            </div>
-          </div>
-
-          {/* Integrations + Association Section (stacked) */}
-          <div
-            className={`space-y-8 transform transition-all duration-700 ease-out ${mounted ? "translate-y-0 opacity-100" : "translate-y-6 opacity-0"}`}
-            style={{ transitionDelay: "300ms" }}
-          >
-            {/* In Association With */}
-            <div className="space-y-4">
-              <div className="text-center space-y-2">
-                <h3 className="text-xl font-semibold text-valasys-gray-900 flex items-center justify-center space-x-2">
-                  <Sparkles className="h-5 w-5 text-valasys-orange" />
-                  <span>In Association With</span>
-                </h3>
-                <p className="text-valasys-gray-700 text-sm">
-                  Trusted data and reviews partners
-                </p>
-              </div>
-              <AssociationPartners />
-            </div>
-          </div>
+          {/* Services Carousel */}
+          <ServicesCarousel />
 
           {/* Trust Badges */}
           <div
