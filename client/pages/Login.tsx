@@ -516,11 +516,11 @@ export default function Login() {
 
               {/* Account signup text - moved inside card */}
               <div className="text-center pt-4">
-                <p className="text-slate-700" style={{ fontSize: "16px" }}>
+                <p className="text-valasys-gray-700" style={{ fontSize: "16px" }}>
                   Don't have an account?{" "}
                   <Link
                     to="/free-trial"
-                    className="font-medium text-red-600 hover:text-red-700 transition-colors"
+                    className="font-medium text-valasys-orange hover:text-valasys-orange-light transition-colors"
                   >
                     Start My Free Trial
                   </Link>
