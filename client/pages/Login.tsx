@@ -296,7 +296,7 @@ export default function Login() {
 
             <button
               onClick={() => setShow2FA(false)}
-              className="w-full text-sm text-slate-700 hover:text-slate-800 transition-colors"
+              className="w-full text-sm text-valasys-gray-700 hover:text-valasys-gray-800 transition-colors"
             >
               ← Back to login
             </button>
