@@ -178,38 +178,18 @@ export default function Login() {
 
   if (show2FA) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-red-50/10 flex items-center justify-center p-4 relative overflow-hidden">
-        {/* Christmas header images */}
-        <div className="absolute top-0 left-0 w-48 h-48 pointer-events-none z-5">
-          <img
-            src="https://cdn.builder.io/api/v1/image/assets%2Fc26421d34fec44edb181e1dd5158def3%2Fcccf25b6bddb4b7b947b89359a939ebd?format=webp&width=800"
-            alt="Christmas decorations"
-            className="w-full h-full object-contain drop-shadow-lg"
-          />
-        </div>
-        <div className="absolute top-0 right-0 w-48 h-48 pointer-events-none z-5">
-          <img
-            src="https://cdn.builder.io/api/v1/image/assets%2Fc26421d34fec44edb181e1dd5158def3%2F6b4de052f9d046a4af5ee587927af33b?format=webp&width=800"
-            alt="Christmas bells"
-            className="w-full h-full object-contain drop-shadow-lg"
-          />
-        </div>
-
+      <div className="min-h-screen bg-gradient-to-br from-valasys-gray-50 via-white to-valasys-orange/5 flex items-center justify-center p-4 relative overflow-hidden">
         {/* Background AI Elements */}
         <div className="absolute inset-0 overflow-hidden">
           {aiElements.map((element, index) => (
             <div
               key={index}
-              className={`absolute ${element.size} rounded-full animate-pulse`}
+              className={`absolute ${element.size} ${element.color} rounded-full animate-pulse`}
               style={{
                 top: element.top,
                 left: element.left,
                 right: element.right,
                 animationDelay: element.delay,
-                backgroundColor:
-                  index % 2 === 0
-                    ? "rgba(220, 38, 38, 0.2)"
-                    : "rgba(100, 116, 139, 0.15)",
               }}
             />
           ))}
