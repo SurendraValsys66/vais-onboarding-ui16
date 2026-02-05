@@ -88,9 +88,25 @@ export default function ServicesCarousel() {
       className={`relative w-full transform transition-all duration-700 ease-out ${mounted ? "translate-y-0 opacity-100" : "translate-y-6 opacity-0"}`}
       style={{ transitionDelay: "150ms" }}
     >
+      {/* Text Content - Above Carousel */}
+      <div
+        className={`text-center mb-6 space-y-3 transform transition-all duration-700 ease-out ${mounted ? "translate-y-0 opacity-100" : "-translate-y-6 opacity-0"}`}
+        style={{ transitionDelay: "150ms" }}
+      >
+        <h3 className="text-2xl sm:text-3xl font-bold text-valasys-gray-900">
+          {slides[currentSlide].title}
+        </h3>
+        <p className="text-sm sm:text-base text-valasys-gray-700">
+          {slides[currentSlide].subtitle1}
+        </p>
+        <p className="text-sm sm:text-base text-valasys-gray-600">
+          {slides[currentSlide].subtitle2}
+        </p>
+      </div>
+
       {/* Carousel Container */}
       <div className="relative rounded-2xl overflow-hidden shadow-2xl bg-gradient-to-br from-valasys-orange/20 to-valasys-blue/10 backdrop-blur-sm border border-white/20">
-        {/* Slides */}
+        {/* Slides - Image Only */}
         <div className="relative h-96 w-full overflow-hidden">
           {slides.map((slide, index) => (
             <div
@@ -105,30 +121,11 @@ export default function ServicesCarousel() {
               )}
             >
               {/* Background Image */}
-              <div className="absolute inset-0">
-                <img
-                  src={slide.image}
-                  alt={slide.title}
-                  className="w-full h-full object-cover"
-                />
-                {/* Overlay gradient */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent"></div>
-              </div>
-
-              {/* Text Content */}
-              <div className="absolute inset-0 flex flex-col justify-end p-6 sm:p-8">
-                <div className="space-y-3">
-                  <h3 className="text-2xl sm:text-3xl font-bold text-white">
-                    {slide.title}
-                  </h3>
-                  <p className="text-sm sm:text-base text-white/90 line-clamp-2">
-                    {slide.subtitle1}
-                  </p>
-                  <p className="text-sm sm:text-base text-white/80 line-clamp-2">
-                    {slide.subtitle2}
-                  </p>
-                </div>
-              </div>
+              <img
+                src={slide.image}
+                alt={slide.title}
+                className="w-full h-full object-cover"
+              />
             </div>
           ))}
         </div>
@@ -148,39 +145,35 @@ export default function ServicesCarousel() {
         >
           <ChevronRight className="w-6 h-6" />
         </button>
-
-        {/* Dots Navigation */}
-        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-20 flex items-center gap-2">
-          {slides.map((_, index) => (
-            <button
-              key={index}
-              onClick={() => goToSlide(index)}
-              className={cn(
-                "h-2 rounded-full transition-all duration-300 cursor-pointer",
-                index === currentSlide
-                  ? "w-8 bg-valasys-orange"
-                  : "w-2 bg-white/50 hover:bg-white/70"
-              )}
-              aria-label={`Go to slide ${index + 1}`}
-            />
-          ))}
-        </div>
       </div>
 
-      {/* Info Text Below Carousel */}
+      {/* Dots Navigation - Below Carousel */}
       <div
-        className={`text-center mt-6 space-y-2 transform transition-all duration-700 ease-out ${mounted ? "translate-y-0 opacity-100" : "translate-y-6 opacity-0"}`}
+        className={`flex items-center justify-center gap-2 mt-6 transform transition-all duration-700 ease-out ${mounted ? "translate-y-0 opacity-100" : "translate-y-6 opacity-0"}`}
         style={{ transitionDelay: "300ms" }}
       >
-        <p className="text-valasys-gray-600 text-sm">
+        {slides.map((_, index) => (
+          <button
+            key={index}
+            onClick={() => goToSlide(index)}
+            className={cn(
+              "h-2 rounded-full transition-all duration-300 cursor-pointer",
+              index === currentSlide
+                ? "w-8 bg-valasys-orange"
+                : "w-2 bg-valasys-gray-300 hover:bg-valasys-gray-400"
+            )}
+            aria-label={`Go to slide ${index + 1}`}
+          />
+        ))}
+        <span className="ml-4 text-sm text-valasys-gray-600">
           <span className="font-semibold text-valasys-orange">
             {currentSlide + 1}
-          </span>{" "}
-          of{" "}
+          </span>
+          {" of "}
           <span className="font-semibold text-valasys-orange">
             {slides.length}
           </span>
-        </p>
+        </span>
       </div>
     </div>
   );
