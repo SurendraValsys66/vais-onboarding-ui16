@@ -580,11 +580,11 @@ export default function Login() {
             {/* In Association With */}
             <div className="space-y-4">
               <div className="text-center space-y-2">
-                <h3 className="text-xl font-semibold text-slate-900 flex items-center justify-center space-x-2">
-                  <Sparkles className="h-5 w-5 text-red-600" />
+                <h3 className="text-xl font-semibold text-valasys-gray-900 flex items-center justify-center space-x-2">
+                  <Sparkles className="h-5 w-5 text-valasys-orange" />
                   <span>In Association With</span>
                 </h3>
-                <p className="text-slate-700 text-sm">
+                <p className="text-valasys-gray-700 text-sm">
                   Trusted data and reviews partners
                 </p>
               </div>
