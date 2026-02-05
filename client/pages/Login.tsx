@@ -257,7 +257,7 @@ export default function Login() {
               <Button
                 type="submit"
                 disabled={isVerifying || otpValue.length !== 6}
-                className="w-full bg-red-600 hover:bg-red-700 text-white font-medium py-3 shadow-lg hover:shadow-xl transition-all duration-200 hover:scale-102"
+                className="w-full bg-valasys-orange hover:bg-valasys-orange-light text-white font-medium py-3 shadow-lg hover:shadow-xl transition-all duration-200 hover:scale-102"
               >
                 {isVerifying ? (
                   <div className="flex items-center space-x-2">
