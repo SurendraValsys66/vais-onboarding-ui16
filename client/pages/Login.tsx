@@ -279,7 +279,7 @@ export default function Login() {
                 disabled={!canResendOTP}
                 className={`text-sm font-medium transition-colors ${
                   canResendOTP
-                    ? "text-red-600 hover:text-red-700"
+                    ? "text-valasys-orange hover:text-valasys-orange-light"
                     : "text-gray-400 cursor-not-allowed"
                 }`}
               >
