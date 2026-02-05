@@ -497,7 +497,7 @@ export default function Login() {
                 <Button
                   type="submit"
                   disabled={isLoading}
-                  className="sign-in-button w-full bg-red-600 hover:bg-red-700 text-white font-bold py-4 px-6 shadow-lg hover:shadow-xl transition-all duration-200 hover:scale-105 rounded-3xl text-base"
+                  className="sign-in-button w-full bg-valasys-orange hover:bg-valasys-orange-light text-white font-bold py-4 px-6 shadow-lg hover:shadow-xl transition-all duration-200 hover:scale-105 rounded-3xl text-base"
                 >
                   {isLoading ? (
                     <div className="flex items-center space-x-2">
