@@ -543,11 +543,11 @@ export default function Login() {
             style={{ transitionDelay: "150ms" }}
           >
             <div className="text-center space-y-2">
-              <h2 className="text-2xl font-bold text-slate-900 flex items-center justify-center space-x-2">
-                <Play className="h-6 w-6 text-red-600" />
+              <h2 className="text-2xl font-bold text-valasys-gray-900 flex items-center justify-center space-x-2">
+                <Play className="h-6 w-6 text-valasys-orange" />
                 <span>See VAIS in Action</span>
               </h2>
-              <p className="text-slate-700">
+              <p className="text-valasys-gray-700">
                 Watch how AI transforms your sales process
               </p>
             </div>
