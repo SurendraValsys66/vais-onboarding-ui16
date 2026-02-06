@@ -867,6 +867,58 @@ export default function MyDownloadedList() {
                                     </DropdownMenuItem>
                                   </DropdownMenuSubContent>
                                 </DropdownMenuSub>
+                                <DropdownMenuSub>
+                                  <DropdownMenuSubTrigger>
+                                    <span className="inline-flex items-center justify-center w-5 h-5 rounded bg-[#026AA7] text-white text-[10px] font-bold">
+                                      ZH
+                                    </span>
+                                    <span className="ml-2">Zoho</span>
+                                  </DropdownMenuSubTrigger>
+                                  <DropdownMenuSubContent className="w-80 p-2">
+                                    {zohoAccounts.map((acc) => (
+                                      <DropdownMenuItem
+                                        key={acc.id}
+                                        onSelect={() => {
+                                          setCrmFile(file);
+                                          setSelectedCrm("zoho");
+                                          setCrmDialogOpen(true);
+                                        }}
+                                        className="p-0"
+                                      >
+                                        <div className="flex items-center justify-between w-full rounded-md border border-valasys-gray-200 px-3 py-2 hover:bg-accent">
+                                          <span>{acc.name}</span>
+                                          <button
+                                            aria-label="Delete account"
+                                            className="text-red-600 hover:text-red-700 p-1 rounded hover:bg-red-50"
+                                            onClick={(e) => {
+                                              e.preventDefault();
+                                              e.stopPropagation();
+                                              setZohoAccounts((prev) =>
+                                                prev.filter(
+                                                  (a) => a.id !== acc.id,
+                                                ),
+                                              );
+                                            }}
+                                            title="Delete account"
+                                          >
+                                            <Trash2 className="h-4 w-4" />
+                                          </button>
+                                        </div>
+                                      </DropdownMenuItem>
+                                    ))}
+                                    <DropdownMenuSeparator className="my-2" />
+                                    <DropdownMenuItem
+                                      className="w-full px-3 py-2 rounded-md bg-[#026AA7] text-white hover:bg-[#01529b] flex items-center"
+                                      onSelect={(e) => {
+                                        e.preventDefault();
+                                        setZohoAddOpen(true);
+                                      }}
+                                    >
+                                      <Plus className="h-4 w-4 mr-2" />
+                                      Add Account
+                                    </DropdownMenuItem>
+                                  </DropdownMenuSubContent>
+                                </DropdownMenuSub>
                                 <DropdownMenuItem
                                   onSelect={() => {
                                     setCrmFile(file);
