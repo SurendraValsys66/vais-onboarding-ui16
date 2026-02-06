@@ -152,6 +152,22 @@ export default function ServicesCarousel() {
           </span>
         </span>
       </div>
+
+      {/* Text Content - Below Carousel */}
+      <div
+        className={`text-center mt-6 space-y-3 transform transition-all duration-700 ease-out ${mounted ? "translate-y-0 opacity-100" : "translate-y-6 opacity-0"}`}
+        style={{ transitionDelay: "300ms" }}
+      >
+        <h3 className="text-2xl sm:text-3xl font-bold text-valasys-gray-900">
+          {slides[currentSlide].title}
+        </h3>
+        <p className="text-sm sm:text-base text-valasys-gray-700">
+          {slides[currentSlide].subtitle1}
+        </p>
+        <p className="text-sm sm:text-base text-valasys-gray-600">
+          {slides[currentSlide].subtitle2}
+        </p>
+      </div>
     </div>
   );
 }
