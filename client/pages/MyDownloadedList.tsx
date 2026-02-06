@@ -310,6 +310,26 @@ export default function MyDownloadedList() {
     return () => clearInterval(interval);
   }, [zohoThankOpen, zohoThankProcessing]);
 
+  useEffect(() => {
+    if (!pipedriveThankOpen || !pipedriveThankProcessing) return;
+    let progress = 0;
+    setPipedriveThankProgress(progress);
+    const interval = setInterval(() => {
+      progress += 8;
+      if (progress >= 100) {
+        progress = 100;
+        setPipedriveThankProgress(progress);
+        clearInterval(interval);
+        setTimeout(() => {
+          setPipedriveThankProcessing(false);
+        }, 400);
+      } else {
+        setPipedriveThankProgress(progress);
+      }
+    }, 120);
+    return () => clearInterval(interval);
+  }, [pipedriveThankOpen, pipedriveThankProcessing]);
+
   // Filter and search logic
   const filteredFiles = useMemo(() => {
     let filtered = mockDownloadedFiles;
