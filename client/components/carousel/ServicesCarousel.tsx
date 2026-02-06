@@ -81,22 +81,6 @@ export default function ServicesCarousel() {
       className={`relative w-full transform transition-all duration-700 ease-out ${mounted ? "translate-y-0 opacity-100" : "translate-y-6 opacity-0"}`}
       style={{ transitionDelay: "150ms" }}
     >
-      {/* Text Content - Above Carousel */}
-      <div
-        className={`text-center mb-6 space-y-3 transform transition-all duration-700 ease-out ${mounted ? "translate-y-0 opacity-100" : "-translate-y-6 opacity-0"}`}
-        style={{ transitionDelay: "150ms" }}
-      >
-        <h3 className="text-2xl sm:text-3xl font-bold text-valasys-gray-900">
-          {slides[currentSlide].title}
-        </h3>
-        <p className="text-sm sm:text-base text-valasys-gray-700">
-          {slides[currentSlide].subtitle1}
-        </p>
-        <p className="text-sm sm:text-base text-valasys-gray-600">
-          {slides[currentSlide].subtitle2}
-        </p>
-      </div>
-
       {/* Carousel Container */}
       <div className="relative rounded-2xl overflow-hidden shadow-2xl bg-gradient-to-br from-valasys-orange/20 to-valasys-blue/10 backdrop-blur-sm border border-white/20">
         {/* Slides - Image Only */}
