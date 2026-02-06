@@ -2473,6 +2473,80 @@ export default function MyDownloadedList() {
                 </div>
               </TabsContent>
 
+              <TabsContent value="pipedrive">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-3">
+                  <Card>
+                    <CardHeader className="pb-2">
+                      <CardTitle className="text-base flex items-center">
+                        <ListChecks className="h-4 w-4 mr-2 text-valasys-orange" />
+                        What you'll do
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent className="text-sm text-gray-700 space-y-2">
+                      <p>Import into Pipedrive Leads or Persons.</p>
+                      <p>
+                        Map Email, First Name, Last Name, Company, and Title fields.
+                      </p>
+                      <p>Enable de-duplication by Email address.</p>
+                    </CardContent>
+                  </Card>
+
+                  <Card>
+                    <CardHeader className="pb-2">
+                      <CardTitle className="text-base flex items-center">
+                        <ShieldCheck className="h-4 w-4 mr-2 text-valasys-orange" />
+                        Field mapping example
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent className="text-sm text-gray-700 space-y-1">
+                      <div>
+                        <ArrowRight className="inline h-3 w-3 mx-1" />
+                        <span>Pipedrive: Email</span>
+                      </div>
+                      <div>
+                        <ArrowRight className="inline h-3 w-3 mx-1" />
+                        <span>Pipedrive: First Name</span>
+                      </div>
+                      <div>
+                        <ArrowRight className="inline h-3 w-3 mx-1" />
+                        <span>Pipedrive: Last Name</span>
+                      </div>
+                      <div>
+                        <ArrowRight className="inline h-3 w-3 mx-1" />
+                        <span>Pipedrive: Organization</span>
+                      </div>
+                      <div>
+                        <ArrowRight className="inline h-3 w-3 mx-1" />
+                        <span>Pipedrive: Job Title</span>
+                      </div>
+                      <div>
+                        <ArrowRight className="inline h-3 w-3 mx-1" />
+                        <span>Pipedrive: Phone</span>
+                      </div>
+                    </CardContent>
+                  </Card>
+
+                  <Card className="md:col-span-2">
+                    <CardHeader className="pb-2">
+                      <CardTitle className="text-base flex items-center">
+                        <Info className="h-4 w-4 mr-2 text-valasys-orange" />
+                        Important Notes
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <Alert className="border-teal-200 bg-teal-50 text-teal-900">
+                        <AlertTitle>Pipedrive API Import Guide</AlertTitle>
+                        <AlertDescription className="ml-6 -mt-4">
+                          Pipedrive supports CSV imports directly through their web interface and API.
+                          Ensure your API token is valid and has proper permissions for creating/updating Persons
+                          and Deals. Use bulk import features for large datasets.
+                        </AlertDescription>
+                      </Alert>
+                    </CardContent>
+                  </Card>
+                </div>
+              </TabsContent>
+
               <TabsContent value="marketo">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-3">
                   <Card>
