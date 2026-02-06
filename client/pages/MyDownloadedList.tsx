@@ -207,6 +207,9 @@ export default function MyDownloadedList() {
   const [zohoAccounts, setZohoAccounts] = useState([
     { id: "zoho-1", name: "Zoho Account" },
   ] as { id: string; name: string }[]);
+  const [pipedriveAccounts, setPipedriveAccounts] = useState([
+    { id: "pipedrive-1", name: "Pipedrive Account" },
+  ] as { id: string; name: string }[]);
   const [hsNextId, setHsNextId] = useState(() => {
     const nums = [
       ...hubspotAccounts
