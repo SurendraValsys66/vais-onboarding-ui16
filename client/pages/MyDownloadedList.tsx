@@ -44,6 +44,7 @@ import {
   Info,
   Plus,
   Save,
+  Loader2,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -188,10 +189,10 @@ export default function MyDownloadedList() {
   const [crmDialogOpen, setCrmDialogOpen] = useState(false);
   const [crmFile, setCrmFile] = useState<DownloadedFile | null>(null);
   const [selectedCrm, setSelectedCrm] = useState<
-    "hubspot" | "salesforce" | "marketo"
+    "hubspot" | "salesforce" | "marketo" | "zoho" | "pipedrive"
   >("hubspot");
   const [connectedCrms, setConnectedCrms] = useState<
-    Array<"hubspot" | "salesforce" | "marketo">
+    Array<"hubspot" | "salesforce" | "marketo" | "zoho" | "pipedrive">
   >([]);
   const [isUploadingCrm, setIsUploadingCrm] = useState(false);
   const [uploadDone, setUploadDone] = useState(false);
@@ -202,6 +203,12 @@ export default function MyDownloadedList() {
   ] as { id: string; name: string }[]);
   const [hubspotAccounts, setHubspotAccounts] = useState([
     { id: "hs-1", name: "HubSpot Account" },
+  ] as { id: string; name: string }[]);
+  const [zohoAccounts, setZohoAccounts] = useState([
+    { id: "zoho-1", name: "Zoho Account" },
+  ] as { id: string; name: string }[]);
+  const [pipedriveAccounts, setPipedriveAccounts] = useState([
+    { id: "pipedrive-1", name: "Pipedrive Account" },
   ] as { id: string; name: string }[]);
   const [hsNextId, setHsNextId] = useState(() => {
     const nums = [
@@ -222,6 +229,45 @@ export default function MyDownloadedList() {
     hsDisplayName.trim().length > 0 &&
     hsToken.trim().length > 0 &&
     hsOwnerId.trim().length > 0;
+  const [zohoAddOpen, setZohoAddOpen] = useState(false);
+  const [zohoDisplayName, setZohoDisplayName] = useState("");
+  const [zohoClientId, setZohoClientId] = useState("");
+  const [zohoClientSecret, setZohoClientSecret] = useState("");
+  const [zohoRedirectUrl, setZohoRedirectUrl] = useState("");
+  const [zohoNextId, setZohoNextId] = useState(() => {
+    const nums = [
+      ...zohoAccounts
+        .map((a) => Number(String(a.id).replace(/^zoho-/, "")))
+        .filter((n) => !Number.isNaN(n)),
+    ];
+    return (nums.length ? Math.max(...nums) : 0) + 1;
+  });
+  const [zohoThankOpen, setZohoThankOpen] = useState(false);
+  const [zohoThankProcessing, setZohoThankProcessing] = useState(false);
+  const [zohoThankProgress, setZohoThankProgress] = useState(0);
+  const isZohoValid =
+    zohoDisplayName.trim().length > 0 &&
+    zohoClientId.trim().length > 0 &&
+    zohoClientSecret.trim().length > 0 &&
+    zohoRedirectUrl.trim().length > 0;
+  const [pipedriveAddOpen, setPipedriveAddOpen] = useState(false);
+  const [pipedriveDisplayName, setPipedriveDisplayName] = useState("");
+  const [pipedriveApiToken, setPipedriveApiToken] = useState("");
+  const [pipedriveNextId, setPipedriveNextId] = useState(() => {
+    const nums = [
+      ...pipedriveAccounts
+        .map((a) => Number(String(a.id).replace(/^pipedrive-/, "")))
+        .filter((n) => !Number.isNaN(n)),
+    ];
+    return (nums.length ? Math.max(...nums) : 0) + 1;
+  });
+  const [pipedriveThankOpen, setPipedriveThankOpen] = useState(false);
+  const [pipedriveThankProcessing, setPipedriveThankProcessing] =
+    useState(false);
+  const [pipedriveThankProgress, setPipedriveThankProgress] = useState(0);
+  const isPipedriveValid =
+    pipedriveDisplayName.trim().length > 0 &&
+    pipedriveApiToken.trim().length > 0;
 
   useEffect(() => {
     if (!hsThankOpen || !hsThankProcessing) return;
@@ -242,6 +288,46 @@ export default function MyDownloadedList() {
     }, 120);
     return () => clearInterval(interval);
   }, [hsThankOpen, hsThankProcessing]);
+
+  useEffect(() => {
+    if (!zohoThankOpen || !zohoThankProcessing) return;
+    let progress = 0;
+    setZohoThankProgress(progress);
+    const interval = setInterval(() => {
+      progress += 8;
+      if (progress >= 100) {
+        progress = 100;
+        setZohoThankProgress(progress);
+        clearInterval(interval);
+        setTimeout(() => {
+          setZohoThankProcessing(false);
+        }, 400);
+      } else {
+        setZohoThankProgress(progress);
+      }
+    }, 120);
+    return () => clearInterval(interval);
+  }, [zohoThankOpen, zohoThankProcessing]);
+
+  useEffect(() => {
+    if (!pipedriveThankOpen || !pipedriveThankProcessing) return;
+    let progress = 0;
+    setPipedriveThankProgress(progress);
+    const interval = setInterval(() => {
+      progress += 8;
+      if (progress >= 100) {
+        progress = 100;
+        setPipedriveThankProgress(progress);
+        clearInterval(interval);
+        setTimeout(() => {
+          setPipedriveThankProcessing(false);
+        }, 400);
+      } else {
+        setPipedriveThankProgress(progress);
+      }
+    }, 120);
+    return () => clearInterval(interval);
+  }, [pipedriveThankOpen, pipedriveThankProcessing]);
 
   // Filter and search logic
   const filteredFiles = useMemo(() => {
@@ -823,6 +909,110 @@ export default function MyDownloadedList() {
                                     </DropdownMenuItem>
                                   </DropdownMenuSubContent>
                                 </DropdownMenuSub>
+                                <DropdownMenuSub>
+                                  <DropdownMenuSubTrigger>
+                                    <span className="inline-flex items-center justify-center w-5 h-5 rounded bg-[#026AA7] text-white text-[10px] font-bold">
+                                      ZH
+                                    </span>
+                                    <span className="ml-2">Zoho</span>
+                                  </DropdownMenuSubTrigger>
+                                  <DropdownMenuSubContent className="w-80 p-2">
+                                    {zohoAccounts.map((acc) => (
+                                      <DropdownMenuItem
+                                        key={acc.id}
+                                        onSelect={() => {
+                                          setCrmFile(file);
+                                          setSelectedCrm("zoho");
+                                          setCrmDialogOpen(true);
+                                        }}
+                                        className="p-0"
+                                      >
+                                        <div className="flex items-center justify-between w-full rounded-md border border-valasys-gray-200 px-3 py-2 hover:bg-accent">
+                                          <span>{acc.name}</span>
+                                          <button
+                                            aria-label="Delete account"
+                                            className="text-red-600 hover:text-red-700 p-1 rounded hover:bg-red-50"
+                                            onClick={(e) => {
+                                              e.preventDefault();
+                                              e.stopPropagation();
+                                              setZohoAccounts((prev) =>
+                                                prev.filter(
+                                                  (a) => a.id !== acc.id,
+                                                ),
+                                              );
+                                            }}
+                                            title="Delete account"
+                                          >
+                                            <Trash2 className="h-4 w-4" />
+                                          </button>
+                                        </div>
+                                      </DropdownMenuItem>
+                                    ))}
+                                    <DropdownMenuSeparator className="my-2" />
+                                    <DropdownMenuItem
+                                      className="w-full px-3 py-2 rounded-md bg-[#026AA7] text-white hover:bg-[#01529b] flex items-center"
+                                      onSelect={(e) => {
+                                        e.preventDefault();
+                                        setZohoAddOpen(true);
+                                      }}
+                                    >
+                                      <Plus className="h-4 w-4 mr-2" />
+                                      Add Account
+                                    </DropdownMenuItem>
+                                  </DropdownMenuSubContent>
+                                </DropdownMenuSub>
+                                <DropdownMenuSub>
+                                  <DropdownMenuSubTrigger>
+                                    <span className="inline-flex items-center justify-center w-5 h-5 rounded bg-[#2ED8B6] text-white text-[10px] font-bold">
+                                      PD
+                                    </span>
+                                    <span className="ml-2">Pipedrive</span>
+                                  </DropdownMenuSubTrigger>
+                                  <DropdownMenuSubContent className="w-80 p-2">
+                                    {pipedriveAccounts.map((acc) => (
+                                      <DropdownMenuItem
+                                        key={acc.id}
+                                        onSelect={() => {
+                                          setCrmFile(file);
+                                          setSelectedCrm("pipedrive");
+                                          setCrmDialogOpen(true);
+                                        }}
+                                        className="p-0"
+                                      >
+                                        <div className="flex items-center justify-between w-full rounded-md border border-valasys-gray-200 px-3 py-2 hover:bg-accent">
+                                          <span>{acc.name}</span>
+                                          <button
+                                            aria-label="Delete account"
+                                            className="text-red-600 hover:text-red-700 p-1 rounded hover:bg-red-50"
+                                            onClick={(e) => {
+                                              e.preventDefault();
+                                              e.stopPropagation();
+                                              setPipedriveAccounts((prev) =>
+                                                prev.filter(
+                                                  (a) => a.id !== acc.id,
+                                                ),
+                                              );
+                                            }}
+                                            title="Delete account"
+                                          >
+                                            <Trash2 className="h-4 w-4" />
+                                          </button>
+                                        </div>
+                                      </DropdownMenuItem>
+                                    ))}
+                                    <DropdownMenuSeparator className="my-2" />
+                                    <DropdownMenuItem
+                                      className="w-full px-3 py-2 rounded-md bg-[#2ED8B6] text-white hover:bg-[#25c5a4] flex items-center"
+                                      onSelect={(e) => {
+                                        e.preventDefault();
+                                        setPipedriveAddOpen(true);
+                                      }}
+                                    >
+                                      <Plus className="h-4 w-4 mr-2" />
+                                      Add Account
+                                    </DropdownMenuItem>
+                                  </DropdownMenuSubContent>
+                                </DropdownMenuSub>
                                 <DropdownMenuItem
                                   onSelect={() => {
                                     setCrmFile(file);
@@ -1278,6 +1468,429 @@ export default function MyDownloadedList() {
           </DialogContent>
         </Dialog>
 
+        {/* Zoho Add Account Dialog */}
+        <Dialog
+          open={zohoAddOpen}
+          onOpenChange={(open) => {
+            setZohoAddOpen(open);
+            if (!open) {
+              setZohoDisplayName("");
+              setZohoClientId("");
+              setZohoClientSecret("");
+              setZohoRedirectUrl("");
+            }
+          }}
+        >
+          <DialogContent className="max-w-2xl">
+            <DialogHeader>
+              <DialogTitle>Zoho Connection</DialogTitle>
+              <DialogDescription>
+                Add a Zoho account using OAuth credentials to enable one-click
+                exports.
+              </DialogDescription>
+            </DialogHeader>
+            <div className="mt-2 rounded-lg border border-blue-200 bg-gradient-to-r from-blue-50 to-[#026AA7]/10 p-3 flex items-center gap-3">
+              <span className="inline-flex items-center justify-center w-8 h-8 rounded bg-[#026AA7] text-white text-xs font-bold">
+                ZH
+              </span>
+              <div className="text-sm text-blue-900">
+                Securely connect your Zoho CRM to enable one‑click exports.
+              </div>
+            </div>
+            <Tabs defaultValue="add">
+              <TabsList className="mt-3 bg-transparent p-0 border-b border-valasys-gray-200">
+                <TabsTrigger
+                  value="add"
+                  className="relative -mb-[1px] inline-flex items-center gap-2 px-0 py-2 text-sm font-medium text-valasys-gray-500 data-[state=active]:text-valasys-orange data-[state=active]:underline data-[state=active]:decoration-2 data-[state=active]:underline-offset-8 data-[state=active]:shadow-none"
+                >
+                  <ListChecks className="h-4 w-4" /> Add Zoho Account
+                </TabsTrigger>
+                <TabsTrigger
+                  value="howto"
+                  className="relative -mb-[1px] inline-flex items-center gap-2 px-0 py-2 text-sm font-medium text-valasys-gray-500 data-[state=active]:text-valasys-orange data-[state=active]:underline data-[state=active]:decoration-2 data-[state=active]:underline-offset-8 data-[state=active]:shadow-none"
+                >
+                  <Info className="h-4 w-4" /> Instructions to Add Account
+                </TabsTrigger>
+              </TabsList>
+              <TabsContent
+                value="add"
+                className="border-b border-valasys-gray-200 pb-4"
+              >
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-3 rounded-lg border border-valasys-gray-200 bg-white p-4 shadow-sm">
+                  <div>
+                    <Label htmlFor="zoho-display-name">
+                      Display Name <span className="text-red-500">*</span>
+                    </Label>
+                    <Input
+                      id="zoho-display-name"
+                      value={zohoDisplayName}
+                      onChange={(e) => setZohoDisplayName(e.target.value)}
+                      placeholder="e.g., Zoho Main"
+                      required
+                      aria-invalid={zohoDisplayName.trim().length === 0}
+                    />
+                    <p className="text-xs text-gray-500 mt-1">
+                      A friendly name to identify this Zoho account.
+                    </p>
+                  </div>
+                  <div>
+                    <Label htmlFor="zoho-client-id">
+                      Client ID <span className="text-red-500">*</span>
+                    </Label>
+                    <Input
+                      id="zoho-client-id"
+                      value={zohoClientId}
+                      onChange={(e) => setZohoClientId(e.target.value)}
+                      placeholder="Enter Client ID"
+                      required
+                      aria-invalid={zohoClientId.trim().length === 0}
+                    />
+                    <p className="text-xs text-gray-500 mt-1">
+                      Enter the Client ID generated in the Zoho Developer
+                      Console for your application.
+                    </p>
+                  </div>
+                  <div>
+                    <Label htmlFor="zoho-client-secret">
+                      Client Secret <span className="text-red-500">*</span>
+                    </Label>
+                    <Input
+                      id="zoho-client-secret"
+                      type="password"
+                      value={zohoClientSecret}
+                      onChange={(e) => setZohoClientSecret(e.target.value)}
+                      placeholder="Enter Client Secret"
+                      required
+                      aria-invalid={zohoClientSecret.trim().length === 0}
+                    />
+                    <p className="text-xs text-gray-500 mt-1">
+                      Enter the Client Secret associated with your Zoho
+                      application. Keep this value confidential.
+                    </p>
+                  </div>
+                  <div>
+                    <Label htmlFor="zoho-redirect-url">
+                      Redirect URL <span className="text-red-500">*</span>
+                    </Label>
+                    <Input
+                      id="zoho-redirect-url"
+                      value={zohoRedirectUrl}
+                      onChange={(e) => setZohoRedirectUrl(e.target.value)}
+                      placeholder="https://your-app.com/oauth/callback"
+                      required
+                      aria-invalid={zohoRedirectUrl.trim().length === 0}
+                    />
+                    <p className="text-xs text-gray-500 mt-1">
+                      Enter the redirect URL configured in your Zoho
+                      application. Zoho will redirect users to this URL after
+                      authorization.
+                    </p>
+                  </div>
+                </div>
+                <div className="mt-4 flex items-center justify-end gap-2">
+                  <Button
+                    variant="outline"
+                    onClick={() => setZohoAddOpen(false)}
+                  >
+                    Cancel
+                  </Button>
+                  <Button
+                    disabled={!isZohoValid}
+                    className="bg-gradient-to-r from-valasys-orange to-valasys-orange-light text-white disabled:opacity-50 disabled:cursor-not-allowed"
+                    onClick={() => {
+                      if (!isZohoValid) return;
+                      setZohoAccounts((prev) => [
+                        ...prev,
+                        {
+                          id: `zoho-${zohoNextId}`,
+                          name: zohoDisplayName.trim(),
+                        },
+                      ]);
+                      setZohoNextId((n) => n + 1);
+                      setZohoDisplayName("");
+                      setZohoClientId("");
+                      setZohoClientSecret("");
+                      setZohoRedirectUrl("");
+                      setZohoAddOpen(false);
+                      setZohoThankOpen(true);
+                      setZohoThankProcessing(true);
+                      setZohoThankProgress(0);
+                    }}
+                  >
+                    <Save className="h-4 w-4 mr-2" /> Save Connection
+                  </Button>
+                </div>
+              </TabsContent>
+              <TabsContent
+                value="howto"
+                className="border-b border-valasys-gray-200 pb-4"
+              >
+                <div className="rounded-md border border-blue-200 bg-blue-50 p-3 text-blue-900 mt-3 text-sm">
+                  Follow these steps in Zoho to create OAuth credentials.
+                </div>
+                <div className="space-y-2 mt-3 text-sm text-gray-700">
+                  <ol className="list-decimal pl-5 space-y-1">
+                    <li>Log in to the Zoho Developer Console.</li>
+                    <li>
+                      Create a new OAuth application and configure OAuth
+                      settings.
+                    </li>
+                    <li>
+                      Add your application's Redirect URL to the authorized
+                      redirect URLs.
+                    </li>
+                    <li>Generate and copy your Client ID and Client Secret.</li>
+                    <li>
+                      Paste the values into the form above and click Save
+                      Connection.
+                    </li>
+                  </ol>
+                </div>
+              </TabsContent>
+            </Tabs>
+          </DialogContent>
+        </Dialog>
+
+        {/* Zoho Thank You Dialog */}
+        <Dialog
+          open={zohoThankOpen}
+          onOpenChange={(open) => {
+            setZohoThankOpen(open);
+            if (!open) {
+              setZohoThankProcessing(false);
+              setZohoThankProgress(0);
+            }
+          }}
+        >
+          <DialogContent className="max-w-md">
+            <DialogHeader>
+              <DialogTitle>Thank you</DialogTitle>
+              <DialogDescription>
+                {zohoThankProcessing
+                  ? "Processing your Zoho connection..."
+                  : "Your Zoho connection successfully Completed"}
+              </DialogDescription>
+            </DialogHeader>
+
+            {zohoThankProcessing ? (
+              <div className="space-y-3">
+                <Progress value={zohoThankProgress} />
+                <div className="text-xs text-gray-500">
+                  Please wait, this may take a few seconds…
+                </div>
+              </div>
+            ) : (
+              <div className="flex items-center gap-3 py-2">
+                <CheckCircle2 className="h-6 w-6 text-green-600 ai-pulse" />
+                <span className="text-sm text-gray-800">
+                  Your Zoho connection successfully Completed
+                </span>
+              </div>
+            )}
+
+            <div className="flex justify-end">
+              <Button
+                onClick={() => setZohoThankOpen(false)}
+                className="bg-valasys-orange text-white hover:bg-valasys-orange/90"
+                disabled={zohoThankProcessing}
+              >
+                Close
+              </Button>
+            </div>
+          </DialogContent>
+        </Dialog>
+
+        {/* Pipedrive Add Account Dialog */}
+        <Dialog
+          open={pipedriveAddOpen}
+          onOpenChange={(open) => {
+            setPipedriveAddOpen(open);
+            if (!open) {
+              setPipedriveDisplayName("");
+              setPipedriveApiToken("");
+            }
+          }}
+        >
+          <DialogContent className="max-w-2xl">
+            <DialogHeader>
+              <DialogTitle>Pipedrive Connection</DialogTitle>
+              <DialogDescription>
+                Add a Pipedrive account using API credentials to enable
+                one-click exports.
+              </DialogDescription>
+            </DialogHeader>
+            <div className="mt-2 rounded-lg border border-teal-200 bg-gradient-to-r from-teal-50 to-[#2ED8B6]/10 p-3 flex items-center gap-3">
+              <span className="inline-flex items-center justify-center w-8 h-8 rounded bg-[#2ED8B6] text-white text-xs font-bold">
+                PD
+              </span>
+              <div className="text-sm text-teal-900">
+                Securely connect your Pipedrive CRM to enable one‑click exports.
+              </div>
+            </div>
+            <Tabs defaultValue="add">
+              <TabsList className="mt-3 bg-transparent p-0 border-b border-valasys-gray-200">
+                <TabsTrigger
+                  value="add"
+                  className="relative -mb-[1px] inline-flex items-center gap-2 px-0 py-2 text-sm font-medium text-valasys-gray-500 data-[state=active]:text-valasys-orange data-[state=active]:underline data-[state=active]:decoration-2 data-[state=active]:underline-offset-8 data-[state=active]:shadow-none"
+                >
+                  <ListChecks className="h-4 w-4" /> Add Pipedrive Account
+                </TabsTrigger>
+                <TabsTrigger
+                  value="howto"
+                  className="relative -mb-[1px] inline-flex items-center gap-2 px-0 py-2 text-sm font-medium text-valasys-gray-500 data-[state=active]:text-valasys-orange data-[state=active]:underline data-[state=active]:decoration-2 data-[state=active]:underline-offset-8 data-[state=active]:shadow-none"
+                >
+                  <Info className="h-4 w-4" /> Instructions to Add Account
+                </TabsTrigger>
+              </TabsList>
+              <TabsContent
+                value="add"
+                className="border-b border-valasys-gray-200 pb-4"
+              >
+                <div className="grid grid-cols-1 gap-4 mt-3 rounded-lg border border-valasys-gray-200 bg-white p-4 shadow-sm">
+                  <div>
+                    <Label htmlFor="pipedrive-display-name">
+                      Display Name <span className="text-red-500">*</span>
+                    </Label>
+                    <Input
+                      id="pipedrive-display-name"
+                      value={pipedriveDisplayName}
+                      onChange={(e) => setPipedriveDisplayName(e.target.value)}
+                      placeholder="e.g., Pipedrive Main"
+                      required
+                      aria-invalid={pipedriveDisplayName.trim().length === 0}
+                    />
+                    <p className="text-xs text-gray-500 mt-1">
+                      A friendly name to identify this Pipedrive account.
+                    </p>
+                  </div>
+                  <div>
+                    <Label htmlFor="pipedrive-api-token">
+                      API Token <span className="text-red-500">*</span>
+                    </Label>
+                    <Input
+                      id="pipedrive-api-token"
+                      type="password"
+                      value={pipedriveApiToken}
+                      onChange={(e) => setPipedriveApiToken(e.target.value)}
+                      placeholder="Enter Pipedrive API Token"
+                      required
+                      aria-invalid={pipedriveApiToken.trim().length === 0}
+                    />
+                    <p className="text-xs text-gray-500 mt-1">
+                      Your Pipedrive API token from Settings → Personal Settings
+                      → API.
+                    </p>
+                  </div>
+                </div>
+                <div className="mt-4 flex items-center justify-end gap-2">
+                  <Button
+                    variant="outline"
+                    onClick={() => setPipedriveAddOpen(false)}
+                  >
+                    Cancel
+                  </Button>
+                  <Button
+                    disabled={!isPipedriveValid}
+                    className="bg-gradient-to-r from-valasys-orange to-valasys-orange-light text-white disabled:opacity-50 disabled:cursor-not-allowed"
+                    onClick={() => {
+                      if (!isPipedriveValid) return;
+                      setPipedriveAccounts((prev) => [
+                        ...prev,
+                        {
+                          id: `pipedrive-${pipedriveNextId}`,
+                          name: pipedriveDisplayName.trim(),
+                        },
+                      ]);
+                      setPipedriveNextId((n) => n + 1);
+                      setPipedriveDisplayName("");
+                      setPipedriveApiToken("");
+                      setPipedriveAddOpen(false);
+                      setPipedriveThankOpen(true);
+                      setPipedriveThankProcessing(true);
+                      setPipedriveThankProgress(0);
+                    }}
+                  >
+                    <Save className="h-4 w-4 mr-2" /> Save Connection
+                  </Button>
+                </div>
+              </TabsContent>
+              <TabsContent
+                value="howto"
+                className="border-b border-valasys-gray-200 pb-4"
+              >
+                <div className="rounded-md border border-teal-200 bg-teal-50 p-3 text-teal-900 mt-3 text-sm">
+                  Follow these steps in Pipedrive to create an API token.
+                </div>
+                <div className="space-y-2 mt-3 text-sm text-gray-700">
+                  <ol className="list-decimal pl-5 space-y-1">
+                    <li>
+                      Log in to your Pipedrive account and navigate to Settings.
+                    </li>
+                    <li>
+                      Go to Personal Settings → API and generate a new API
+                      token.
+                    </li>
+                    <li>Copy your API token and keep it secure.</li>
+                    <li>
+                      Paste the API token into the form above and click Save
+                      Connection.
+                    </li>
+                  </ol>
+                </div>
+              </TabsContent>
+            </Tabs>
+          </DialogContent>
+        </Dialog>
+
+        {/* Pipedrive Thank You Dialog */}
+        <Dialog
+          open={pipedriveThankOpen}
+          onOpenChange={(open) => {
+            setPipedriveThankOpen(open);
+            if (!open) {
+              setPipedriveThankProcessing(false);
+              setPipedriveThankProgress(0);
+            }
+          }}
+        >
+          <DialogContent className="max-w-md">
+            <DialogHeader>
+              <DialogTitle>Thank you</DialogTitle>
+              <DialogDescription>
+                {pipedriveThankProcessing
+                  ? "Processing your Pipedrive connection..."
+                  : "Your Pipedrive connection successfully Completed"}
+              </DialogDescription>
+            </DialogHeader>
+
+            {pipedriveThankProcessing ? (
+              <div className="space-y-3">
+                <Progress value={pipedriveThankProgress} />
+                <div className="text-xs text-gray-500">
+                  Please wait, this may take a few seconds…
+                </div>
+              </div>
+            ) : (
+              <div className="flex items-center gap-3 py-2">
+                <CheckCircle2 className="h-6 w-6 text-green-600 ai-pulse" />
+                <span className="text-sm text-gray-800">
+                  Your Pipedrive connection successfully Completed
+                </span>
+              </div>
+            )}
+
+            <div className="flex justify-end">
+              <Button
+                onClick={() => setPipedriveThankOpen(false)}
+                className="bg-valasys-orange text-white hover:bg-valasys-orange/90"
+                disabled={pipedriveThankProcessing}
+              >
+                Close
+              </Button>
+            </div>
+          </DialogContent>
+        </Dialog>
+
         {/* CRM Instruction Dialog */}
         <Dialog open={crmDialogOpen} onOpenChange={setCrmDialogOpen}>
           <DialogContent className="max-w-3xl max-h-[85vh] overflow-y-auto">
@@ -1412,7 +2025,11 @@ export default function MyDownloadedList() {
                             ? "HubSpot"
                             : selectedCrm === "salesforce"
                               ? "Salesforce"
-                              : "Marketo"}
+                              : selectedCrm === "zoho"
+                                ? "Zoho"
+                                : selectedCrm === "pipedrive"
+                                  ? "Pipedrive"
+                                  : "Marketo"}
                           ...
                         </>
                       ) : uploadDone ? (
@@ -1422,7 +2039,11 @@ export default function MyDownloadedList() {
                             ? "HubSpot"
                             : selectedCrm === "salesforce"
                               ? "Salesforce"
-                              : "Marketo"}
+                              : selectedCrm === "zoho"
+                                ? "Zoho"
+                                : selectedCrm === "pipedrive"
+                                  ? "Pipedrive"
+                                  : "Marketo"}
                         </>
                       ) : (
                         <>
@@ -1431,7 +2052,11 @@ export default function MyDownloadedList() {
                             ? "HubSpot"
                             : selectedCrm === "salesforce"
                               ? "Salesforce"
-                              : "Marketo"}
+                              : selectedCrm === "zoho"
+                                ? "Zoho"
+                                : selectedCrm === "pipedrive"
+                                  ? "Pipedrive"
+                                  : "Marketo"}
                         </>
                       )}
                     </Button>
@@ -1454,7 +2079,11 @@ export default function MyDownloadedList() {
                             ? "https://app.hubspot.com/"
                             : selectedCrm === "salesforce"
                               ? "https://login.salesforce.com/"
-                              : "https://app.marketo.com/"
+                              : selectedCrm === "zoho"
+                                ? "https://app.zoho.com/"
+                                : selectedCrm === "pipedrive"
+                                  ? "https://app.pipedrive.com/"
+                                  : "https://app.marketo.com/"
                         }
                         target="_blank"
                         rel="noreferrer"
@@ -1464,7 +2093,11 @@ export default function MyDownloadedList() {
                           ? "HubSpot"
                           : selectedCrm === "salesforce"
                             ? "Salesforce"
-                            : "Marketo"}
+                            : selectedCrm === "zoho"
+                              ? "Zoho"
+                              : selectedCrm === "pipedrive"
+                                ? "Pipedrive"
+                                : "Marketo"}
                       </a>
                     </Button>
                     <Button asChild variant="outline" size="sm">
@@ -1474,7 +2107,11 @@ export default function MyDownloadedList() {
                             ? "https://knowledge.hubspot.com/crm-setup/import-objects-into-hubspot"
                             : selectedCrm === "salesforce"
                               ? "https://help.salesforce.com/s/articleView?id=sf.data_import_wizard.htm&type=5"
-                              : "https://experienceleague.adobe.com/en/docs/marketo/using/product-docs/administration/settings/importing-a-list"
+                              : selectedCrm === "zoho"
+                                ? "https://www.zoho.com/crm/help/import-contacts.html"
+                                : selectedCrm === "pipedrive"
+                                  ? "https://support.pipedrive.com/en/articles/1237-importing-deals-persons-organizations-products"
+                                  : "https://experienceleague.adobe.com/en/docs/marketo/using/product-docs/administration/settings/importing-a-list"
                         }
                         target="_blank"
                         rel="noreferrer"
@@ -1504,7 +2141,11 @@ export default function MyDownloadedList() {
                   ? "HubSpot"
                   : selectedCrm === "salesforce"
                     ? "Salesforce"
-                    : "Marketo"}
+                    : selectedCrm === "zoho"
+                      ? "Zoho"
+                      : selectedCrm === "pipedrive"
+                        ? "Pipedrive"
+                        : "Marketo"}
               </Badge>
             </div>
 
@@ -1515,6 +2156,8 @@ export default function MyDownloadedList() {
               <TabsList>
                 <TabsTrigger value="hubspot">HubSpot</TabsTrigger>
                 <TabsTrigger value="salesforce">Salesforce</TabsTrigger>
+                <TabsTrigger value="zoho">Zoho</TabsTrigger>
+                <TabsTrigger value="pipedrive">Pipedrive</TabsTrigger>
                 <TabsTrigger value="marketo">Marketo</TabsTrigger>
               </TabsList>
 
@@ -1739,6 +2382,159 @@ export default function MyDownloadedList() {
                         <AlertDescription className="ml-6 -mt-4">
                           For Accounts, use the Account object and map Company
                           fields accordingly.
+                        </AlertDescription>
+                      </Alert>
+                    </CardContent>
+                  </Card>
+                </div>
+              </TabsContent>
+
+              <TabsContent value="zoho">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-3">
+                  <Card>
+                    <CardHeader className="pb-2">
+                      <CardTitle className="text-base flex items-center">
+                        <ListChecks className="h-4 w-4 mr-2 text-valasys-orange" />
+                        What you'll do
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent className="text-sm text-gray-700 space-y-2">
+                      <p>Import into Zoho CRM Leads or Contacts.</p>
+                      <p>
+                        Map Email, First Name, Last Name, Company, and Title
+                        fields.
+                      </p>
+                      <p>Enable de-duplication by Email address.</p>
+                    </CardContent>
+                  </Card>
+
+                  <Card>
+                    <CardHeader className="pb-2">
+                      <CardTitle className="text-base flex items-center">
+                        <ShieldCheck className="h-4 w-4 mr-2 text-valasys-orange" />
+                        Field mapping example
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent className="text-sm text-gray-700 space-y-1">
+                      <div>
+                        <ArrowRight className="inline h-3 w-3 mx-1" />
+                        <span>Zoho: Email</span>
+                      </div>
+                      <div>
+                        <ArrowRight className="inline h-3 w-3 mx-1" />
+                        <span>Zoho: First Name</span>
+                      </div>
+                      <div>
+                        <ArrowRight className="inline h-3 w-3 mx-1" />
+                        <span>Zoho: Last Name</span>
+                      </div>
+                      <div>
+                        <ArrowRight className="inline h-3 w-3 mx-1" />
+                        <span>Zoho: Company</span>
+                      </div>
+                      <div>
+                        <ArrowRight className="inline h-3 w-3 mx-1" />
+                        <span>Zoho: Job Title</span>
+                      </div>
+                      <div>
+                        <ArrowRight className="inline h-3 w-3 mx-1" />
+                        <span>Zoho: Phone Number</span>
+                      </div>
+                    </CardContent>
+                  </Card>
+
+                  <Card className="md:col-span-2">
+                    <CardHeader className="pb-2">
+                      <CardTitle className="text-base flex items-center">
+                        <Info className="h-4 w-4 mr-2 text-valasys-orange" />
+                        Important Notes
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <Alert className="border-blue-200 bg-blue-50 text-blue-900">
+                        <AlertTitle>Zoho CRM Import Guide</AlertTitle>
+                        <AlertDescription className="ml-6 -mt-4">
+                          Zoho CRM supports CSV imports via the Data Enrichment
+                          module or through direct Lead/Contact imports. Ensure
+                          your OAuth credentials are valid and you have API
+                          access enabled for the integration.
+                        </AlertDescription>
+                      </Alert>
+                    </CardContent>
+                  </Card>
+                </div>
+              </TabsContent>
+
+              <TabsContent value="pipedrive">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-3">
+                  <Card>
+                    <CardHeader className="pb-2">
+                      <CardTitle className="text-base flex items-center">
+                        <ListChecks className="h-4 w-4 mr-2 text-valasys-orange" />
+                        What you'll do
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent className="text-sm text-gray-700 space-y-2">
+                      <p>Import into Pipedrive Leads or Persons.</p>
+                      <p>
+                        Map Email, First Name, Last Name, Company, and Title
+                        fields.
+                      </p>
+                      <p>Enable de-duplication by Email address.</p>
+                    </CardContent>
+                  </Card>
+
+                  <Card>
+                    <CardHeader className="pb-2">
+                      <CardTitle className="text-base flex items-center">
+                        <ShieldCheck className="h-4 w-4 mr-2 text-valasys-orange" />
+                        Field mapping example
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent className="text-sm text-gray-700 space-y-1">
+                      <div>
+                        <ArrowRight className="inline h-3 w-3 mx-1" />
+                        <span>Pipedrive: Email</span>
+                      </div>
+                      <div>
+                        <ArrowRight className="inline h-3 w-3 mx-1" />
+                        <span>Pipedrive: First Name</span>
+                      </div>
+                      <div>
+                        <ArrowRight className="inline h-3 w-3 mx-1" />
+                        <span>Pipedrive: Last Name</span>
+                      </div>
+                      <div>
+                        <ArrowRight className="inline h-3 w-3 mx-1" />
+                        <span>Pipedrive: Organization</span>
+                      </div>
+                      <div>
+                        <ArrowRight className="inline h-3 w-3 mx-1" />
+                        <span>Pipedrive: Job Title</span>
+                      </div>
+                      <div>
+                        <ArrowRight className="inline h-3 w-3 mx-1" />
+                        <span>Pipedrive: Phone</span>
+                      </div>
+                    </CardContent>
+                  </Card>
+
+                  <Card className="md:col-span-2">
+                    <CardHeader className="pb-2">
+                      <CardTitle className="text-base flex items-center">
+                        <Info className="h-4 w-4 mr-2 text-valasys-orange" />
+                        Important Notes
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <Alert className="border-teal-200 bg-teal-50 text-teal-900">
+                        <AlertTitle>Pipedrive API Import Guide</AlertTitle>
+                        <AlertDescription className="ml-6 -mt-4">
+                          Pipedrive supports CSV imports directly through their
+                          web interface and API. Ensure your API token is valid
+                          and has proper permissions for creating/updating
+                          Persons and Deals. Use bulk import features for large
+                          datasets.
                         </AlertDescription>
                       </Alert>
                     </CardContent>

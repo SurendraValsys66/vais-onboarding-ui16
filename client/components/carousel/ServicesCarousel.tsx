@@ -12,45 +12,41 @@ interface CarouselSlide {
 const slides: CarouselSlide[] = [
   {
     image:
-      "https://cdn.builder.io/api/v1/image/assets%2F62ac195bbfcb40fd8b08f046bf0947dc%2F1384393d255749b4b098dcf904423f2f?format=webp&width=800&height=1200",
-    title: "Content Syndication",
-    subtitle1: "Distribute your content across multiple channels",
-    subtitle2: "Reach your audience wherever they are",
+      "https://cdn.builder.io/api/v1/image/assets%2Ffbb0339b508345889e143f85a9c96c4d%2Ff417f1558bcf4cd48877dc1b7973886f?format=webp&width=800&height=1200",
+    title: "3 Filters for Lead Quality",
+    subtitle1:
+      "Separate gold from gravel with intent, authority, and company fit",
+    subtitle2: "Precision targeting for higher conversion rates",
   },
   {
     image:
-      "https://cdn.builder.io/api/v1/image/assets%2F62ac195bbfcb40fd8b08f046bf0947dc%2F08cdf551d4fa40879c2f905ef94bfdd8?format=webp&width=800&height=1200",
-    title: "ABM Campaign Services",
-    subtitle1: "Targeted account-based marketing campaigns",
-    subtitle2: "Drive higher engagement and conversion rates",
+      "https://cdn.builder.io/api/v1/image/assets%2Ffbb0339b508345889e143f85a9c96c4d%2F4a3397c618184bad90f6eace8d5c7837?format=webp&width=800&height=1200",
+    title: "ABM Missing Insights",
+    subtitle1:
+      "Funnel Stage, Market Trend, Alignment Score, Outreach Personalization",
+    subtitle2: "Get complete visibility into your ABM performance",
   },
   {
     image:
-      "https://cdn.builder.io/api/v1/image/assets%2F62ac195bbfcb40fd8b08f046bf0947dc%2Feb2b945adf654ca0ac94b0aa12b0d840?format=webp&width=800&height=1200",
-    title: "Programmatic ABM",
-    subtitle1: "AI-powered account targeting and personalization",
-    subtitle2: "Automate your ABM strategy with machine learning",
+      "https://cdn.builder.io/api/v1/image/assets%2Ffbb0339b508345889e143f85a9c96c4d%2F2d655e9905334b39b91b2e65713a660f?format=webp&width=800&height=1200",
+    title: "Qualified Leads Calculator",
+    subtitle1:
+      "Apply filters by regions, industries, employee sizes, and revenue",
+    subtitle2: "Calculate your ideal lead count instantly",
   },
   {
     image:
-      "https://cdn.builder.io/api/v1/image/assets%2F62ac195bbfcb40fd8b08f046bf0947dc%2Fce1af6a757d54c2cabc594308494ec1e?format=webp&width=800&height=1200",
-    title: "HQL Programs",
-    subtitle1: "Identify high-quality leads with precision scoring",
-    subtitle2: "Focus on prospects most likely to convert",
+      "https://cdn.builder.io/api/v1/image/assets%2Ffbb0339b508345889e143f85a9c96c4d%2F024fcc8575404780b645cbb034bbf850?format=webp&width=800&height=1200",
+    title: "Industry Intelligence Reimagined",
+    subtitle1: "Smart insights with competitive edge and real-time data",
+    subtitle2: "Stay ahead with actionable market intelligence",
   },
   {
     image:
-      "https://cdn.builder.io/api/v1/image/assets%2F62ac195bbfcb40fd8b08f046bf0947dc%2F4efb4819cd484ac49fd4817e18b42bee?format=webp&width=800&height=1200",
-    title: "MQL Programs",
-    subtitle1: "Marketing qualified leads generation at scale",
-    subtitle2: "Nurture prospects through automated workflows",
-  },
-  {
-    image:
-      "https://cdn.builder.io/api/v1/image/assets%2F62ac195bbfcb40fd8b08f046bf0947dc%2Fb5fd99f6232846b0b633dbb69dc85a1d?format=webp&width=800&height=1200",
-    title: "Advanced Analytics",
-    subtitle1: "Real-time insights into campaign performance",
-    subtitle2: "Data-driven decisions for better ROI",
+      "https://cdn.builder.io/api/v1/image/assets%2Ffbb0339b508345889e143f85a9c96c4d%2Fa7b9672336aa40809abae981577383ca?format=webp&width=800&height=1200",
+    title: "Complicated Insights & Limited Customization",
+    subtitle1: "Hindring pipeline growth with complex data analysis",
+    subtitle2: "Streamline your workflow with smarter insights",
   },
 ];
 
@@ -88,26 +84,10 @@ export default function ServicesCarousel() {
       className={`relative w-full transform transition-all duration-700 ease-out ${mounted ? "translate-y-0 opacity-100" : "translate-y-6 opacity-0"}`}
       style={{ transitionDelay: "150ms" }}
     >
-      {/* Text Content - Above Carousel */}
-      <div
-        className={`text-center mb-6 space-y-3 transform transition-all duration-700 ease-out ${mounted ? "translate-y-0 opacity-100" : "-translate-y-6 opacity-0"}`}
-        style={{ transitionDelay: "150ms" }}
-      >
-        <h3 className="text-2xl sm:text-3xl font-bold text-valasys-gray-900">
-          {slides[currentSlide].title}
-        </h3>
-        <p className="text-sm sm:text-base text-valasys-gray-700">
-          {slides[currentSlide].subtitle1}
-        </p>
-        <p className="text-sm sm:text-base text-valasys-gray-600">
-          {slides[currentSlide].subtitle2}
-        </p>
-      </div>
-
       {/* Carousel Container */}
-      <div className="relative rounded-2xl overflow-hidden shadow-2xl bg-gradient-to-br from-valasys-orange/20 to-valasys-blue/10 backdrop-blur-sm border border-white/20">
+      <div className="relative rounded-2xl overflow-hidden shadow-lg bg-gradient-to-br from-valasys-orange/20 to-valasys-blue/10 backdrop-blur-sm border border-white/20">
         {/* Slides - Image Only */}
-        <div className="relative h-96 w-full overflow-hidden">
+        <div className="relative h-64 w-full overflow-hidden">
           {slides.map((slide, index) => (
             <div
               key={index}
@@ -174,6 +154,22 @@ export default function ServicesCarousel() {
             {slides.length}
           </span>
         </span>
+      </div>
+
+      {/* Text Content - Below Carousel */}
+      <div
+        className={`text-center mt-4 space-y-2 transform transition-all duration-700 ease-out ${mounted ? "translate-y-0 opacity-100" : "translate-y-6 opacity-0"}`}
+        style={{ transitionDelay: "300ms" }}
+      >
+        <h3 className="text-lg sm:text-xl font-bold bg-gradient-to-r from-valasys-orange via-valasys-orange-light to-valasys-orange bg-clip-text text-transparent">
+          {slides[currentSlide].title}
+        </h3>
+        <p className="text-xs sm:text-sm text-valasys-gray-700 leading-tight">
+          {slides[currentSlide].subtitle1}
+        </p>
+        <p className="text-xs sm:text-sm text-valasys-gray-600 leading-tight">
+          {slides[currentSlide].subtitle2}
+        </p>
       </div>
     </div>
   );
