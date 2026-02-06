@@ -1374,6 +1374,231 @@ export default function MyDownloadedList() {
           </DialogContent>
         </Dialog>
 
+        {/* Zoho Add Account Dialog */}
+        <Dialog
+          open={zohoAddOpen}
+          onOpenChange={(open) => {
+            setZohoAddOpen(open);
+            if (!open) {
+              setZohoDisplayName("");
+              setZohoClientId("");
+              setZohoClientSecret("");
+              setZohoRedirectUrl("");
+            }
+          }}
+        >
+          <DialogContent className="max-w-2xl">
+            <DialogHeader>
+              <DialogTitle>Zoho Connection</DialogTitle>
+              <DialogDescription>
+                Add a Zoho account using OAuth credentials to enable one-click exports.
+              </DialogDescription>
+            </DialogHeader>
+            <div className="mt-2 rounded-lg border border-blue-200 bg-gradient-to-r from-blue-50 to-[#026AA7]/10 p-3 flex items-center gap-3">
+              <span className="inline-flex items-center justify-center w-8 h-8 rounded bg-[#026AA7] text-white text-xs font-bold">
+                ZH
+              </span>
+              <div className="text-sm text-blue-900">
+                Securely connect your Zoho CRM to enable one‑click exports.
+              </div>
+            </div>
+            <Tabs defaultValue="add">
+              <TabsList className="mt-3 bg-transparent p-0 border-b border-valasys-gray-200">
+                <TabsTrigger
+                  value="add"
+                  className="relative -mb-[1px] inline-flex items-center gap-2 px-0 py-2 text-sm font-medium text-valasys-gray-500 data-[state=active]:text-valasys-orange data-[state=active]:underline data-[state=active]:decoration-2 data-[state=active]:underline-offset-8 data-[state=active]:shadow-none"
+                >
+                  <ListChecks className="h-4 w-4" /> Add Zoho Account
+                </TabsTrigger>
+                <TabsTrigger
+                  value="howto"
+                  className="relative -mb-[1px] inline-flex items-center gap-2 px-0 py-2 text-sm font-medium text-valasys-gray-500 data-[state=active]:text-valasys-orange data-[state=active]:underline data-[state=active]:decoration-2 data-[state=active]:underline-offset-8 data-[state=active]:shadow-none"
+                >
+                  <Info className="h-4 w-4" /> Instructions to Add Account
+                </TabsTrigger>
+              </TabsList>
+              <TabsContent
+                value="add"
+                className="border-b border-valasys-gray-200 pb-4"
+              >
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-3 rounded-lg border border-valasys-gray-200 bg-white p-4 shadow-sm">
+                  <div>
+                    <Label htmlFor="zoho-display-name">
+                      Display Name <span className="text-red-500">*</span>
+                    </Label>
+                    <Input
+                      id="zoho-display-name"
+                      value={zohoDisplayName}
+                      onChange={(e) => setZohoDisplayName(e.target.value)}
+                      placeholder="e.g., Zoho Main"
+                      required
+                      aria-invalid={zohoDisplayName.trim().length === 0}
+                    />
+                    <p className="text-xs text-gray-500 mt-1">
+                      A friendly name to identify this Zoho account.
+                    </p>
+                  </div>
+                  <div>
+                    <Label htmlFor="zoho-client-id">
+                      Client ID <span className="text-red-500">*</span>
+                    </Label>
+                    <Input
+                      id="zoho-client-id"
+                      value={zohoClientId}
+                      onChange={(e) => setZohoClientId(e.target.value)}
+                      placeholder="Enter Client ID"
+                      required
+                      aria-invalid={zohoClientId.trim().length === 0}
+                    />
+                    <p className="text-xs text-gray-500 mt-1">
+                      Enter the Client ID generated in the Zoho Developer Console for your application.
+                    </p>
+                  </div>
+                  <div>
+                    <Label htmlFor="zoho-client-secret">
+                      Client Secret <span className="text-red-500">*</span>
+                    </Label>
+                    <Input
+                      id="zoho-client-secret"
+                      type="password"
+                      value={zohoClientSecret}
+                      onChange={(e) => setZohoClientSecret(e.target.value)}
+                      placeholder="Enter Client Secret"
+                      required
+                      aria-invalid={zohoClientSecret.trim().length === 0}
+                    />
+                    <p className="text-xs text-gray-500 mt-1">
+                      Enter the Client Secret associated with your Zoho application. Keep this value confidential.
+                    </p>
+                  </div>
+                  <div>
+                    <Label htmlFor="zoho-redirect-url">
+                      Redirect URL <span className="text-red-500">*</span>
+                    </Label>
+                    <Input
+                      id="zoho-redirect-url"
+                      value={zohoRedirectUrl}
+                      onChange={(e) => setZohoRedirectUrl(e.target.value)}
+                      placeholder="https://your-app.com/oauth/callback"
+                      required
+                      aria-invalid={zohoRedirectUrl.trim().length === 0}
+                    />
+                    <p className="text-xs text-gray-500 mt-1">
+                      Enter the redirect URL configured in your Zoho application. Zoho will redirect users to this URL after authorization.
+                    </p>
+                  </div>
+                </div>
+                <div className="mt-4 flex items-center justify-end gap-2">
+                  <Button
+                    variant="outline"
+                    onClick={() => setZohoAddOpen(false)}
+                  >
+                    Cancel
+                  </Button>
+                  <Button
+                    disabled={!isZohoValid}
+                    className="bg-gradient-to-r from-valasys-orange to-valasys-orange-light text-white disabled:opacity-50 disabled:cursor-not-allowed"
+                    onClick={() => {
+                      if (!isZohoValid) return;
+                      setZohoAccounts((prev) => [
+                        ...prev,
+                        { id: `zoho-${zohoNextId}`, name: zohoDisplayName.trim() },
+                      ]);
+                      setZohoNextId((n) => n + 1);
+                      setZohoDisplayName("");
+                      setZohoClientId("");
+                      setZohoClientSecret("");
+                      setZohoRedirectUrl("");
+                      setZohoAddOpen(false);
+                      setZohoThankOpen(true);
+                      setZohoThankProcessing(true);
+                      setZohoThankProgress(0);
+                    }}
+                  >
+                    <Save className="h-4 w-4 mr-2" /> Save Connection
+                  </Button>
+                </div>
+              </TabsContent>
+              <TabsContent
+                value="howto"
+                className="border-b border-valasys-gray-200 pb-4"
+              >
+                <div className="rounded-md border border-blue-200 bg-blue-50 p-3 text-blue-900 mt-3 text-sm">
+                  Follow these steps in Zoho to create OAuth credentials.
+                </div>
+                <div className="space-y-2 mt-3 text-sm text-gray-700">
+                  <ol className="list-decimal pl-5 space-y-1">
+                    <li>
+                      Log in to the Zoho Developer Console.
+                    </li>
+                    <li>
+                      Create a new OAuth application and configure OAuth settings.
+                    </li>
+                    <li>
+                      Add your application's Redirect URL to the authorized redirect URLs.
+                    </li>
+                    <li>
+                      Generate and copy your Client ID and Client Secret.
+                    </li>
+                    <li>
+                      Paste the values into the form above and click Save Connection.
+                    </li>
+                  </ol>
+                </div>
+              </TabsContent>
+            </Tabs>
+          </DialogContent>
+        </Dialog>
+
+        {/* Zoho Thank You Dialog */}
+        <Dialog
+          open={zohoThankOpen}
+          onOpenChange={(open) => {
+            setZohoThankOpen(open);
+            if (!open) {
+              setZohoThankProcessing(false);
+              setZohoThankProgress(0);
+            }
+          }}
+        >
+          <DialogContent className="max-w-md">
+            <DialogHeader>
+              <DialogTitle>Thank you</DialogTitle>
+              <DialogDescription>
+                {zohoThankProcessing
+                  ? "Processing your Zoho connection..."
+                  : "Your Zoho connection successfully Completed"}
+              </DialogDescription>
+            </DialogHeader>
+
+            {zohoThankProcessing ? (
+              <div className="space-y-3">
+                <Progress value={zohoThankProgress} />
+                <div className="text-xs text-gray-500">
+                  Please wait, this may take a few seconds…
+                </div>
+              </div>
+            ) : (
+              <div className="flex items-center gap-3 py-2">
+                <CheckCircle2 className="h-6 w-6 text-green-600 ai-pulse" />
+                <span className="text-sm text-gray-800">
+                  Your Zoho connection successfully Completed
+                </span>
+              </div>
+            )}
+
+            <div className="flex justify-end">
+              <Button
+                onClick={() => setZohoThankOpen(false)}
+                className="bg-valasys-orange text-white hover:bg-valasys-orange/90"
+                disabled={zohoThankProcessing}
+              >
+                Close
+              </Button>
+            </div>
+          </DialogContent>
+        </Dialog>
+
         {/* CRM Instruction Dialog */}
         <Dialog open={crmDialogOpen} onOpenChange={setCrmDialogOpen}>
           <DialogContent className="max-w-3xl max-h-[85vh] overflow-y-auto">
