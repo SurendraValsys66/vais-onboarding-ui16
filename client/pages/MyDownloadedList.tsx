@@ -1694,6 +1694,213 @@ export default function MyDownloadedList() {
           </DialogContent>
         </Dialog>
 
+        {/* Pipedrive Add Account Dialog */}
+        <Dialog
+          open={pipedriveAddOpen}
+          onOpenChange={(open) => {
+            setPipedriveAddOpen(open);
+            if (!open) {
+              setPipedriveDisplayName("");
+              setPipedriveApiToken("");
+              setPipedriveCompanyDomain("");
+            }
+          }}
+        >
+          <DialogContent className="max-w-2xl">
+            <DialogHeader>
+              <DialogTitle>Pipedrive Connection</DialogTitle>
+              <DialogDescription>
+                Add a Pipedrive account using API credentials to enable one-click exports.
+              </DialogDescription>
+            </DialogHeader>
+            <div className="mt-2 rounded-lg border border-teal-200 bg-gradient-to-r from-teal-50 to-[#2ED8B6]/10 p-3 flex items-center gap-3">
+              <span className="inline-flex items-center justify-center w-8 h-8 rounded bg-[#2ED8B6] text-white text-xs font-bold">
+                PD
+              </span>
+              <div className="text-sm text-teal-900">
+                Securely connect your Pipedrive CRM to enable one‑click exports.
+              </div>
+            </div>
+            <Tabs defaultValue="add">
+              <TabsList className="mt-3 bg-transparent p-0 border-b border-valasys-gray-200">
+                <TabsTrigger
+                  value="add"
+                  className="relative -mb-[1px] inline-flex items-center gap-2 px-0 py-2 text-sm font-medium text-valasys-gray-500 data-[state=active]:text-valasys-orange data-[state=active]:underline data-[state=active]:decoration-2 data-[state=active]:underline-offset-8 data-[state=active]:shadow-none"
+                >
+                  <ListChecks className="h-4 w-4" /> Add Pipedrive Account
+                </TabsTrigger>
+                <TabsTrigger
+                  value="howto"
+                  className="relative -mb-[1px] inline-flex items-center gap-2 px-0 py-2 text-sm font-medium text-valasys-gray-500 data-[state=active]:text-valasys-orange data-[state=active]:underline data-[state=active]:decoration-2 data-[state=active]:underline-offset-8 data-[state=active]:shadow-none"
+                >
+                  <Info className="h-4 w-4" /> Instructions to Add Account
+                </TabsTrigger>
+              </TabsList>
+              <TabsContent
+                value="add"
+                className="border-b border-valasys-gray-200 pb-4"
+              >
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-3 rounded-lg border border-valasys-gray-200 bg-white p-4 shadow-sm">
+                  <div>
+                    <Label htmlFor="pipedrive-display-name">
+                      Display Name <span className="text-red-500">*</span>
+                    </Label>
+                    <Input
+                      id="pipedrive-display-name"
+                      value={pipedriveDisplayName}
+                      onChange={(e) => setPipedriveDisplayName(e.target.value)}
+                      placeholder="e.g., Pipedrive Main"
+                      required
+                      aria-invalid={pipedriveDisplayName.trim().length === 0}
+                    />
+                    <p className="text-xs text-gray-500 mt-1">
+                      A friendly name to identify this Pipedrive account.
+                    </p>
+                  </div>
+                  <div>
+                    <Label htmlFor="pipedrive-company-domain">
+                      Company Domain <span className="text-red-500">*</span>
+                    </Label>
+                    <Input
+                      id="pipedrive-company-domain"
+                      value={pipedriveCompanyDomain}
+                      onChange={(e) => setPipedriveCompanyDomain(e.target.value)}
+                      placeholder="e.g., mycompany.pipedrive.com"
+                      required
+                      aria-invalid={pipedriveCompanyDomain.trim().length === 0}
+                    />
+                    <p className="text-xs text-gray-500 mt-1">
+                      Your Pipedrive company domain (without https://).
+                    </p>
+                  </div>
+                  <div className="sm:col-span-2">
+                    <Label htmlFor="pipedrive-api-token">
+                      API Token <span className="text-red-500">*</span>
+                    </Label>
+                    <Input
+                      id="pipedrive-api-token"
+                      type="password"
+                      value={pipedriveApiToken}
+                      onChange={(e) => setPipedriveApiToken(e.target.value)}
+                      placeholder="Enter Pipedrive API Token"
+                      required
+                      aria-invalid={pipedriveApiToken.trim().length === 0}
+                    />
+                    <p className="text-xs text-gray-500 mt-1">
+                      Your Pipedrive API token from Settings → Personal Settings → API.
+                    </p>
+                  </div>
+                </div>
+                <div className="mt-4 flex items-center justify-end gap-2">
+                  <Button
+                    variant="outline"
+                    onClick={() => setPipedriveAddOpen(false)}
+                  >
+                    Cancel
+                  </Button>
+                  <Button
+                    disabled={!isPipedriveValid}
+                    className="bg-gradient-to-r from-valasys-orange to-valasys-orange-light text-white disabled:opacity-50 disabled:cursor-not-allowed"
+                    onClick={() => {
+                      if (!isPipedriveValid) return;
+                      setPipedriveAccounts((prev) => [
+                        ...prev,
+                        { id: `pipedrive-${pipedriveNextId}`, name: pipedriveDisplayName.trim() },
+                      ]);
+                      setPipedriveNextId((n) => n + 1);
+                      setPipedriveDisplayName("");
+                      setPipedriveApiToken("");
+                      setPipedriveCompanyDomain("");
+                      setPipedriveAddOpen(false);
+                      setPipedriveThankOpen(true);
+                      setPipedriveThankProcessing(true);
+                      setPipedriveThankProgress(0);
+                    }}
+                  >
+                    <Save className="h-4 w-4 mr-2" /> Save Connection
+                  </Button>
+                </div>
+              </TabsContent>
+              <TabsContent
+                value="howto"
+                className="border-b border-valasys-gray-200 pb-4"
+              >
+                <div className="rounded-md border border-teal-200 bg-teal-50 p-3 text-teal-900 mt-3 text-sm">
+                  Follow these steps in Pipedrive to create an API token.
+                </div>
+                <div className="space-y-2 mt-3 text-sm text-gray-700">
+                  <ol className="list-decimal pl-5 space-y-1">
+                    <li>
+                      Log in to your Pipedrive account and navigate to Settings.
+                    </li>
+                    <li>
+                      Go to Personal Settings → API and generate a new API token.
+                    </li>
+                    <li>
+                      Copy your API token and keep it secure.
+                    </li>
+                    <li>
+                      Enter your company domain (e.g., mycompany.pipedrive.com).
+                    </li>
+                    <li>
+                      Paste the API token and domain into the form above and click Save Connection.
+                    </li>
+                  </ol>
+                </div>
+              </TabsContent>
+            </Tabs>
+          </DialogContent>
+        </Dialog>
+
+        {/* Pipedrive Thank You Dialog */}
+        <Dialog
+          open={pipedriveThankOpen}
+          onOpenChange={(open) => {
+            setPipedriveThankOpen(open);
+            if (!open) {
+              setPipedriveThankProcessing(false);
+              setPipedriveThankProgress(0);
+            }
+          }}
+        >
+          <DialogContent className="max-w-md">
+            <DialogHeader>
+              <DialogTitle>Thank you</DialogTitle>
+              <DialogDescription>
+                {pipedriveThankProcessing
+                  ? "Processing your Pipedrive connection..."
+                  : "Your Pipedrive connection successfully Completed"}
+              </DialogDescription>
+            </DialogHeader>
+
+            {pipedriveThankProcessing ? (
+              <div className="space-y-3">
+                <Progress value={pipedriveThankProgress} />
+                <div className="text-xs text-gray-500">
+                  Please wait, this may take a few seconds…
+                </div>
+              </div>
+            ) : (
+              <div className="flex items-center gap-3 py-2">
+                <CheckCircle2 className="h-6 w-6 text-green-600 ai-pulse" />
+                <span className="text-sm text-gray-800">
+                  Your Pipedrive connection successfully Completed
+                </span>
+              </div>
+            )}
+
+            <div className="flex justify-end">
+              <Button
+                onClick={() => setPipedriveThankOpen(false)}
+                className="bg-valasys-orange text-white hover:bg-valasys-orange/90"
+                disabled={pipedriveThankProcessing}
+              >
+                Close
+              </Button>
+            </div>
+          </DialogContent>
+        </Dialog>
+
         {/* CRM Instruction Dialog */}
         <Dialog open={crmDialogOpen} onOpenChange={setCrmDialogOpen}>
           <DialogContent className="max-w-3xl max-h-[85vh] overflow-y-auto">
