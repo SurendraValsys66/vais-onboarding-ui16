@@ -1912,7 +1912,9 @@ export default function MyDownloadedList() {
                               ? "https://help.salesforce.com/s/articleView?id=sf.data_import_wizard.htm&type=5"
                               : selectedCrm === "zoho"
                                 ? "https://www.zoho.com/crm/help/import-contacts.html"
-                                : "https://experienceleague.adobe.com/en/docs/marketo/using/product-docs/administration/settings/importing-a-list"
+                                : selectedCrm === "pipedrive"
+                                  ? "https://support.pipedrive.com/en/articles/1237-importing-deals-persons-organizations-products"
+                                  : "https://experienceleague.adobe.com/en/docs/marketo/using/product-docs/administration/settings/importing-a-list"
                         }
                         target="_blank"
                         rel="noreferrer"
