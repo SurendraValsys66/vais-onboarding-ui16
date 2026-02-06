@@ -253,7 +253,6 @@ export default function MyDownloadedList() {
   const [pipedriveAddOpen, setPipedriveAddOpen] = useState(false);
   const [pipedriveDisplayName, setPipedriveDisplayName] = useState("");
   const [pipedriveApiToken, setPipedriveApiToken] = useState("");
-  const [pipedriveCompanyDomain, setPipedriveCompanyDomain] = useState("");
   const [pipedriveNextId, setPipedriveNextId] = useState(() => {
     const nums = [
       ...pipedriveAccounts
@@ -267,8 +266,7 @@ export default function MyDownloadedList() {
   const [pipedriveThankProgress, setPipedriveThankProgress] = useState(0);
   const isPipedriveValid =
     pipedriveDisplayName.trim().length > 0 &&
-    pipedriveApiToken.trim().length > 0 &&
-    pipedriveCompanyDomain.trim().length > 0;
+    pipedriveApiToken.trim().length > 0;
 
   useEffect(() => {
     if (!hsThankOpen || !hsThankProcessing) return;
