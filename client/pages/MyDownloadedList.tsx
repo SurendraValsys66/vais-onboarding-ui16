@@ -2083,6 +2083,80 @@ export default function MyDownloadedList() {
                 </div>
               </TabsContent>
 
+              <TabsContent value="zoho">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-3">
+                  <Card>
+                    <CardHeader className="pb-2">
+                      <CardTitle className="text-base flex items-center">
+                        <ListChecks className="h-4 w-4 mr-2 text-valasys-orange" />
+                        What you'll do
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent className="text-sm text-gray-700 space-y-2">
+                      <p>Import into Zoho CRM Leads or Contacts.</p>
+                      <p>
+                        Map Email, First Name, Last Name, Company, and Title fields.
+                      </p>
+                      <p>Enable de-duplication by Email address.</p>
+                    </CardContent>
+                  </Card>
+
+                  <Card>
+                    <CardHeader className="pb-2">
+                      <CardTitle className="text-base flex items-center">
+                        <ShieldCheck className="h-4 w-4 mr-2 text-valasys-orange" />
+                        Field mapping example
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent className="text-sm text-gray-700 space-y-1">
+                      <div>
+                        <ArrowRight className="inline h-3 w-3 mx-1" />
+                        <span>Zoho: Email</span>
+                      </div>
+                      <div>
+                        <ArrowRight className="inline h-3 w-3 mx-1" />
+                        <span>Zoho: First Name</span>
+                      </div>
+                      <div>
+                        <ArrowRight className="inline h-3 w-3 mx-1" />
+                        <span>Zoho: Last Name</span>
+                      </div>
+                      <div>
+                        <ArrowRight className="inline h-3 w-3 mx-1" />
+                        <span>Zoho: Company</span>
+                      </div>
+                      <div>
+                        <ArrowRight className="inline h-3 w-3 mx-1" />
+                        <span>Zoho: Job Title</span>
+                      </div>
+                      <div>
+                        <ArrowRight className="inline h-3 w-3 mx-1" />
+                        <span>Zoho: Phone Number</span>
+                      </div>
+                    </CardContent>
+                  </Card>
+
+                  <Card className="md:col-span-2">
+                    <CardHeader className="pb-2">
+                      <CardTitle className="text-base flex items-center">
+                        <Info className="h-4 w-4 mr-2 text-valasys-orange" />
+                        Important Notes
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <Alert className="border-blue-200 bg-blue-50 text-blue-900">
+                        <AlertTitle>Zoho CRM Import Guide</AlertTitle>
+                        <AlertDescription className="ml-6 -mt-4">
+                          Zoho CRM supports CSV imports via the Data Enrichment module or through
+                          direct Lead/Contact imports. Ensure your OAuth credentials are valid and
+                          you have API access enabled for the integration.
+                        </AlertDescription>
+                      </Alert>
+                    </CardContent>
+                  </Card>
+                </div>
+              </TabsContent>
+
               <TabsContent value="marketo">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-3">
                   <Card>
