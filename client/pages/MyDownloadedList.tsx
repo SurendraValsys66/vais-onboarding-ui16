@@ -1821,10 +1821,7 @@ export default function MyDownloadedList() {
                       Copy your API token and keep it secure.
                     </li>
                     <li>
-                      Enter your company domain (e.g., mycompany.pipedrive.com).
-                    </li>
-                    <li>
-                      Paste the API token and domain into the form above and click Save Connection.
+                      Paste the API token into the form above and click Save Connection.
                     </li>
                   </ol>
                 </div>
