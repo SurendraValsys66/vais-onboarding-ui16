@@ -1857,7 +1857,9 @@ export default function MyDownloadedList() {
                               ? "Salesforce"
                               : selectedCrm === "zoho"
                                 ? "Zoho"
-                                : "Marketo"}
+                                : selectedCrm === "pipedrive"
+                                  ? "Pipedrive"
+                                  : "Marketo"}
                         </>
                       )}
                     </Button>
