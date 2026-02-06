@@ -1757,7 +1757,9 @@ export default function MyDownloadedList() {
                             ? "HubSpot"
                             : selectedCrm === "salesforce"
                               ? "Salesforce"
-                              : "Marketo"}
+                              : selectedCrm === "zoho"
+                                ? "Zoho"
+                                : "Marketo"}
                         </>
                       )}
                     </Button>
