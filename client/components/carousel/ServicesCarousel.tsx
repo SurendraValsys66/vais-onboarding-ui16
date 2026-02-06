@@ -82,9 +82,9 @@ export default function ServicesCarousel() {
       style={{ transitionDelay: "150ms" }}
     >
       {/* Carousel Container */}
-      <div className="relative rounded-2xl overflow-hidden shadow-2xl bg-gradient-to-br from-valasys-orange/20 to-valasys-blue/10 backdrop-blur-sm border border-white/20">
+      <div className="relative rounded-2xl overflow-hidden shadow-lg bg-gradient-to-br from-valasys-orange/20 to-valasys-blue/10 backdrop-blur-sm border border-white/20">
         {/* Slides - Image Only */}
-        <div className="relative h-96 w-full overflow-hidden">
+        <div className="relative h-64 w-full overflow-hidden">
           {slides.map((slide, index) => (
             <div
               key={index}
