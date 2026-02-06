@@ -1782,7 +1782,9 @@ export default function MyDownloadedList() {
                             ? "https://app.hubspot.com/"
                             : selectedCrm === "salesforce"
                               ? "https://login.salesforce.com/"
-                              : "https://app.marketo.com/"
+                              : selectedCrm === "zoho"
+                                ? "https://app.zoho.com/"
+                                : "https://app.marketo.com/"
                         }
                         target="_blank"
                         rel="noreferrer"
@@ -1792,7 +1794,9 @@ export default function MyDownloadedList() {
                           ? "HubSpot"
                           : selectedCrm === "salesforce"
                             ? "Salesforce"
-                            : "Marketo"}
+                            : selectedCrm === "zoho"
+                              ? "Zoho"
+                              : "Marketo"}
                       </a>
                     </Button>
                     <Button asChild variant="outline" size="sm">
