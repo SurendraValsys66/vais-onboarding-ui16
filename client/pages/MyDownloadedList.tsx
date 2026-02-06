@@ -225,6 +225,27 @@ export default function MyDownloadedList() {
     hsDisplayName.trim().length > 0 &&
     hsToken.trim().length > 0 &&
     hsOwnerId.trim().length > 0;
+  const [zohoAddOpen, setZohoAddOpen] = useState(false);
+  const [zohoDisplayName, setZohoDisplayName] = useState("");
+  const [zohoClientId, setZohoClientId] = useState("");
+  const [zohoClientSecret, setZohoClientSecret] = useState("");
+  const [zohoRedirectUrl, setZohoRedirectUrl] = useState("");
+  const [zohoNextId, setZohoNextId] = useState(() => {
+    const nums = [
+      ...zohoAccounts
+        .map((a) => Number(String(a.id).replace(/^zoho-/, "")))
+        .filter((n) => !Number.isNaN(n)),
+    ];
+    return (nums.length ? Math.max(...nums) : 0) + 1;
+  });
+  const [zohoThankOpen, setZohoThankOpen] = useState(false);
+  const [zohoThankProcessing, setZohoThankProcessing] = useState(false);
+  const [zohoThankProgress, setZohoThankProgress] = useState(0);
+  const isZohoValid =
+    zohoDisplayName.trim().length > 0 &&
+    zohoClientId.trim().length > 0 &&
+    zohoClientSecret.trim().length > 0 &&
+    zohoRedirectUrl.trim().length > 0;
 
   useEffect(() => {
     if (!hsThankOpen || !hsThankProcessing) return;
