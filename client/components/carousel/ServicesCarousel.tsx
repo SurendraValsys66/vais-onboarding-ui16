@@ -155,16 +155,16 @@ export default function ServicesCarousel() {
 
       {/* Text Content - Below Carousel */}
       <div
-        className={`text-center mt-6 space-y-3 transform transition-all duration-700 ease-out ${mounted ? "translate-y-0 opacity-100" : "translate-y-6 opacity-0"}`}
+        className={`text-center mt-4 space-y-2 transform transition-all duration-700 ease-out ${mounted ? "translate-y-0 opacity-100" : "translate-y-6 opacity-0"}`}
         style={{ transitionDelay: "300ms" }}
       >
-        <h3 className="text-2xl sm:text-3xl font-bold text-valasys-gray-900">
+        <h3 className="text-lg sm:text-xl font-bold bg-gradient-to-r from-valasys-orange via-valasys-orange-light to-valasys-orange bg-clip-text text-transparent">
           {slides[currentSlide].title}
         </h3>
-        <p className="text-sm sm:text-base text-valasys-gray-700">
+        <p className="text-xs sm:text-sm text-valasys-gray-700 leading-tight">
           {slides[currentSlide].subtitle1}
         </p>
-        <p className="text-sm sm:text-base text-valasys-gray-600">
+        <p className="text-xs sm:text-sm text-valasys-gray-600 leading-tight">
           {slides[currentSlide].subtitle2}
         </p>
       </div>
