@@ -1737,7 +1737,7 @@ export default function MyDownloadedList() {
                 value="add"
                 className="border-b border-valasys-gray-200 pb-4"
               >
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-3 rounded-lg border border-valasys-gray-200 bg-white p-4 shadow-sm">
+                <div className="grid grid-cols-1 gap-4 mt-3 rounded-lg border border-valasys-gray-200 bg-white p-4 shadow-sm">
                   <div>
                     <Label htmlFor="pipedrive-display-name">
                       Display Name <span className="text-red-500">*</span>
@@ -1755,22 +1755,6 @@ export default function MyDownloadedList() {
                     </p>
                   </div>
                   <div>
-                    <Label htmlFor="pipedrive-company-domain">
-                      Company Domain <span className="text-red-500">*</span>
-                    </Label>
-                    <Input
-                      id="pipedrive-company-domain"
-                      value={pipedriveCompanyDomain}
-                      onChange={(e) => setPipedriveCompanyDomain(e.target.value)}
-                      placeholder="e.g., mycompany.pipedrive.com"
-                      required
-                      aria-invalid={pipedriveCompanyDomain.trim().length === 0}
-                    />
-                    <p className="text-xs text-gray-500 mt-1">
-                      Your Pipedrive company domain (without https://).
-                    </p>
-                  </div>
-                  <div className="sm:col-span-2">
                     <Label htmlFor="pipedrive-api-token">
                       API Token <span className="text-red-500">*</span>
                     </Label>
