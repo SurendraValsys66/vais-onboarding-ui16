@@ -1791,7 +1791,6 @@ export default function MyDownloadedList() {
                       setPipedriveNextId((n) => n + 1);
                       setPipedriveDisplayName("");
                       setPipedriveApiToken("");
-                      setPipedriveCompanyDomain("");
                       setPipedriveAddOpen(false);
                       setPipedriveThankOpen(true);
                       setPipedriveThankProcessing(true);
