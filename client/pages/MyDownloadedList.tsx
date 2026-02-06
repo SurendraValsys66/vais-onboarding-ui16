@@ -1700,7 +1700,6 @@ export default function MyDownloadedList() {
             if (!open) {
               setPipedriveDisplayName("");
               setPipedriveApiToken("");
-              setPipedriveCompanyDomain("");
             }
           }}
         >
