@@ -1960,6 +1960,7 @@ export default function MyDownloadedList() {
                 <TabsTrigger value="hubspot">HubSpot</TabsTrigger>
                 <TabsTrigger value="salesforce">Salesforce</TabsTrigger>
                 <TabsTrigger value="zoho">Zoho</TabsTrigger>
+                <TabsTrigger value="pipedrive">Pipedrive</TabsTrigger>
                 <TabsTrigger value="marketo">Marketo</TabsTrigger>
               </TabsList>
 
