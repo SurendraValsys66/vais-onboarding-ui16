@@ -1884,7 +1884,9 @@ export default function MyDownloadedList() {
                               ? "https://login.salesforce.com/"
                               : selectedCrm === "zoho"
                                 ? "https://app.zoho.com/"
-                                : "https://app.marketo.com/"
+                                : selectedCrm === "pipedrive"
+                                  ? "https://app.pipedrive.com/"
+                                  : "https://app.marketo.com/"
                         }
                         target="_blank"
                         rel="noreferrer"
@@ -1896,7 +1898,9 @@ export default function MyDownloadedList() {
                             ? "Salesforce"
                             : selectedCrm === "zoho"
                               ? "Zoho"
-                              : "Marketo"}
+                              : selectedCrm === "pipedrive"
+                                ? "Pipedrive"
+                                : "Marketo"}
                       </a>
                     </Button>
                     <Button asChild variant="outline" size="sm">
