@@ -14,21 +14,24 @@ const slides: CarouselSlide[] = [
     image:
       "https://cdn.builder.io/api/v1/image/assets%2Ffbb0339b508345889e143f85a9c96c4d%2Ff417f1558bcf4cd48877dc1b7973886f?format=webp&width=800&height=1200",
     title: "3 Filters for Lead Quality",
-    subtitle1: "Separate gold from gravel with intent, authority, and company fit",
+    subtitle1:
+      "Separate gold from gravel with intent, authority, and company fit",
     subtitle2: "Precision targeting for higher conversion rates",
   },
   {
     image:
       "https://cdn.builder.io/api/v1/image/assets%2Ffbb0339b508345889e143f85a9c96c4d%2F4a3397c618184bad90f6eace8d5c7837?format=webp&width=800&height=1200",
     title: "ABM Missing Insights",
-    subtitle1: "Funnel Stage, Market Trend, Alignment Score, Outreach Personalization",
+    subtitle1:
+      "Funnel Stage, Market Trend, Alignment Score, Outreach Personalization",
     subtitle2: "Get complete visibility into your ABM performance",
   },
   {
     image:
       "https://cdn.builder.io/api/v1/image/assets%2Ffbb0339b508345889e143f85a9c96c4d%2F2d655e9905334b39b91b2e65713a660f?format=webp&width=800&height=1200",
     title: "Qualified Leads Calculator",
-    subtitle1: "Apply filters by regions, industries, employee sizes, and revenue",
+    subtitle1:
+      "Apply filters by regions, industries, employee sizes, and revenue",
     subtitle2: "Calculate your ideal lead count instantly",
   },
   {

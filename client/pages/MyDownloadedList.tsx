@@ -262,7 +262,8 @@ export default function MyDownloadedList() {
     return (nums.length ? Math.max(...nums) : 0) + 1;
   });
   const [pipedriveThankOpen, setPipedriveThankOpen] = useState(false);
-  const [pipedriveThankProcessing, setPipedriveThankProcessing] = useState(false);
+  const [pipedriveThankProcessing, setPipedriveThankProcessing] =
+    useState(false);
   const [pipedriveThankProgress, setPipedriveThankProgress] = useState(0);
   const isPipedriveValid =
     pipedriveDisplayName.trim().length > 0 &&
@@ -1484,7 +1485,8 @@ export default function MyDownloadedList() {
             <DialogHeader>
               <DialogTitle>Zoho Connection</DialogTitle>
               <DialogDescription>
-                Add a Zoho account using OAuth credentials to enable one-click exports.
+                Add a Zoho account using OAuth credentials to enable one-click
+                exports.
               </DialogDescription>
             </DialogHeader>
             <div className="mt-2 rounded-lg border border-blue-200 bg-gradient-to-r from-blue-50 to-[#026AA7]/10 p-3 flex items-center gap-3">
@@ -1544,7 +1546,8 @@ export default function MyDownloadedList() {
                       aria-invalid={zohoClientId.trim().length === 0}
                     />
                     <p className="text-xs text-gray-500 mt-1">
-                      Enter the Client ID generated in the Zoho Developer Console for your application.
+                      Enter the Client ID generated in the Zoho Developer
+                      Console for your application.
                     </p>
                   </div>
                   <div>
@@ -1561,7 +1564,8 @@ export default function MyDownloadedList() {
                       aria-invalid={zohoClientSecret.trim().length === 0}
                     />
                     <p className="text-xs text-gray-500 mt-1">
-                      Enter the Client Secret associated with your Zoho application. Keep this value confidential.
+                      Enter the Client Secret associated with your Zoho
+                      application. Keep this value confidential.
                     </p>
                   </div>
                   <div>
@@ -1577,7 +1581,9 @@ export default function MyDownloadedList() {
                       aria-invalid={zohoRedirectUrl.trim().length === 0}
                     />
                     <p className="text-xs text-gray-500 mt-1">
-                      Enter the redirect URL configured in your Zoho application. Zoho will redirect users to this URL after authorization.
+                      Enter the redirect URL configured in your Zoho
+                      application. Zoho will redirect users to this URL after
+                      authorization.
                     </p>
                   </div>
                 </div>
@@ -1595,7 +1601,10 @@ export default function MyDownloadedList() {
                       if (!isZohoValid) return;
                       setZohoAccounts((prev) => [
                         ...prev,
-                        { id: `zoho-${zohoNextId}`, name: zohoDisplayName.trim() },
+                        {
+                          id: `zoho-${zohoNextId}`,
+                          name: zohoDisplayName.trim(),
+                        },
                       ]);
                       setZohoNextId((n) => n + 1);
                       setZohoDisplayName("");
@@ -1621,20 +1630,19 @@ export default function MyDownloadedList() {
                 </div>
                 <div className="space-y-2 mt-3 text-sm text-gray-700">
                   <ol className="list-decimal pl-5 space-y-1">
+                    <li>Log in to the Zoho Developer Console.</li>
                     <li>
-                      Log in to the Zoho Developer Console.
+                      Create a new OAuth application and configure OAuth
+                      settings.
                     </li>
                     <li>
-                      Create a new OAuth application and configure OAuth settings.
+                      Add your application's Redirect URL to the authorized
+                      redirect URLs.
                     </li>
+                    <li>Generate and copy your Client ID and Client Secret.</li>
                     <li>
-                      Add your application's Redirect URL to the authorized redirect URLs.
-                    </li>
-                    <li>
-                      Generate and copy your Client ID and Client Secret.
-                    </li>
-                    <li>
-                      Paste the values into the form above and click Save Connection.
+                      Paste the values into the form above and click Save
+                      Connection.
                     </li>
                   </ol>
                 </div>
@@ -1707,7 +1715,8 @@ export default function MyDownloadedList() {
             <DialogHeader>
               <DialogTitle>Pipedrive Connection</DialogTitle>
               <DialogDescription>
-                Add a Pipedrive account using API credentials to enable one-click exports.
+                Add a Pipedrive account using API credentials to enable
+                one-click exports.
               </DialogDescription>
             </DialogHeader>
             <div className="mt-2 rounded-lg border border-teal-200 bg-gradient-to-r from-teal-50 to-[#2ED8B6]/10 p-3 flex items-center gap-3">
@@ -1768,7 +1777,8 @@ export default function MyDownloadedList() {
                       aria-invalid={pipedriveApiToken.trim().length === 0}
                     />
                     <p className="text-xs text-gray-500 mt-1">
-                      Your Pipedrive API token from Settings → Personal Settings → API.
+                      Your Pipedrive API token from Settings → Personal Settings
+                      → API.
                     </p>
                   </div>
                 </div>
@@ -1786,7 +1796,10 @@ export default function MyDownloadedList() {
                       if (!isPipedriveValid) return;
                       setPipedriveAccounts((prev) => [
                         ...prev,
-                        { id: `pipedrive-${pipedriveNextId}`, name: pipedriveDisplayName.trim() },
+                        {
+                          id: `pipedrive-${pipedriveNextId}`,
+                          name: pipedriveDisplayName.trim(),
+                        },
                       ]);
                       setPipedriveNextId((n) => n + 1);
                       setPipedriveDisplayName("");
@@ -1814,13 +1827,13 @@ export default function MyDownloadedList() {
                       Log in to your Pipedrive account and navigate to Settings.
                     </li>
                     <li>
-                      Go to Personal Settings → API and generate a new API token.
+                      Go to Personal Settings → API and generate a new API
+                      token.
                     </li>
+                    <li>Copy your API token and keep it secure.</li>
                     <li>
-                      Copy your API token and keep it secure.
-                    </li>
-                    <li>
-                      Paste the API token into the form above and click Save Connection.
+                      Paste the API token into the form above and click Save
+                      Connection.
                     </li>
                   </ol>
                 </div>
@@ -2388,7 +2401,8 @@ export default function MyDownloadedList() {
                     <CardContent className="text-sm text-gray-700 space-y-2">
                       <p>Import into Zoho CRM Leads or Contacts.</p>
                       <p>
-                        Map Email, First Name, Last Name, Company, and Title fields.
+                        Map Email, First Name, Last Name, Company, and Title
+                        fields.
                       </p>
                       <p>Enable de-duplication by Email address.</p>
                     </CardContent>
@@ -2440,9 +2454,10 @@ export default function MyDownloadedList() {
                       <Alert className="border-blue-200 bg-blue-50 text-blue-900">
                         <AlertTitle>Zoho CRM Import Guide</AlertTitle>
                         <AlertDescription className="ml-6 -mt-4">
-                          Zoho CRM supports CSV imports via the Data Enrichment module or through
-                          direct Lead/Contact imports. Ensure your OAuth credentials are valid and
-                          you have API access enabled for the integration.
+                          Zoho CRM supports CSV imports via the Data Enrichment
+                          module or through direct Lead/Contact imports. Ensure
+                          your OAuth credentials are valid and you have API
+                          access enabled for the integration.
                         </AlertDescription>
                       </Alert>
                     </CardContent>
@@ -2462,7 +2477,8 @@ export default function MyDownloadedList() {
                     <CardContent className="text-sm text-gray-700 space-y-2">
                       <p>Import into Pipedrive Leads or Persons.</p>
                       <p>
-                        Map Email, First Name, Last Name, Company, and Title fields.
+                        Map Email, First Name, Last Name, Company, and Title
+                        fields.
                       </p>
                       <p>Enable de-duplication by Email address.</p>
                     </CardContent>
@@ -2514,9 +2530,11 @@ export default function MyDownloadedList() {
                       <Alert className="border-teal-200 bg-teal-50 text-teal-900">
                         <AlertTitle>Pipedrive API Import Guide</AlertTitle>
                         <AlertDescription className="ml-6 -mt-4">
-                          Pipedrive supports CSV imports directly through their web interface and API.
-                          Ensure your API token is valid and has proper permissions for creating/updating Persons
-                          and Deals. Use bulk import features for large datasets.
+                          Pipedrive supports CSV imports directly through their
+                          web interface and API. Ensure your API token is valid
+                          and has proper permissions for creating/updating
+                          Persons and Deals. Use bulk import features for large
+                          datasets.
                         </AlertDescription>
                       </Alert>
                     </CardContent>
