@@ -250,6 +250,25 @@ export default function MyDownloadedList() {
     zohoClientId.trim().length > 0 &&
     zohoClientSecret.trim().length > 0 &&
     zohoRedirectUrl.trim().length > 0;
+  const [pipedriveAddOpen, setPipedriveAddOpen] = useState(false);
+  const [pipedriveDisplayName, setPipedriveDisplayName] = useState("");
+  const [pipedriveApiToken, setPipedriveApiToken] = useState("");
+  const [pipedriveCompanyDomain, setPipedriveCompanyDomain] = useState("");
+  const [pipedriveNextId, setPipedriveNextId] = useState(() => {
+    const nums = [
+      ...pipedriveAccounts
+        .map((a) => Number(String(a.id).replace(/^pipedrive-/, "")))
+        .filter((n) => !Number.isNaN(n)),
+    ];
+    return (nums.length ? Math.max(...nums) : 0) + 1;
+  });
+  const [pipedriveThankOpen, setPipedriveThankOpen] = useState(false);
+  const [pipedriveThankProcessing, setPipedriveThankProcessing] = useState(false);
+  const [pipedriveThankProgress, setPipedriveThankProgress] = useState(0);
+  const isPipedriveValid =
+    pipedriveDisplayName.trim().length > 0 &&
+    pipedriveApiToken.trim().length > 0 &&
+    pipedriveCompanyDomain.trim().length > 0;
 
   useEffect(() => {
     if (!hsThankOpen || !hsThankProcessing) return;
