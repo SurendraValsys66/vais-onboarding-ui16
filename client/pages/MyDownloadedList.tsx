@@ -203,6 +203,9 @@ export default function MyDownloadedList() {
   const [hubspotAccounts, setHubspotAccounts] = useState([
     { id: "hs-1", name: "HubSpot Account" },
   ] as { id: string; name: string }[]);
+  const [zohoAccounts, setZohoAccounts] = useState([
+    { id: "zoho-1", name: "Zoho Account" },
+  ] as { id: string; name: string }[]);
   const [hsNextId, setHsNextId] = useState(() => {
     const nums = [
       ...hubspotAccounts
