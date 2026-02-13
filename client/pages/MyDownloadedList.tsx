@@ -928,370 +928,515 @@ export default function MyDownloadedList() {
                                   Send to CRM
                                 </Button>
                               </DropdownMenuTrigger>
-                              <DropdownMenuContent align="end" className="w-72">
-                                <DropdownMenuSub>
-                                  <DropdownMenuSubTrigger>
-                                    <img
-                                      src="https://cdn.builder.io/api/v1/image/assets%2Fc1d6abb8b7ed4c9594742cec5cf96030%2F28d611916abe4e3bb3b827ad1de3c806?format=webp&width=800&height=1200"
-                                      alt="Salesforce"
-                                      className="w-5 h-5 object-contain"
-                                    />
-                                    <span className="ml-2">Salesforce</span>
-                                  </DropdownMenuSubTrigger>
-                                  <DropdownMenuSubContent className="w-80 p-2">
-                                    {salesforceAccounts.map((acc) => (
-                                      <DropdownMenuItem
-                                        key={acc.id}
-                                        onSelect={() => {
-                                          setCrmFile(file);
-                                          setSelectedCrm("salesforce");
-                                          setCrmDialogOpen(true);
-                                        }}
-                                        className="p-0"
-                                      >
-                                        <div className="flex items-center justify-between w-full rounded-md border border-valasys-gray-200 px-3 py-2 hover:bg-accent">
-                                          <span>{acc.name}</span>
-                                          <button
-                                            aria-label="Delete account"
-                                            className="text-red-600 hover:text-red-700 p-1 rounded hover:bg-red-50"
-                                            onClick={(e) => {
-                                              e.preventDefault();
-                                              e.stopPropagation();
-                                              setSalesforceAccounts((prev) =>
-                                                prev.filter(
-                                                  (a) => a.id !== acc.id,
-                                                ),
-                                              );
-                                            }}
-                                            title="Delete account"
-                                          >
-                                            <Trash2 className="h-4 w-4" />
-                                          </button>
-                                        </div>
-                                      </DropdownMenuItem>
-                                    ))}
-                                    <DropdownMenuSeparator className="my-2" />
-                                    <DropdownMenuItem
-                                      className="w-full px-3 py-2 rounded-md bg-[#00A1E0] text-white hover:bg-[#008fcc] flex items-center"
-                                      onSelect={(e) => {
-                                        e.preventDefault();
-                                        setSfAddOpen(true);
-                                      }}
-                                    >
-                                      <Plus className="h-4 w-4 mr-2" />
-                                      Add Account
-                                    </DropdownMenuItem>
-                                  </DropdownMenuSubContent>
-                                </DropdownMenuSub>
-                                <DropdownMenuSub>
-                                  <DropdownMenuSubTrigger>
-                                    <img
-                                      src="https://cdn.builder.io/api/v1/image/assets%2Fc1d6abb8b7ed4c9594742cec5cf96030%2F40b715f86ba846e3a21fae42e8f6e64d?format=webp&width=800&height=1200"
-                                      alt="HubSpot"
-                                      className="w-5 h-5 object-contain"
-                                    />
-                                    <span className="ml-2">HubSpot</span>
-                                  </DropdownMenuSubTrigger>
-                                  <DropdownMenuSubContent className="w-80 p-2">
-                                    {hubspotAccounts.map((acc) => (
-                                      <DropdownMenuItem
-                                        key={acc.id}
-                                        onSelect={() => {
-                                          setCrmFile(file);
-                                          setSelectedCrm("hubspot");
-                                          setCrmDialogOpen(true);
-                                        }}
-                                        className="p-0"
-                                      >
-                                        <div className="flex items-center justify-between w-full rounded-md border border-valasys-gray-200 px-3 py-2 hover:bg-accent">
-                                          <span>{acc.name}</span>
-                                          <button
-                                            aria-label="Delete account"
-                                            className="text-red-600 hover:text-red-700 p-1 rounded hover:bg-red-50"
-                                            onClick={(e) => {
-                                              e.preventDefault();
-                                              e.stopPropagation();
-                                              setHubspotAccounts((prev) =>
-                                                prev.filter(
-                                                  (a) => a.id !== acc.id,
-                                                ),
-                                              );
-                                            }}
-                                            title="Delete account"
-                                          >
-                                            <Trash2 className="h-4 w-4" />
-                                          </button>
-                                        </div>
-                                      </DropdownMenuItem>
-                                    ))}
-                                    <DropdownMenuSeparator className="my-2" />
-                                    <DropdownMenuItem
-                                      className="w-full px-3 py-2 rounded-md bg-[#FF7A59] text-white hover:bg-[#e7674f] flex items-center"
-                                      onSelect={(e) => {
-                                        e.preventDefault();
-                                        setHsAddOpen(true);
-                                      }}
-                                    >
-                                      <Plus className="h-4 w-4 mr-2" />
-                                      Add Account
-                                    </DropdownMenuItem>
-                                  </DropdownMenuSubContent>
-                                </DropdownMenuSub>
-                                <DropdownMenuSub>
-                                  <DropdownMenuSubTrigger>
-                                    <img
-                                      src="https://cdn.builder.io/api/v1/image/assets%2Fc1d6abb8b7ed4c9594742cec5cf96030%2Ff9461315c70742a7bc20336186312fae?format=webp&width=800&height=1200"
-                                      alt="Zoho"
-                                      className="w-5 h-5 object-contain"
-                                    />
-                                    <span className="ml-2">Zoho</span>
-                                  </DropdownMenuSubTrigger>
-                                  <DropdownMenuSubContent className="w-80 p-2">
-                                    {zohoAccounts.map((acc) => (
-                                      <DropdownMenuItem
-                                        key={acc.id}
-                                        onSelect={() => {
-                                          setCrmFile(file);
-                                          setSelectedCrm("zoho");
-                                          setCrmDialogOpen(true);
-                                        }}
-                                        className="p-0"
-                                      >
-                                        <div className="flex items-center justify-between w-full rounded-md border border-valasys-gray-200 px-3 py-2 hover:bg-accent">
-                                          <span>{acc.name}</span>
-                                          <button
-                                            aria-label="Delete account"
-                                            className="text-red-600 hover:text-red-700 p-1 rounded hover:bg-red-50"
-                                            onClick={(e) => {
-                                              e.preventDefault();
-                                              e.stopPropagation();
-                                              setZohoAccounts((prev) =>
-                                                prev.filter(
-                                                  (a) => a.id !== acc.id,
-                                                ),
-                                              );
-                                            }}
-                                            title="Delete account"
-                                          >
-                                            <Trash2 className="h-4 w-4" />
-                                          </button>
-                                        </div>
-                                      </DropdownMenuItem>
-                                    ))}
-                                    <DropdownMenuSeparator className="my-2" />
-                                    <DropdownMenuItem
-                                      className="w-full px-3 py-2 rounded-md bg-[#026AA7] text-white hover:bg-[#01529b] flex items-center"
-                                      onSelect={(e) => {
-                                        e.preventDefault();
-                                        setZohoAddOpen(true);
-                                      }}
-                                    >
-                                      <Plus className="h-4 w-4 mr-2" />
-                                      Add Account
-                                    </DropdownMenuItem>
-                                  </DropdownMenuSubContent>
-                                </DropdownMenuSub>
-                                <DropdownMenuSub>
-                                  <DropdownMenuSubTrigger>
-                                    <img
-                                      src="https://cdn.builder.io/api/v1/image/assets%2Fc1d6abb8b7ed4c9594742cec5cf96030%2F89a50adb31fb4b0a86972a2871fe141a?format=webp&width=800&height=1200"
-                                      alt="Pipedrive"
-                                      className="w-5 h-5 object-contain"
-                                    />
-                                    <span className="ml-2">Pipedrive</span>
-                                  </DropdownMenuSubTrigger>
-                                  <DropdownMenuSubContent className="w-80 p-2">
-                                    {pipedriveAccounts.map((acc) => (
-                                      <DropdownMenuItem
-                                        key={acc.id}
-                                        onSelect={() => {
-                                          setCrmFile(file);
-                                          setSelectedCrm("pipedrive");
-                                          setCrmDialogOpen(true);
-                                        }}
-                                        className="p-0"
-                                      >
-                                        <div className="flex items-center justify-between w-full rounded-md border border-valasys-gray-200 px-3 py-2 hover:bg-accent">
-                                          <span>{acc.name}</span>
-                                          <button
-                                            aria-label="Delete account"
-                                            className="text-red-600 hover:text-red-700 p-1 rounded hover:bg-red-50"
-                                            onClick={(e) => {
-                                              e.preventDefault();
-                                              e.stopPropagation();
-                                              setPipedriveAccounts((prev) =>
-                                                prev.filter(
-                                                  (a) => a.id !== acc.id,
-                                                ),
-                                              );
-                                            }}
-                                            title="Delete account"
-                                          >
-                                            <Trash2 className="h-4 w-4" />
-                                          </button>
-                                        </div>
-                                      </DropdownMenuItem>
-                                    ))}
-                                    <DropdownMenuSeparator className="my-2" />
-                                    <DropdownMenuItem
-                                      className="w-full px-3 py-2 rounded-md bg-[#2ED8B6] text-white hover:bg-[#25c5a4] flex items-center"
-                                      onSelect={(e) => {
-                                        e.preventDefault();
-                                        setPipedriveAddOpen(true);
-                                      }}
-                                    >
-                                      <Plus className="h-4 w-4 mr-2" />
-                                      Add Account
-                                    </DropdownMenuItem>
-                                  </DropdownMenuSubContent>
-                                </DropdownMenuSub>
-                                <DropdownMenuSub>
-                                  <DropdownMenuSubTrigger>
-                                    <img
-                                      src="https://cdn.builder.io/api/v1/image/assets%2Fc1d6abb8b7ed4c9594742cec5cf96030%2Fd6509f15327e401cad5147a39dbde9a1?format=webp&width=800&height=1200"
-                                      alt="Dynamics 365"
-                                      className="w-5 h-5 object-contain"
-                                    />
-                                    <span className="ml-2">Dynamics 365</span>
-                                  </DropdownMenuSubTrigger>
-                                  <DropdownMenuSubContent className="w-80 p-2">
-                                    {msDynamicsAccounts.map((acc) => (
-                                      <DropdownMenuItem
-                                        key={acc.id}
-                                        onSelect={() => {
-                                          setCrmFile(file);
-                                          setSelectedCrm("dynamics365");
-                                          setCrmDialogOpen(true);
-                                        }}
-                                        className="p-0"
-                                      >
-                                        <div className="flex items-center justify-between w-full rounded-md border border-valasys-gray-200 px-3 py-2 hover:bg-accent">
-                                          <span>{acc.name}</span>
-                                          <button
-                                            aria-label="Delete account"
-                                            className="text-red-600 hover:text-red-700 p-1 rounded hover:bg-red-50"
-                                            onClick={(e) => {
-                                              e.preventDefault();
-                                              e.stopPropagation();
-                                              setMsDynamicsAccounts((prev) =>
-                                                prev.filter(
-                                                  (a) => a.id !== acc.id,
-                                                ),
-                                              );
-                                            }}
-                                            title="Delete account"
-                                          >
-                                            <Trash2 className="h-4 w-4" />
-                                          </button>
-                                        </div>
-                                      </DropdownMenuItem>
-                                    ))}
-                                    <DropdownMenuSeparator className="my-2" />
-                                    <DropdownMenuItem
-                                      className="w-full px-3 py-2 rounded-md bg-[#002050] text-white hover:bg-[#00183d] flex items-center"
-                                      onSelect={(e) => {
-                                        e.preventDefault();
-                                        setMsDynamicsAddOpen(true);
-                                      }}
-                                    >
-                                      <Plus className="h-4 w-4 mr-2" />
-                                      Add Account
-                                    </DropdownMenuItem>
-                                  </DropdownMenuSubContent>
-                                </DropdownMenuSub>
-                                <DropdownMenuSub>
-                                  <DropdownMenuSubTrigger>
-                                    <img
-                                      src="https://cdn.builder.io/api/v1/image/assets%2Fc1d6abb8b7ed4c9594742cec5cf96030%2F3b4884a105cf45798527733b74a30228?format=webp&width=800&height=1200"
-                                      alt="MS-Teams"
-                                      className="w-5 h-5 object-contain"
-                                    />
-                                    <span className="ml-2">MS-Teams</span>
-                                  </DropdownMenuSubTrigger>
-                                  <DropdownMenuSubContent className="w-80 p-2">
-                                    {msTeamsAccounts.map((acc) => (
-                                      <DropdownMenuItem
-                                        key={acc.id}
-                                        onSelect={() => {
-                                          setCrmFile(file);
-                                          setSelectedCrm("msteams");
-                                          setCrmDialogOpen(true);
-                                        }}
-                                        className="p-0"
-                                      >
-                                        <div className="flex items-center justify-between w-full rounded-md border border-valasys-gray-200 px-3 py-2 hover:bg-accent">
-                                          <span>{acc.name}</span>
-                                          <div className="flex items-center gap-1">
+                              <DropdownMenuContent align="end" className="w-80 p-0 overflow-hidden rounded-xl border-gray-200 shadow-xl">
+                                <div className="bg-gray-50/80 px-4 py-3 border-b border-gray-100 flex items-center justify-between">
+                                  <h3 className="text-[10px] font-bold text-gray-500 uppercase tracking-widest flex items-center">
+                                    <Settings className="w-3 h-3 mr-2" />
+                                    CRM Integrations
+                                  </h3>
+                                  <Badge className="bg-blue-100 text-blue-700 hover:bg-blue-100 text-[9px] border-none px-1.5 h-4">
+                                    7 Platforms
+                                  </Badge>
+                                </div>
+                                <div className="p-1.5 space-y-1">
+                                  {/* Salesforce */}
+                                  <DropdownMenuSub>
+                                    <DropdownMenuSubTrigger className="flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all hover:bg-blue-50/50 focus:bg-blue-50/50 data-[state=open]:bg-blue-50 border-transparent hover:border-blue-100 border">
+                                      <div className="w-8 h-8 rounded-lg bg-white shadow-sm border border-gray-100 flex items-center justify-center p-1.5 flex-shrink-0">
+                                        <img
+                                          src="https://cdn.builder.io/api/v1/image/assets%2Fc1d6abb8b7ed4c9594742cec5cf96030%2F28d611916abe4e3bb3b827ad1de3c806?format=webp&width=800&height=1200"
+                                          alt="Salesforce"
+                                          className="w-full h-full object-contain"
+                                        />
+                                      </div>
+                                      <div className="flex flex-col text-left overflow-hidden">
+                                        <span className="text-sm font-semibold text-gray-700">
+                                          Salesforce
+                                        </span>
+                                        <span className="text-[9px] text-gray-400 font-medium uppercase truncate">
+                                          {salesforceAccounts.length}{" "}
+                                          {salesforceAccounts.length === 1
+                                            ? "Account"
+                                            : "Accounts"}{" "}
+                                          Connected
+                                        </span>
+                                      </div>
+                                    </DropdownMenuSubTrigger>
+                                    <DropdownMenuSubContent className="w-80 p-2 rounded-xl shadow-lg border-gray-200">
+                                      {salesforceAccounts.map((acc) => (
+                                        <DropdownMenuItem
+                                          key={acc.id}
+                                          onSelect={() => {
+                                            setCrmFile(file);
+                                            setSelectedCrm("salesforce");
+                                            setCrmDialogOpen(true);
+                                          }}
+                                          className="p-0 mb-1 last:mb-0 focus:bg-transparent"
+                                        >
+                                          <div className="flex items-center justify-between w-full rounded-md border border-gray-100 px-3 py-2.5 hover:bg-blue-50/50 hover:border-blue-200 transition-colors">
+                                            <div className="flex items-center gap-2">
+                                              <div className="w-2 h-2 rounded-full bg-blue-500" />
+                                              <span className="text-sm font-medium text-gray-700">
+                                                {acc.name}
+                                              </span>
+                                            </div>
                                             <button
-                                              aria-label="Edit channel"
-                                              className="text-blue-600 hover:text-blue-700 p-1 rounded hover:bg-blue-50"
+                                              aria-label="Delete account"
+                                              className="text-gray-400 hover:text-red-600 p-1 rounded hover:bg-red-50 transition-colors"
                                               onClick={(e) => {
                                                 e.preventDefault();
                                                 e.stopPropagation();
-                                                setIsMsTeamsEditing(true);
-                                                setEditingMsTeamsAccountId(acc.id);
-                                                setMsTeamsDisplayName(acc.name);
-                                                setMsTeamsClientKey(acc.clientKey);
-                                                setMsTeamsClientSecret(
-                                                  acc.clientSecret,
-                                                );
-                                                setMsTeamsTenantId(acc.tenantId);
-                                                setMsTeamsRedirectUri(
-                                                  acc.redirectUri,
-                                                );
-                                                setMsTeamsTeamId(acc.teamId);
-                                                setMsTeamsChannelId(acc.channelId);
-                                                setMsTeamsAddOpen(true);
-                                              }}
-                                              title="Edit channel"
-                                            >
-                                              <Pencil className="h-4 w-4" />
-                                            </button>
-                                            <button
-                                              aria-label="Delete channel"
-                                              className="text-red-600 hover:text-red-700 p-1 rounded hover:bg-red-50"
-                                              onClick={(e) => {
-                                                e.preventDefault();
-                                                e.stopPropagation();
-                                                setMsTeamsAccounts((prev) =>
+                                                setSalesforceAccounts((prev) =>
                                                   prev.filter(
                                                     (a) => a.id !== acc.id,
                                                   ),
                                                 );
                                               }}
-                                              title="Delete channel"
+                                              title="Delete account"
                                             >
                                               <Trash2 className="h-4 w-4" />
                                             </button>
                                           </div>
-                                        </div>
+                                        </DropdownMenuItem>
+                                      ))}
+                                      <DropdownMenuSeparator className="my-2 bg-gray-100" />
+                                      <DropdownMenuItem
+                                        className="w-full px-4 py-2.5 rounded-lg bg-[#00A1E0] text-white hover:bg-[#008fcc] focus:bg-[#008fcc] focus:text-white flex items-center justify-center font-bold text-sm shadow-sm transition-all active:scale-[0.98]"
+                                        onSelect={(e) => {
+                                          e.preventDefault();
+                                          setSfAddOpen(true);
+                                        }}
+                                      >
+                                        <Plus className="h-4 w-4 mr-2" />
+                                        Add Account
                                       </DropdownMenuItem>
-                                    ))}
-                                    <DropdownMenuSeparator className="my-2" />
-                                    <DropdownMenuItem
-                                      className="w-full px-3 py-2 rounded-md bg-[#4B53BC] text-white hover:bg-[#3f46a3] flex items-center"
-                                      onSelect={(e) => {
-                                        e.preventDefault();
-                                        setMsTeamsAddOpen(true);
-                                      }}
-                                    >
-                                      <Plus className="h-4 w-4 mr-2" />
-                                      Add Channel
-                                    </DropdownMenuItem>
-                                  </DropdownMenuSubContent>
-                                </DropdownMenuSub>
-                                <DropdownMenuItem
-                                  onSelect={() => {
-                                    setCrmFile(file);
-                                    setSelectedCrm("marketo");
-                                    setCrmDialogOpen(true);
-                                  }}
-                                >
-                                  <span className="inline-flex items-center justify-center w-5 h-5 rounded bg-[#5C4BAF] text-white text-[10px] font-bold mr-2">
-                                    MK
-                                  </span>
-                                  Marketo
-                                </DropdownMenuItem>
+                                    </DropdownMenuSubContent>
+                                  </DropdownMenuSub>
+                                  {/* HubSpot */}
+                                  <DropdownMenuSub>
+                                    <DropdownMenuSubTrigger className="flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all hover:bg-orange-50/50 focus:bg-orange-50/50 data-[state=open]:bg-orange-50 border-transparent hover:border-orange-100 border">
+                                      <div className="w-8 h-8 rounded-lg bg-white shadow-sm border border-gray-100 flex items-center justify-center p-1.5 flex-shrink-0">
+                                        <img
+                                          src="https://cdn.builder.io/api/v1/image/assets%2Fc1d6abb8b7ed4c9594742cec5cf96030%2F40b715f86ba846e3a21fae42e8f6e64d?format=webp&width=800&height=1200"
+                                          alt="HubSpot"
+                                          className="w-full h-full object-contain"
+                                        />
+                                      </div>
+                                      <div className="flex flex-col text-left overflow-hidden">
+                                        <span className="text-sm font-semibold text-gray-700">
+                                          HubSpot
+                                        </span>
+                                        <span className="text-[9px] text-gray-400 font-medium uppercase truncate">
+                                          {hubspotAccounts.length}{" "}
+                                          {hubspotAccounts.length === 1
+                                            ? "Account"
+                                            : "Accounts"}{" "}
+                                          Connected
+                                        </span>
+                                      </div>
+                                    </DropdownMenuSubTrigger>
+                                    <DropdownMenuSubContent className="w-80 p-2 rounded-xl shadow-lg border-gray-200">
+                                      {hubspotAccounts.map((acc) => (
+                                        <DropdownMenuItem
+                                          key={acc.id}
+                                          onSelect={() => {
+                                            setCrmFile(file);
+                                            setSelectedCrm("hubspot");
+                                            setCrmDialogOpen(true);
+                                          }}
+                                          className="p-0 mb-1 last:mb-0 focus:bg-transparent"
+                                        >
+                                          <div className="flex items-center justify-between w-full rounded-md border border-gray-100 px-3 py-2.5 hover:bg-orange-50/50 hover:border-orange-200 transition-colors">
+                                            <div className="flex items-center gap-2">
+                                              <div className="w-2 h-2 rounded-full bg-[#FF7A59]" />
+                                              <span className="text-sm font-medium text-gray-700">
+                                                {acc.name}
+                                              </span>
+                                            </div>
+                                            <button
+                                              aria-label="Delete account"
+                                              className="text-gray-400 hover:text-red-600 p-1 rounded hover:bg-red-50 transition-colors"
+                                              onClick={(e) => {
+                                                e.preventDefault();
+                                                e.stopPropagation();
+                                                setHubspotAccounts((prev) =>
+                                                  prev.filter(
+                                                    (a) => a.id !== acc.id,
+                                                  ),
+                                                );
+                                              }}
+                                              title="Delete account"
+                                            >
+                                              <Trash2 className="h-4 w-4" />
+                                            </button>
+                                          </div>
+                                        </DropdownMenuItem>
+                                      ))}
+                                      <DropdownMenuSeparator className="my-2 bg-gray-100" />
+                                      <DropdownMenuItem
+                                        className="w-full px-4 py-2.5 rounded-lg bg-[#FF7A59] text-white hover:bg-[#e7674f] focus:bg-[#e7674f] focus:text-white flex items-center justify-center font-bold text-sm shadow-sm transition-all active:scale-[0.98]"
+                                        onSelect={(e) => {
+                                          e.preventDefault();
+                                          setHsAddOpen(true);
+                                        }}
+                                      >
+                                        <Plus className="h-4 w-4 mr-2" />
+                                        Add Account
+                                      </DropdownMenuItem>
+                                    </DropdownMenuSubContent>
+                                  </DropdownMenuSub>
+                                  {/* Zoho */}
+                                  <DropdownMenuSub>
+                                    <DropdownMenuSubTrigger className="flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all hover:bg-blue-50/50 focus:bg-blue-50/50 data-[state=open]:bg-blue-50 border-transparent hover:border-blue-100 border">
+                                      <div className="w-8 h-8 rounded-lg bg-white shadow-sm border border-gray-100 flex items-center justify-center p-1.5 flex-shrink-0">
+                                        <img
+                                          src="https://cdn.builder.io/api/v1/image/assets%2Fc1d6abb8b7ed4c9594742cec5cf96030%2Ff9461315c70742a7bc20336186312fae?format=webp&width=800&height=1200"
+                                          alt="Zoho"
+                                          className="w-full h-full object-contain"
+                                        />
+                                      </div>
+                                      <div className="flex flex-col text-left overflow-hidden">
+                                        <span className="text-sm font-semibold text-gray-700">
+                                          Zoho
+                                        </span>
+                                        <span className="text-[9px] text-gray-400 font-medium uppercase truncate">
+                                          {zohoAccounts.length}{" "}
+                                          {zohoAccounts.length === 1
+                                            ? "Account"
+                                            : "Accounts"}{" "}
+                                          Connected
+                                        </span>
+                                      </div>
+                                    </DropdownMenuSubTrigger>
+                                    <DropdownMenuSubContent className="w-80 p-2 rounded-xl shadow-lg border-gray-200">
+                                      {zohoAccounts.map((acc) => (
+                                        <DropdownMenuItem
+                                          key={acc.id}
+                                          onSelect={() => {
+                                            setCrmFile(file);
+                                            setSelectedCrm("zoho");
+                                            setCrmDialogOpen(true);
+                                          }}
+                                          className="p-0 mb-1 last:mb-0 focus:bg-transparent"
+                                        >
+                                          <div className="flex items-center justify-between w-full rounded-md border border-gray-100 px-3 py-2.5 hover:bg-blue-50/50 hover:border-blue-200 transition-colors">
+                                            <div className="flex items-center gap-2">
+                                              <div className="w-2 h-2 rounded-full bg-[#026AA7]" />
+                                              <span className="text-sm font-medium text-gray-700">
+                                                {acc.name}
+                                              </span>
+                                            </div>
+                                            <button
+                                              aria-label="Delete account"
+                                              className="text-gray-400 hover:text-red-600 p-1 rounded hover:bg-red-50 transition-colors"
+                                              onClick={(e) => {
+                                                e.preventDefault();
+                                                e.stopPropagation();
+                                                setZohoAccounts((prev) =>
+                                                  prev.filter(
+                                                    (a) => a.id !== acc.id,
+                                                  ),
+                                                );
+                                              }}
+                                              title="Delete account"
+                                            >
+                                              <Trash2 className="h-4 w-4" />
+                                            </button>
+                                          </div>
+                                        </DropdownMenuItem>
+                                      ))}
+                                      <DropdownMenuSeparator className="my-2 bg-gray-100" />
+                                      <DropdownMenuItem
+                                        className="w-full px-4 py-2.5 rounded-lg bg-[#026AA7] text-white hover:bg-[#01529b] focus:bg-[#01529b] focus:text-white flex items-center justify-center font-bold text-sm shadow-sm transition-all active:scale-[0.98]"
+                                        onSelect={(e) => {
+                                          e.preventDefault();
+                                          setZohoAddOpen(true);
+                                        }}
+                                      >
+                                        <Plus className="h-4 w-4 mr-2" />
+                                        Add Account
+                                      </DropdownMenuItem>
+                                    </DropdownMenuSubContent>
+                                  </DropdownMenuSub>
+                                  {/* Pipedrive */}
+                                  <DropdownMenuSub>
+                                    <DropdownMenuSubTrigger className="flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all hover:bg-emerald-50/50 focus:bg-emerald-50/50 data-[state=open]:bg-emerald-50 border-transparent hover:border-emerald-100 border">
+                                      <div className="w-8 h-8 rounded-lg bg-white shadow-sm border border-gray-100 flex items-center justify-center p-1.5 flex-shrink-0">
+                                        <img
+                                          src="https://cdn.builder.io/api/v1/image/assets%2Fc1d6abb8b7ed4c9594742cec5cf96030%2F89a50adb31fb4b0a86972a2871fe141a?format=webp&width=800&height=1200"
+                                          alt="Pipedrive"
+                                          className="w-full h-full object-contain"
+                                        />
+                                      </div>
+                                      <div className="flex flex-col text-left overflow-hidden">
+                                        <span className="text-sm font-semibold text-gray-700">
+                                          Pipedrive
+                                        </span>
+                                        <span className="text-[9px] text-gray-400 font-medium uppercase truncate">
+                                          {pipedriveAccounts.length}{" "}
+                                          {pipedriveAccounts.length === 1
+                                            ? "Account"
+                                            : "Accounts"}{" "}
+                                          Connected
+                                        </span>
+                                      </div>
+                                    </DropdownMenuSubTrigger>
+                                    <DropdownMenuSubContent className="w-80 p-2 rounded-xl shadow-lg border-gray-200">
+                                      {pipedriveAccounts.map((acc) => (
+                                        <DropdownMenuItem
+                                          key={acc.id}
+                                          onSelect={() => {
+                                            setCrmFile(file);
+                                            setSelectedCrm("pipedrive");
+                                            setCrmDialogOpen(true);
+                                          }}
+                                          className="p-0 mb-1 last:mb-0 focus:bg-transparent"
+                                        >
+                                          <div className="flex items-center justify-between w-full rounded-md border border-gray-100 px-3 py-2.5 hover:bg-emerald-50/50 hover:border-emerald-200 transition-colors">
+                                            <div className="flex items-center gap-2">
+                                              <div className="w-2 h-2 rounded-full bg-[#2ED8B6]" />
+                                              <span className="text-sm font-medium text-gray-700">
+                                                {acc.name}
+                                              </span>
+                                            </div>
+                                            <button
+                                              aria-label="Delete account"
+                                              className="text-gray-400 hover:text-red-600 p-1 rounded hover:bg-red-50 transition-colors"
+                                              onClick={(e) => {
+                                                e.preventDefault();
+                                                e.stopPropagation();
+                                                setPipedriveAccounts((prev) =>
+                                                  prev.filter(
+                                                    (a) => a.id !== acc.id,
+                                                  ),
+                                                );
+                                              }}
+                                              title="Delete account"
+                                            >
+                                              <Trash2 className="h-4 w-4" />
+                                            </button>
+                                          </div>
+                                        </DropdownMenuItem>
+                                      ))}
+                                      <DropdownMenuSeparator className="my-2 bg-gray-100" />
+                                      <DropdownMenuItem
+                                        className="w-full px-4 py-2.5 rounded-lg bg-[#2ED8B6] text-white hover:bg-[#25c5a4] focus:bg-[#25c5a4] focus:text-white flex items-center justify-center font-bold text-sm shadow-sm transition-all active:scale-[0.98]"
+                                        onSelect={(e) => {
+                                          e.preventDefault();
+                                          setPipedriveAddOpen(true);
+                                        }}
+                                      >
+                                        <Plus className="h-4 w-4 mr-2" />
+                                        Add Account
+                                      </DropdownMenuItem>
+                                    </DropdownMenuSubContent>
+                                  </DropdownMenuSub>
+                                  {/* Dynamics 365 */}
+                                  <DropdownMenuSub>
+                                    <DropdownMenuSubTrigger className="flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all hover:bg-blue-50/50 focus:bg-blue-50/50 data-[state=open]:bg-blue-50 border-transparent hover:border-blue-100 border">
+                                      <div className="w-8 h-8 rounded-lg bg-white shadow-sm border border-gray-100 flex items-center justify-center p-1.5 flex-shrink-0">
+                                        <img
+                                          src="https://cdn.builder.io/api/v1/image/assets%2Fc1d6abb8b7ed4c9594742cec5cf96030%2Fd6509f15327e401cad5147a39dbde9a1?format=webp&width=800&height=1200"
+                                          alt="Dynamics 365"
+                                          className="w-full h-full object-contain"
+                                        />
+                                      </div>
+                                      <div className="flex flex-col text-left overflow-hidden">
+                                        <span className="text-sm font-semibold text-gray-700">
+                                          Dynamics 365
+                                        </span>
+                                        <span className="text-[9px] text-gray-400 font-medium uppercase truncate">
+                                          {msDynamicsAccounts.length}{" "}
+                                          {msDynamicsAccounts.length === 1
+                                            ? "Account"
+                                            : "Accounts"}{" "}
+                                          Connected
+                                        </span>
+                                      </div>
+                                    </DropdownMenuSubTrigger>
+                                    <DropdownMenuSubContent className="w-80 p-2 rounded-xl shadow-lg border-gray-200">
+                                      {msDynamicsAccounts.map((acc) => (
+                                        <DropdownMenuItem
+                                          key={acc.id}
+                                          onSelect={() => {
+                                            setCrmFile(file);
+                                            setSelectedCrm("dynamics365");
+                                            setCrmDialogOpen(true);
+                                          }}
+                                          className="p-0 mb-1 last:mb-0 focus:bg-transparent"
+                                        >
+                                          <div className="flex items-center justify-between w-full rounded-md border border-gray-100 px-3 py-2.5 hover:bg-blue-50/50 hover:border-blue-200 transition-colors">
+                                            <div className="flex items-center gap-2">
+                                              <div className="w-2 h-2 rounded-full bg-[#002050]" />
+                                              <span className="text-sm font-medium text-gray-700">
+                                                {acc.name}
+                                              </span>
+                                            </div>
+                                            <button
+                                              aria-label="Delete account"
+                                              className="text-gray-400 hover:text-red-600 p-1 rounded hover:bg-red-50 transition-colors"
+                                              onClick={(e) => {
+                                                e.preventDefault();
+                                                e.stopPropagation();
+                                                setMsDynamicsAccounts((prev) =>
+                                                  prev.filter(
+                                                    (a) => a.id !== acc.id,
+                                                  ),
+                                                );
+                                              }}
+                                              title="Delete account"
+                                            >
+                                              <Trash2 className="h-4 w-4" />
+                                            </button>
+                                          </div>
+                                        </DropdownMenuItem>
+                                      ))}
+                                      <DropdownMenuSeparator className="my-2 bg-gray-100" />
+                                      <DropdownMenuItem
+                                        className="w-full px-4 py-2.5 rounded-lg bg-[#002050] text-white hover:bg-[#00183d] focus:bg-[#00183d] focus:text-white flex items-center justify-center font-bold text-sm shadow-sm transition-all active:scale-[0.98]"
+                                        onSelect={(e) => {
+                                          e.preventDefault();
+                                          setMsDynamicsAddOpen(true);
+                                        }}
+                                      >
+                                        <Plus className="h-4 w-4 mr-2" />
+                                        Add Account
+                                      </DropdownMenuItem>
+                                    </DropdownMenuSubContent>
+                                  </DropdownMenuSub>
+                                  {/* MS-Teams */}
+                                  <DropdownMenuSub>
+                                    <DropdownMenuSubTrigger className="flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all hover:bg-indigo-50/50 focus:bg-indigo-50/50 data-[state=open]:bg-indigo-50 border-transparent hover:border-indigo-100 border">
+                                      <div className="w-8 h-8 rounded-lg bg-white shadow-sm border border-gray-100 flex items-center justify-center p-1.5 flex-shrink-0">
+                                        <img
+                                          src="https://cdn.builder.io/api/v1/image/assets%2Fc1d6abb8b7ed4c9594742cec5cf96030%2F3b4884a105cf45798527733b74a30228?format=webp&width=800&height=1200"
+                                          alt="MS-Teams"
+                                          className="w-full h-full object-contain"
+                                        />
+                                      </div>
+                                      <div className="flex flex-col text-left overflow-hidden">
+                                        <span className="text-sm font-semibold text-gray-700">
+                                          MS-Teams
+                                        </span>
+                                        <span className="text-[9px] text-gray-400 font-medium uppercase truncate">
+                                          {msTeamsAccounts.length}{" "}
+                                          {msTeamsAccounts.length === 1
+                                            ? "Channel"
+                                            : "Channels"}{" "}
+                                          Connected
+                                        </span>
+                                      </div>
+                                    </DropdownMenuSubTrigger>
+                                    <DropdownMenuSubContent className="w-80 p-2 rounded-xl shadow-lg border-gray-200">
+                                      {msTeamsAccounts.map((acc) => (
+                                        <DropdownMenuItem
+                                          key={acc.id}
+                                          onSelect={() => {
+                                            setCrmFile(file);
+                                            setSelectedCrm("msteams");
+                                            setCrmDialogOpen(true);
+                                          }}
+                                          className="p-0 mb-1 last:mb-0 focus:bg-transparent"
+                                        >
+                                          <div className="flex items-center justify-between w-full rounded-md border border-gray-100 px-3 py-2.5 hover:bg-indigo-50/50 hover:border-indigo-200 transition-colors">
+                                            <div className="flex items-center gap-2">
+                                              <div className="w-2 h-2 rounded-full bg-[#4B53BC]" />
+                                              <span className="text-sm font-medium text-gray-700">
+                                                {acc.name}
+                                              </span>
+                                            </div>
+                                            <div className="flex items-center gap-1">
+                                              <button
+                                                aria-label="Edit channel"
+                                                className="text-gray-400 hover:text-blue-600 p-1 rounded hover:bg-blue-50 transition-colors"
+                                                onClick={(e) => {
+                                                  e.preventDefault();
+                                                  e.stopPropagation();
+                                                  setIsMsTeamsEditing(true);
+                                                  setEditingMsTeamsAccountId(
+                                                    acc.id,
+                                                  );
+                                                  setMsTeamsDisplayName(
+                                                    acc.name,
+                                                  );
+                                                  setMsTeamsClientKey(
+                                                    acc.clientKey,
+                                                  );
+                                                  setMsTeamsClientSecret(
+                                                    acc.clientSecret,
+                                                  );
+                                                  setMsTeamsTenantId(
+                                                    acc.tenantId,
+                                                  );
+                                                  setMsTeamsRedirectUri(
+                                                    acc.redirectUri,
+                                                  );
+                                                  setMsTeamsTeamId(acc.teamId);
+                                                  setMsTeamsChannelId(
+                                                    acc.channelId,
+                                                  );
+                                                  setMsTeamsAddOpen(true);
+                                                }}
+                                                title="Edit channel"
+                                              >
+                                                <Pencil className="h-4 w-4" />
+                                              </button>
+                                              <button
+                                                aria-label="Delete channel"
+                                                className="text-gray-400 hover:text-red-600 p-1 rounded hover:bg-red-50 transition-colors"
+                                                onClick={(e) => {
+                                                  e.preventDefault();
+                                                  e.stopPropagation();
+                                                  setMsTeamsAccounts((prev) =>
+                                                    prev.filter(
+                                                      (a) => a.id !== acc.id,
+                                                    ),
+                                                  );
+                                                }}
+                                                title="Delete channel"
+                                              >
+                                                <Trash2 className="h-4 w-4" />
+                                              </button>
+                                            </div>
+                                          </div>
+                                        </DropdownMenuItem>
+                                      ))}
+                                      <DropdownMenuSeparator className="my-2 bg-gray-100" />
+                                      <DropdownMenuItem
+                                        className="w-full px-4 py-2.5 rounded-lg bg-[#4B53BC] text-white hover:bg-[#3f46a3] focus:bg-[#3f46a3] focus:text-white flex items-center justify-center font-bold text-sm shadow-sm transition-all active:scale-[0.98]"
+                                        onSelect={(e) => {
+                                          e.preventDefault();
+                                          setMsTeamsAddOpen(true);
+                                        }}
+                                      >
+                                        <Plus className="h-4 w-4 mr-2" />
+                                        Add Channel
+                                      </DropdownMenuItem>
+                                    </DropdownMenuSubContent>
+                                  </DropdownMenuSub>
+
+                                  {/* Marketo */}
+                                  <DropdownMenuItem
+                                    onSelect={() => {
+                                      setCrmFile(file);
+                                      setSelectedCrm("marketo");
+                                      setCrmDialogOpen(true);
+                                    }}
+                                    className="flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all hover:bg-purple-50/50 focus:bg-purple-50/50 border-transparent hover:border-purple-100 border"
+                                  >
+                                    <div className="w-8 h-8 rounded-lg bg-[#5C4BAF] shadow-sm flex items-center justify-center text-white text-[10px] font-bold flex-shrink-0">
+                                      MK
+                                    </div>
+                                    <div className="flex flex-col text-left overflow-hidden">
+                                      <span className="text-sm font-semibold text-gray-700">
+                                        Marketo
+                                      </span>
+                                      <span className="text-[9px] text-gray-400 font-medium uppercase truncate">
+                                        Import via API
+                                      </span>
+                                    </div>
+                                  </DropdownMenuItem>
+                                </div>
                               </DropdownMenuContent>
                             </DropdownMenu>
                           </div>
