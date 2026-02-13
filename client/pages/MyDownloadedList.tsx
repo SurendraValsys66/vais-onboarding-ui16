@@ -931,9 +931,11 @@ export default function MyDownloadedList() {
                               <DropdownMenuContent align="end" className="w-72">
                                 <DropdownMenuSub>
                                   <DropdownMenuSubTrigger>
-                                    <span className="inline-flex items-center justify-center w-5 h-5 rounded bg-[#00A1E0] text-white text-[10px] font-bold">
-                                      SF
-                                    </span>
+                                    <img
+                                      src="https://cdn.builder.io/api/v1/image/assets%2Fc1d6abb8b7ed4c9594742cec5cf96030%2F28d611916abe4e3bb3b827ad1de3c806?format=webp&width=800&height=1200"
+                                      alt="Salesforce"
+                                      className="w-5 h-5 object-contain"
+                                    />
                                     <span className="ml-2">Salesforce</span>
                                   </DropdownMenuSubTrigger>
                                   <DropdownMenuSubContent className="w-80 p-2">
@@ -983,9 +985,11 @@ export default function MyDownloadedList() {
                                 </DropdownMenuSub>
                                 <DropdownMenuSub>
                                   <DropdownMenuSubTrigger>
-                                    <span className="inline-flex items-center justify-center w-5 h-5 rounded bg-[#FF7A59] text-white text-[10px] font-bold">
-                                      HS
-                                    </span>
+                                    <img
+                                      src="https://cdn.builder.io/api/v1/image/assets%2Fc1d6abb8b7ed4c9594742cec5cf96030%2F40b715f86ba846e3a21fae42e8f6e64d?format=webp&width=800&height=1200"
+                                      alt="HubSpot"
+                                      className="w-5 h-5 object-contain"
+                                    />
                                     <span className="ml-2">HubSpot</span>
                                   </DropdownMenuSubTrigger>
                                   <DropdownMenuSubContent className="w-80 p-2">
@@ -1035,9 +1039,11 @@ export default function MyDownloadedList() {
                                 </DropdownMenuSub>
                                 <DropdownMenuSub>
                                   <DropdownMenuSubTrigger>
-                                    <span className="inline-flex items-center justify-center w-5 h-5 rounded bg-[#026AA7] text-white text-[10px] font-bold">
-                                      ZH
-                                    </span>
+                                    <img
+                                      src="https://cdn.builder.io/api/v1/image/assets%2Fc1d6abb8b7ed4c9594742cec5cf96030%2Ff9461315c70742a7bc20336186312fae?format=webp&width=800&height=1200"
+                                      alt="Zoho"
+                                      className="w-5 h-5 object-contain"
+                                    />
                                     <span className="ml-2">Zoho</span>
                                   </DropdownMenuSubTrigger>
                                   <DropdownMenuSubContent className="w-80 p-2">
@@ -1087,9 +1093,11 @@ export default function MyDownloadedList() {
                                 </DropdownMenuSub>
                                 <DropdownMenuSub>
                                   <DropdownMenuSubTrigger>
-                                    <span className="inline-flex items-center justify-center w-5 h-5 rounded bg-[#2ED8B6] text-white text-[10px] font-bold">
-                                      PD
-                                    </span>
+                                    <img
+                                      src="https://cdn.builder.io/api/v1/image/assets%2Fc1d6abb8b7ed4c9594742cec5cf96030%2F89a50adb31fb4b0a86972a2871fe141a?format=webp&width=800&height=1200"
+                                      alt="Pipedrive"
+                                      className="w-5 h-5 object-contain"
+                                    />
                                     <span className="ml-2">Pipedrive</span>
                                   </DropdownMenuSubTrigger>
                                   <DropdownMenuSubContent className="w-80 p-2">
@@ -1139,9 +1147,11 @@ export default function MyDownloadedList() {
                                 </DropdownMenuSub>
                                 <DropdownMenuSub>
                                   <DropdownMenuSubTrigger>
-                                    <span className="inline-flex items-center justify-center w-5 h-5 rounded bg-[#002050] text-white text-[10px] font-bold">
-                                      D3
-                                    </span>
+                                    <img
+                                      src="https://cdn.builder.io/api/v1/image/assets%2Fc1d6abb8b7ed4c9594742cec5cf96030%2Fd6509f15327e401cad5147a39dbde9a1?format=webp&width=800&height=1200"
+                                      alt="Dynamics 365"
+                                      className="w-5 h-5 object-contain"
+                                    />
                                     <span className="ml-2">Dynamics 365</span>
                                   </DropdownMenuSubTrigger>
                                   <DropdownMenuSubContent className="w-80 p-2">
@@ -1191,9 +1201,11 @@ export default function MyDownloadedList() {
                                 </DropdownMenuSub>
                                 <DropdownMenuSub>
                                   <DropdownMenuSubTrigger>
-                                    <span className="inline-flex items-center justify-center w-5 h-5 rounded bg-[#4B53BC] text-white text-[10px] font-bold">
-                                      TM
-                                    </span>
+                                    <img
+                                      src="https://cdn.builder.io/api/v1/image/assets%2Fc1d6abb8b7ed4c9594742cec5cf96030%2F3b4884a105cf45798527733b74a30228?format=webp&width=800&height=1200"
+                                      alt="MS-Teams"
+                                      className="w-5 h-5 object-contain"
+                                    />
                                     <span className="ml-2">MS-Teams</span>
                                   </DropdownMenuSubTrigger>
                                   <DropdownMenuSubContent className="w-80 p-2">
