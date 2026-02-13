@@ -43,6 +43,7 @@ import {
   ArrowRight,
   Info,
   Plus,
+  Pencil,
   Save,
   Loader2,
 } from "lucide-react";
@@ -214,8 +215,26 @@ export default function MyDownloadedList() {
     { id: "dynamics-1", name: "Dynamics 365 Account" },
   ] as { id: string; name: string }[]);
   const [msTeamsAccounts, setMsTeamsAccounts] = useState([
-    { id: "msteams-1", name: "MS-Teams Channel" },
-  ] as { id: string; name: string }[]);
+    {
+      id: "msteams-1",
+      name: "MS-Teams Channel",
+      clientKey: "4fb94f8b-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+      clientSecret: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+      tenantId: "72f988bf-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+      redirectUri: "https://your-app.com/callback",
+      teamId: "19:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx@thread.tacv2",
+      channelId: "19:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx@thread.tacv2",
+    },
+  ] as {
+    id: string;
+    name: string;
+    clientKey: string;
+    clientSecret: string;
+    tenantId: string;
+    redirectUri: string;
+    teamId: string;
+    channelId: string;
+  }[]);
   const [hsNextId, setHsNextId] = useState(() => {
     const nums = [
       ...hubspotAccounts
@@ -321,6 +340,10 @@ export default function MyDownloadedList() {
   const [msTeamsThankOpen, setMsTeamsThankOpen] = useState(false);
   const [msTeamsThankProcessing, setMsTeamsThankProcessing] = useState(false);
   const [msTeamsThankProgress, setMsTeamsThankProgress] = useState(0);
+  const [isMsTeamsEditing, setIsMsTeamsEditing] = useState(false);
+  const [editingMsTeamsAccountId, setEditingMsTeamsAccountId] = useState<
+    string | null
+  >(null);
   const isMsTeamsValid =
     msTeamsDisplayName.trim().length > 0 &&
     msTeamsClientKey.trim().length > 0 &&
@@ -1186,22 +1209,49 @@ export default function MyDownloadedList() {
                                       >
                                         <div className="flex items-center justify-between w-full rounded-md border border-valasys-gray-200 px-3 py-2 hover:bg-accent">
                                           <span>{acc.name}</span>
-                                          <button
-                                            aria-label="Delete channel"
-                                            className="text-red-600 hover:text-red-700 p-1 rounded hover:bg-red-50"
-                                            onClick={(e) => {
-                                              e.preventDefault();
-                                              e.stopPropagation();
-                                              setMsTeamsAccounts((prev) =>
-                                                prev.filter(
-                                                  (a) => a.id !== acc.id,
-                                                ),
-                                              );
-                                            }}
-                                            title="Delete channel"
-                                          >
-                                            <Trash2 className="h-4 w-4" />
-                                          </button>
+                                          <div className="flex items-center gap-1">
+                                            <button
+                                              aria-label="Edit channel"
+                                              className="text-blue-600 hover:text-blue-700 p-1 rounded hover:bg-blue-50"
+                                              onClick={(e) => {
+                                                e.preventDefault();
+                                                e.stopPropagation();
+                                                setIsMsTeamsEditing(true);
+                                                setEditingMsTeamsAccountId(acc.id);
+                                                setMsTeamsDisplayName(acc.name);
+                                                setMsTeamsClientKey(acc.clientKey);
+                                                setMsTeamsClientSecret(
+                                                  acc.clientSecret,
+                                                );
+                                                setMsTeamsTenantId(acc.tenantId);
+                                                setMsTeamsRedirectUri(
+                                                  acc.redirectUri,
+                                                );
+                                                setMsTeamsTeamId(acc.teamId);
+                                                setMsTeamsChannelId(acc.channelId);
+                                                setMsTeamsAddOpen(true);
+                                              }}
+                                              title="Edit channel"
+                                            >
+                                              <Pencil className="h-4 w-4" />
+                                            </button>
+                                            <button
+                                              aria-label="Delete channel"
+                                              className="text-red-600 hover:text-red-700 p-1 rounded hover:bg-red-50"
+                                              onClick={(e) => {
+                                                e.preventDefault();
+                                                e.stopPropagation();
+                                                setMsTeamsAccounts((prev) =>
+                                                  prev.filter(
+                                                    (a) => a.id !== acc.id,
+                                                  ),
+                                                );
+                                              }}
+                                              title="Delete channel"
+                                            >
+                                              <Trash2 className="h-4 w-4" />
+                                            </button>
+                                          </div>
                                         </div>
                                       </DropdownMenuItem>
                                     ))}
@@ -2340,6 +2390,8 @@ export default function MyDownloadedList() {
               setMsTeamsRedirectUri("");
               setMsTeamsTeamId("");
               setMsTeamsChannelId("");
+              setIsMsTeamsEditing(false);
+              setEditingMsTeamsAccountId(null);
             }
           }}
         >
@@ -2366,7 +2418,8 @@ export default function MyDownloadedList() {
                   value="add"
                   className="relative -mb-[1px] inline-flex items-center gap-2 px-0 py-2 text-sm font-medium text-valasys-gray-500 data-[state=active]:text-valasys-orange data-[state=active]:underline data-[state=active]:decoration-2 data-[state=active]:underline-offset-8 data-[state=active]:shadow-none"
                 >
-                  <ListChecks className="h-4 w-4" /> Add Teams Account
+                  <ListChecks className="h-4 w-4" />{" "}
+                  {isMsTeamsEditing ? "Edit Teams Account" : "Add Teams Account"}
                 </TabsTrigger>
                 <TabsTrigger
                   value="howto"
@@ -2390,6 +2443,7 @@ export default function MyDownloadedList() {
                       onChange={(e) => setMsTeamsDisplayName(e.target.value)}
                       placeholder="e.g., Marketing Alerts"
                       required
+                      disabled={isMsTeamsEditing}
                     />
                     <p className="text-xs text-gray-500 mt-1">
                       A friendly name to identify this Microsoft Teams
@@ -2406,6 +2460,7 @@ export default function MyDownloadedList() {
                       onChange={(e) => setMsTeamsClientKey(e.target.value)}
                       placeholder="Enter Client Key"
                       required
+                      disabled={isMsTeamsEditing}
                     />
                     <p className="text-xs text-gray-500 mt-1">
                       Enter the Application (client) ID from your Azure Portal
@@ -2423,6 +2478,7 @@ export default function MyDownloadedList() {
                       onChange={(e) => setMsTeamsClientSecret(e.target.value)}
                       placeholder="Enter Client Secret"
                       required
+                      disabled={isMsTeamsEditing}
                     />
                     <p className="text-xs text-gray-500 mt-1">
                       Enter the Client Secret value generated in the Azure
@@ -2439,6 +2495,7 @@ export default function MyDownloadedList() {
                       onChange={(e) => setMsTeamsTenantId(e.target.value)}
                       placeholder="Enter Tenant ID"
                       required
+                      disabled={isMsTeamsEditing}
                     />
                     <p className="text-xs text-gray-500 mt-1">
                       Enter the Directory (tenant) ID from your Azure Portal.
@@ -2454,6 +2511,7 @@ export default function MyDownloadedList() {
                       onChange={(e) => setMsTeamsRedirectUri(e.target.value)}
                       placeholder="https://your-app.com/callback"
                       required
+                      disabled={isMsTeamsEditing}
                     />
                     <p className="text-xs text-gray-500 mt-1">
                       Enter the Redirect URI configured in your Azure app
@@ -2504,14 +2562,39 @@ export default function MyDownloadedList() {
                     className="bg-gradient-to-r from-valasys-orange to-valasys-orange-light text-white disabled:opacity-50 disabled:cursor-not-allowed"
                     onClick={() => {
                       if (!isMsTeamsValid) return;
-                      setMsTeamsAccounts((prev) => [
-                        ...prev,
-                        {
-                          id: `msteams-${msTeamsNextId}`,
-                          name: msTeamsDisplayName.trim(),
-                        },
-                      ]);
-                      setMsTeamsNextId((n) => n + 1);
+                      if (isMsTeamsEditing) {
+                        setMsTeamsAccounts((prev) =>
+                          prev.map((a) =>
+                            a.id === editingMsTeamsAccountId
+                              ? {
+                                  ...a,
+                                  name: msTeamsDisplayName.trim(),
+                                  clientKey: msTeamsClientKey,
+                                  clientSecret: msTeamsClientSecret,
+                                  tenantId: msTeamsTenantId,
+                                  redirectUri: msTeamsRedirectUri,
+                                  teamId: msTeamsTeamId,
+                                  channelId: msTeamsChannelId,
+                                }
+                              : a,
+                          ),
+                        );
+                      } else {
+                        setMsTeamsAccounts((prev) => [
+                          ...prev,
+                          {
+                            id: `msteams-${msTeamsNextId}`,
+                            name: msTeamsDisplayName.trim(),
+                            clientKey: msTeamsClientKey,
+                            clientSecret: msTeamsClientSecret,
+                            tenantId: msTeamsTenantId,
+                            redirectUri: msTeamsRedirectUri,
+                            teamId: msTeamsTeamId,
+                            channelId: msTeamsChannelId,
+                          },
+                        ]);
+                        setMsTeamsNextId((n) => n + 1);
+                      }
                       setMsTeamsDisplayName("");
                       setMsTeamsClientKey("");
                       setMsTeamsClientSecret("");
@@ -2519,13 +2602,16 @@ export default function MyDownloadedList() {
                       setMsTeamsRedirectUri("");
                       setMsTeamsTeamId("");
                       setMsTeamsChannelId("");
+                      setIsMsTeamsEditing(false);
+                      setEditingMsTeamsAccountId(null);
                       setMsTeamsAddOpen(false);
                       setMsTeamsThankOpen(true);
                       setMsTeamsThankProcessing(true);
                       setMsTeamsThankProgress(0);
                     }}
                   >
-                    <Save className="h-4 w-4 mr-2" /> Save Connection
+                    <Save className="h-4 w-4 mr-2" />{" "}
+                    {isMsTeamsEditing ? "Update Connection" : "Save Connection"}
                   </Button>
                 </div>
               </TabsContent>
