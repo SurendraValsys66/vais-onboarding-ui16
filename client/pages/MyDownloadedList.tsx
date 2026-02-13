@@ -189,10 +189,10 @@ export default function MyDownloadedList() {
   const [crmDialogOpen, setCrmDialogOpen] = useState(false);
   const [crmFile, setCrmFile] = useState<DownloadedFile | null>(null);
   const [selectedCrm, setSelectedCrm] = useState<
-    "hubspot" | "salesforce" | "marketo" | "zoho" | "pipedrive" | "dynamics365"
+    "hubspot" | "salesforce" | "marketo" | "zoho" | "pipedrive" | "dynamics365" | "msteams"
   >("hubspot");
   const [connectedCrms, setConnectedCrms] = useState<
-    Array<"hubspot" | "salesforce" | "marketo" | "zoho" | "pipedrive" | "dynamics365">
+    Array<"hubspot" | "salesforce" | "marketo" | "zoho" | "pipedrive" | "dynamics365" | "msteams">
   >([]);
   const [isUploadingCrm, setIsUploadingCrm] = useState(false);
   const [uploadDone, setUploadDone] = useState(false);
@@ -212,6 +212,9 @@ export default function MyDownloadedList() {
   ] as { id: string; name: string }[]);
   const [msDynamicsAccounts, setMsDynamicsAccounts] = useState([
     { id: "dynamics-1", name: "Dynamics 365 Account" },
+  ] as { id: string; name: string }[]);
+  const [msTeamsAccounts, setMsTeamsAccounts] = useState([
+    { id: "msteams-1", name: "MS-Teams Channel" },
   ] as { id: string; name: string }[]);
   const [hsNextId, setHsNextId] = useState(() => {
     const nums = [
@@ -299,6 +302,34 @@ export default function MyDownloadedList() {
     msDynamicsInstanceUrl.trim().length > 0 &&
     msDynamicsRedirectUri.trim().length > 0;
 
+  const [msTeamsAddOpen, setMsTeamsAddOpen] = useState(false);
+  const [msTeamsDisplayName, setMsTeamsDisplayName] = useState("");
+  const [msTeamsClientKey, setMsTeamsClientKey] = useState("");
+  const [msTeamsClientSecret, setMsTeamsClientSecret] = useState("");
+  const [msTeamsTenantId, setMsTeamsTenantId] = useState("");
+  const [msTeamsRedirectUri, setMsTeamsRedirectUri] = useState("");
+  const [msTeamsTeamId, setMsTeamsTeamId] = useState("");
+  const [msTeamsChannelId, setMsTeamsChannelId] = useState("");
+  const [msTeamsNextId, setMsTeamsNextId] = useState(() => {
+    const nums = [
+      ...msTeamsAccounts
+        .map((a) => Number(String(a.id).replace(/^msteams-/, "")))
+        .filter((n) => !Number.isNaN(n)),
+    ];
+    return (nums.length ? Math.max(...nums) : 0) + 1;
+  });
+  const [msTeamsThankOpen, setMsTeamsThankOpen] = useState(false);
+  const [msTeamsThankProcessing, setMsTeamsThankProcessing] = useState(false);
+  const [msTeamsThankProgress, setMsTeamsThankProgress] = useState(0);
+  const isMsTeamsValid =
+    msTeamsDisplayName.trim().length > 0 &&
+    msTeamsClientKey.trim().length > 0 &&
+    msTeamsClientSecret.trim().length > 0 &&
+    msTeamsTenantId.trim().length > 0 &&
+    msTeamsRedirectUri.trim().length > 0 &&
+    msTeamsTeamId.trim().length > 0 &&
+    msTeamsChannelId.trim().length > 0;
+
   useEffect(() => {
     if (!hsThankOpen || !hsThankProcessing) return;
     let progress = 0;
@@ -378,6 +409,26 @@ export default function MyDownloadedList() {
     }, 120);
     return () => clearInterval(interval);
   }, [msDynamicsThankOpen, msDynamicsThankProcessing]);
+
+  useEffect(() => {
+    if (!msTeamsThankOpen || !msTeamsThankProcessing) return;
+    let progress = 0;
+    setMsTeamsThankProgress(progress);
+    const interval = setInterval(() => {
+      progress += 8;
+      if (progress >= 100) {
+        progress = 100;
+        setMsTeamsThankProgress(progress);
+        clearInterval(interval);
+        setTimeout(() => {
+          setMsTeamsThankProcessing(false);
+        }, 400);
+      } else {
+        setMsTeamsThankProgress(progress);
+      }
+    }, 120);
+    return () => clearInterval(interval);
+  }, [msTeamsThankOpen, msTeamsThankProcessing]);
 
   // Filter and search logic
   const filteredFiles = useMemo(() => {
@@ -1112,6 +1163,58 @@ export default function MyDownloadedList() {
                                     >
                                       <Plus className="h-4 w-4 mr-2" />
                                       Add Account
+                                    </DropdownMenuItem>
+                                  </DropdownMenuSubContent>
+                                </DropdownMenuSub>
+                                <DropdownMenuSub>
+                                  <DropdownMenuSubTrigger>
+                                    <span className="inline-flex items-center justify-center w-5 h-5 rounded bg-[#4B53BC] text-white text-[10px] font-bold">
+                                      TM
+                                    </span>
+                                    <span className="ml-2">MS-Teams</span>
+                                  </DropdownMenuSubTrigger>
+                                  <DropdownMenuSubContent className="w-80 p-2">
+                                    {msTeamsAccounts.map((acc) => (
+                                      <DropdownMenuItem
+                                        key={acc.id}
+                                        onSelect={() => {
+                                          setCrmFile(file);
+                                          setSelectedCrm("msteams");
+                                          setCrmDialogOpen(true);
+                                        }}
+                                        className="p-0"
+                                      >
+                                        <div className="flex items-center justify-between w-full rounded-md border border-valasys-gray-200 px-3 py-2 hover:bg-accent">
+                                          <span>{acc.name}</span>
+                                          <button
+                                            aria-label="Delete channel"
+                                            className="text-red-600 hover:text-red-700 p-1 rounded hover:bg-red-50"
+                                            onClick={(e) => {
+                                              e.preventDefault();
+                                              e.stopPropagation();
+                                              setMsTeamsAccounts((prev) =>
+                                                prev.filter(
+                                                  (a) => a.id !== acc.id,
+                                                ),
+                                              );
+                                            }}
+                                            title="Delete channel"
+                                          >
+                                            <Trash2 className="h-4 w-4" />
+                                          </button>
+                                        </div>
+                                      </DropdownMenuItem>
+                                    ))}
+                                    <DropdownMenuSeparator className="my-2" />
+                                    <DropdownMenuItem
+                                      className="w-full px-3 py-2 rounded-md bg-[#4B53BC] text-white hover:bg-[#3f46a3] flex items-center"
+                                      onSelect={(e) => {
+                                        e.preventDefault();
+                                        setMsTeamsAddOpen(true);
+                                      }}
+                                    >
+                                      <Plus className="h-4 w-4 mr-2" />
+                                      Add Channel
                                     </DropdownMenuItem>
                                   </DropdownMenuSubContent>
                                 </DropdownMenuSub>
@@ -2201,6 +2304,240 @@ export default function MyDownloadedList() {
           </DialogContent>
         </Dialog>
 
+        {/* Microsoft Teams Add Channel Dialog */}
+        <Dialog
+          open={msTeamsAddOpen}
+          onOpenChange={(open) => {
+            setMsTeamsAddOpen(open);
+            if (!open) {
+              setMsTeamsDisplayName("");
+              setMsTeamsClientKey("");
+              setMsTeamsClientSecret("");
+              setMsTeamsTenantId("");
+              setMsTeamsRedirectUri("");
+              setMsTeamsTeamId("");
+              setMsTeamsChannelId("");
+            }
+          }}
+        >
+          <DialogContent className="max-w-2xl">
+            <DialogHeader>
+              <DialogTitle>Microsoft Teams Connection</DialogTitle>
+              <DialogDescription>
+                Add a Microsoft Teams channel using OAuth credentials to enable
+                one-click exports.
+              </DialogDescription>
+            </DialogHeader>
+            <div className="mt-2 rounded-lg border border-blue-200 bg-gradient-to-r from-blue-50 to-[#4B53BC]/10 p-3 flex items-center gap-3">
+              <span className="inline-flex items-center justify-center w-8 h-8 rounded bg-[#4B53BC] text-white text-xs font-bold">
+                TM
+              </span>
+              <div className="text-sm text-blue-900">
+                Securely connect your MS-Teams to enable one‑click exports to
+                channels.
+              </div>
+            </div>
+            <Tabs defaultValue="add">
+              <TabsList className="mt-3 bg-transparent p-0 border-b border-valasys-gray-200">
+                <TabsTrigger
+                  value="add"
+                  className="relative -mb-[1px] inline-flex items-center gap-2 px-0 py-2 text-sm font-medium text-valasys-gray-500 data-[state=active]:text-valasys-orange data-[state=active]:underline data-[state=active]:decoration-2 data-[state=active]:underline-offset-8 data-[state=active]:shadow-none"
+                >
+                  <ListChecks className="h-4 w-4" /> Add Teams Account
+                </TabsTrigger>
+                <TabsTrigger
+                  value="howto"
+                  className="relative -mb-[1px] inline-flex items-center gap-2 px-0 py-2 text-sm font-medium text-valasys-gray-500 data-[state=active]:text-valasys-orange data-[state=active]:underline data-[state=active]:decoration-2 data-[state=active]:underline-offset-8 data-[state=active]:shadow-none"
+                >
+                  <Info className="h-4 w-4" /> Instructions to Add Account
+                </TabsTrigger>
+              </TabsList>
+              <TabsContent
+                value="add"
+                className="border-b border-valasys-gray-200 pb-4"
+              >
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-3 rounded-lg border border-valasys-gray-200 bg-white p-4 shadow-sm">
+                  <div>
+                    <Label htmlFor="teams-display-name">
+                      Display Name <span className="text-red-500">*</span>
+                    </Label>
+                    <Input
+                      id="teams-display-name"
+                      value={msTeamsDisplayName}
+                      onChange={(e) => setMsTeamsDisplayName(e.target.value)}
+                      placeholder="e.g., Marketing Alerts"
+                      required
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="teams-client-key">
+                      Client Key <span className="text-red-500">*</span>
+                    </Label>
+                    <Input
+                      id="teams-client-key"
+                      value={msTeamsClientKey}
+                      onChange={(e) => setMsTeamsClientKey(e.target.value)}
+                      placeholder="Enter Client Key"
+                      required
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="teams-client-secret">
+                      Client Secret <span className="text-red-500">*</span>
+                    </Label>
+                    <Input
+                      id="teams-client-secret"
+                      type="password"
+                      value={msTeamsClientSecret}
+                      onChange={(e) => setMsTeamsClientSecret(e.target.value)}
+                      placeholder="Enter Client Secret"
+                      required
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="teams-tenant-id">
+                      Tenant ID <span className="text-red-500">*</span>
+                    </Label>
+                    <Input
+                      id="teams-tenant-id"
+                      value={msTeamsTenantId}
+                      onChange={(e) => setMsTeamsTenantId(e.target.value)}
+                      placeholder="Enter Tenant ID"
+                      required
+                    />
+                  </div>
+                  <div className="sm:col-span-2">
+                    <Label htmlFor="teams-redirect-uri">
+                      Redirect URI <span className="text-red-500">*</span>
+                    </Label>
+                    <Input
+                      id="teams-redirect-uri"
+                      value={msTeamsRedirectUri}
+                      onChange={(e) => setMsTeamsRedirectUri(e.target.value)}
+                      placeholder="https://your-app.com/callback"
+                      required
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="teams-team-id">
+                      Team ID <span className="text-red-500">*</span>
+                    </Label>
+                    <Input
+                      id="teams-team-id"
+                      value={msTeamsTeamId}
+                      onChange={(e) => setMsTeamsTeamId(e.target.value)}
+                      placeholder="Enter Team ID"
+                      required
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="teams-channel-id">
+                      Channel ID <span className="text-red-500">*</span>
+                    </Label>
+                    <Input
+                      id="teams-channel-id"
+                      value={msTeamsChannelId}
+                      onChange={(e) => setMsTeamsChannelId(e.target.value)}
+                      placeholder="Enter Channel ID"
+                      required
+                    />
+                  </div>
+                </div>
+                <div className="mt-4 flex items-center justify-end gap-2">
+                  <Button
+                    variant="outline"
+                    onClick={() => setMsTeamsAddOpen(false)}
+                  >
+                    Cancel
+                  </Button>
+                  <Button
+                    disabled={!isMsTeamsValid}
+                    className="bg-gradient-to-r from-valasys-orange to-valasys-orange-light text-white disabled:opacity-50 disabled:cursor-not-allowed"
+                    onClick={() => {
+                      if (!isMsTeamsValid) return;
+                      setMsTeamsAccounts((prev) => [
+                        ...prev,
+                        {
+                          id: `msteams-${msTeamsNextId}`,
+                          name: msTeamsDisplayName.trim(),
+                        },
+                      ]);
+                      setMsTeamsNextId((n) => n + 1);
+                      setMsTeamsDisplayName("");
+                      setMsTeamsClientKey("");
+                      setMsTeamsClientSecret("");
+                      setMsTeamsTenantId("");
+                      setMsTeamsRedirectUri("");
+                      setMsTeamsTeamId("");
+                      setMsTeamsChannelId("");
+                      setMsTeamsAddOpen(false);
+                      setMsTeamsThankOpen(true);
+                      setMsTeamsThankProcessing(true);
+                      setMsTeamsThankProgress(0);
+                    }}
+                  >
+                    <Save className="h-4 w-4 mr-2" /> Save Connection
+                  </Button>
+                </div>
+              </TabsContent>
+              <TabsContent
+                value="howto"
+                className="border-b border-valasys-gray-200 pb-4"
+              >
+                <div className="rounded-md border border-blue-200 bg-blue-50 p-3 text-blue-900 mt-3 text-sm">
+                  Follow these steps in Azure Portal and MS Teams to connect.
+                </div>
+                <div className="space-y-2 mt-3 text-sm text-gray-700">
+                  <ol className="list-decimal pl-5 space-y-1">
+                    <li>
+                      Go to Azure Portal → Microsoft Entra ID → App
+                      registrations.
+                    </li>
+                    <li>Create a new registration and set the Redirect URI.</li>
+                    <li>
+                      Generate a Client Secret and copy the Client ID and
+                      Tenant ID.
+                    </li>
+                    <li>
+                      Add API permissions for Microsoft Graph:
+                      <code className="mx-1 bg-gray-100 px-1 rounded">
+                        Group.ReadWrite.All
+                      </code>
+                      ,
+                      <code className="mx-1 bg-gray-100 px-1 rounded">
+                        ChannelMessage.Send
+                      </code>
+                      .
+                    </li>
+                    <li>
+                      In Microsoft Teams, create or select a Team and a Channel.
+                    </li>
+                    <li>
+                      To get Team ID: Right-click Team name → Get link to team
+                      (ID is between
+                      <code className="mx-1 bg-gray-100 px-1 rounded">
+                        groupId=
+                      </code>
+                      and
+                      <code className="mx-1 bg-gray-100 px-1 rounded">&</code>
+                      ).
+                    </li>
+                    <li>
+                      To get Channel ID: Right-click Channel → Get link to
+                      channel (ID is after
+                      <code className="mx-1 bg-gray-100 px-1 rounded">
+                        channel/
+                      </code>
+                      ).
+                    </li>
+                    <li>Paste all values into the form and save.</li>
+                  </ol>
+                </div>
+              </TabsContent>
+            </Tabs>
+          </DialogContent>
+        </Dialog>
+
         {/* Microsoft Dynamics 365 Thank You Dialog */}
         <Dialog
           open={msDynamicsThankOpen}
@@ -2243,6 +2580,55 @@ export default function MyDownloadedList() {
                 onClick={() => setMsDynamicsThankOpen(false)}
                 className="bg-valasys-orange text-white hover:bg-valasys-orange/90"
                 disabled={msDynamicsThankProcessing}
+              >
+                Close
+              </Button>
+            </div>
+          </DialogContent>
+        </Dialog>
+
+        {/* Microsoft Teams Thank You Dialog */}
+        <Dialog
+          open={msTeamsThankOpen}
+          onOpenChange={(open) => {
+            setMsTeamsThankOpen(open);
+            if (!open) {
+              setMsTeamsThankProcessing(false);
+              setMsTeamsThankProgress(0);
+            }
+          }}
+        >
+          <DialogContent className="max-w-md">
+            <DialogHeader>
+              <DialogTitle>Thank you</DialogTitle>
+              <DialogDescription>
+                {msTeamsThankProcessing
+                  ? "Processing your Microsoft Teams connection..."
+                  : "Your Microsoft Teams connection successfully Completed"}
+              </DialogDescription>
+            </DialogHeader>
+
+            {msTeamsThankProcessing ? (
+              <div className="space-y-3">
+                <Progress value={msTeamsThankProgress} />
+                <div className="text-xs text-gray-500">
+                  Please wait, this may take a few seconds…
+                </div>
+              </div>
+            ) : (
+              <div className="flex items-center gap-3 py-2">
+                <CheckCircle2 className="h-6 w-6 text-green-600 ai-pulse" />
+                <span className="text-sm text-gray-800">
+                  Your Microsoft Teams connection successfully Completed
+                </span>
+              </div>
+            )}
+
+            <div className="flex justify-end">
+              <Button
+                onClick={() => setMsTeamsThankOpen(false)}
+                className="bg-valasys-orange text-white hover:bg-valasys-orange/90"
+                disabled={msTeamsThankProcessing}
               >
                 Close
               </Button>
@@ -2363,7 +2749,9 @@ export default function MyDownloadedList() {
                                     ? "Pipedrive"
                                     : c === "dynamics365"
                                       ? "Dynamics 365"
-                                      : "Marketo"}
+                                      : c === "msteams"
+                                        ? "MS-Teams"
+                                        : "Marketo"}
                           </SelectItem>
                         ))}
                       </SelectContent>
@@ -2400,7 +2788,9 @@ export default function MyDownloadedList() {
                                   ? "Pipedrive"
                                   : selectedCrm === "dynamics365"
                                     ? "Dynamics 365"
-                                    : "Marketo"}
+                                    : selectedCrm === "msteams"
+                                      ? "MS-Teams"
+                                      : "Marketo"}
                           ...
                         </>
                       ) : uploadDone ? (
@@ -2416,7 +2806,9 @@ export default function MyDownloadedList() {
                                   ? "Pipedrive"
                                   : selectedCrm === "dynamics365"
                                     ? "Dynamics 365"
-                                    : "Marketo"}
+                                    : selectedCrm === "msteams"
+                                      ? "MS-Teams"
+                                      : "Marketo"}
                         </>
                       ) : (
                         <>
@@ -2431,7 +2823,9 @@ export default function MyDownloadedList() {
                                   ? "Pipedrive"
                                   : selectedCrm === "dynamics365"
                                     ? "Dynamics 365"
-                                    : "Marketo"}
+                                    : selectedCrm === "msteams"
+                                      ? "MS-Teams"
+                                      : "Marketo"}
                         </>
                       )}
                     </Button>
@@ -2460,7 +2854,9 @@ export default function MyDownloadedList() {
                                   ? "https://app.pipedrive.com/"
                                   : selectedCrm === "dynamics365"
                                     ? "https://home.dynamics.com/"
-                                    : "https://app.marketo.com/"
+                                    : selectedCrm === "msteams"
+                                      ? "https://teams.microsoft.com/"
+                                      : "https://app.marketo.com/"
                         }
                         target="_blank"
                         rel="noreferrer"
@@ -2476,7 +2872,9 @@ export default function MyDownloadedList() {
                                 ? "Pipedrive"
                                 : selectedCrm === "dynamics365"
                                   ? "Dynamics 365"
-                                  : "Marketo"}
+                                  : selectedCrm === "msteams"
+                                    ? "MS-Teams"
+                                    : "Marketo"}
                       </a>
                     </Button>
                     <Button asChild variant="outline" size="sm">
@@ -2492,7 +2890,9 @@ export default function MyDownloadedList() {
                                   ? "https://support.pipedrive.com/en/articles/1237-importing-deals-persons-organizations-products"
                                   : selectedCrm === "dynamics365"
                                     ? "https://learn.microsoft.com/en-us/dynamics365/customerengagement/on-premises/basics/import-contacts?view=op-9-1"
-                                    : "https://experienceleague.adobe.com/en/docs/marketo/using/product-docs/administration/settings/importing-a-list"
+                                    : selectedCrm === "msteams"
+                                      ? "https://learn.microsoft.com/en-us/microsoftteams/platform/graph-api/teams-api-overview"
+                                      : "https://experienceleague.adobe.com/en/docs/marketo/using/product-docs/administration/settings/importing-a-list"
                         }
                         target="_blank"
                         rel="noreferrer"
@@ -2528,7 +2928,9 @@ export default function MyDownloadedList() {
                         ? "Pipedrive"
                         : selectedCrm === "dynamics365"
                           ? "Dynamics 365"
-                          : "Marketo"}
+                          : selectedCrm === "msteams"
+                            ? "MS-Teams"
+                            : "Marketo"}
               </Badge>
             </div>
 
@@ -2542,6 +2944,7 @@ export default function MyDownloadedList() {
                 <TabsTrigger value="zoho">Zoho</TabsTrigger>
                 <TabsTrigger value="pipedrive">Pipedrive</TabsTrigger>
                 <TabsTrigger value="dynamics365">Dynamics 365</TabsTrigger>
+                <TabsTrigger value="msteams">MS-Teams</TabsTrigger>
                 <TabsTrigger value="marketo">Marketo</TabsTrigger>
               </TabsList>
 
@@ -2921,6 +3324,82 @@ export default function MyDownloadedList() {
                           datasets.
                         </AlertDescription>
                       </Alert>
+                    </CardContent>
+                  </Card>
+                </div>
+              </TabsContent>
+
+              <TabsContent value="msteams">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-3">
+                  <Card>
+                    <CardHeader className="pb-2">
+                      <CardTitle className="text-base flex items-center">
+                        <ListChecks className="h-4 w-4 mr-2 text-valasys-orange" />
+                        What you'll do
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent className="text-sm text-gray-700 space-y-2">
+                      <p>Export prospect data directly to a Teams Channel.</p>
+                      <p>Automate lead alerts for your sales team.</p>
+                      <p>Include key details: Name, Company, Title, and LinkedIn.</p>
+                    </CardContent>
+                  </Card>
+
+                  <Card>
+                    <CardHeader className="pb-2">
+                      <CardTitle className="text-base flex items-center">
+                        <CheckCircle2 className="h-4 w-4 mr-2 text-green-600" />
+                        Setup Requirements
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent className="text-sm text-gray-700 space-y-2">
+                      <p>Requires Team ID and Channel ID.</p>
+                      <p>Microsoft Graph API permissions enabled.</p>
+                      <p>Active Teams Channel for incoming messages.</p>
+                    </CardContent>
+                  </Card>
+                </div>
+
+                <Separator className="my-4" />
+
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                  <Card>
+                    <CardHeader className="pb-2">
+                      <CardTitle className="text-base">Steps</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <ol className="list-decimal pl-5 space-y-2 text-sm text-gray-700">
+                        <li>Register App in Azure Portal (Entra ID).</li>
+                        <li>Grant <code className="bg-gray-100 px-1 rounded">ChannelMessage.Send</code> permissions.</li>
+                        <li>Identify your Team and Channel in MS Teams.</li>
+                        <li>Add the Channel credentials in Valasys AI.</li>
+                        <li>Click "Send to CRM" to push data to Teams.</li>
+                      </ol>
+                    </CardContent>
+                  </Card>
+
+                  <Card>
+                    <CardHeader className="pb-2">
+                      <CardTitle className="text-base">
+                        Data formatting
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <div className="space-y-3 text-sm">
+                        <div className="rounded-lg border p-3 bg-valasys-gray-50 border-valasys-gray-200">
+                          <p className="font-mono text-xs text-blue-700 font-bold mb-1">Incoming Message Preview:</p>
+                          <p className="font-semibold">New Prospect Alert!</p>
+                          <p>Name: John Doe</p>
+                          <p>Company: Acme Corp</p>
+                          <p>Source: Valasys AI</p>
+                        </div>
+                        <Alert className="bg-blue-50 border-blue-200">
+                          <Info className="h-4 w-4 text-blue-600" />
+                          <AlertDescription className="text-blue-800 text-xs">
+                            Data is sent as a formatted Adaptive Card for clear visibility in Teams.
+                          </AlertDescription>
+                        </Alert>
+                      </div>
                     </CardContent>
                   </Card>
                 </div>
