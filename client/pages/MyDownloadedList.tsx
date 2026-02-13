@@ -2159,6 +2159,10 @@ export default function MyDownloadedList() {
                       placeholder="e.g., Dynamics Main"
                       required
                     />
+                    <p className="text-xs text-gray-500 mt-1">
+                      A friendly name to identify this Microsoft Dynamics 365
+                      account.
+                    </p>
                   </div>
                   <div>
                     <Label htmlFor="ms-client-key">
@@ -2171,6 +2175,10 @@ export default function MyDownloadedList() {
                       placeholder="Enter Client Key"
                       required
                     />
+                    <p className="text-xs text-gray-500 mt-1">
+                      Enter the Application (client) ID from your Azure Portal
+                      app registration.
+                    </p>
                   </div>
                   <div>
                     <Label htmlFor="ms-client-secret">
@@ -2186,6 +2194,10 @@ export default function MyDownloadedList() {
                       placeholder="Enter Client Secret"
                       required
                     />
+                    <p className="text-xs text-gray-500 mt-1">
+                      Enter the Client Secret value generated in the Azure
+                      Portal. Keep this value confidential.
+                    </p>
                   </div>
                   <div>
                     <Label htmlFor="ms-tenant-id">
@@ -2198,6 +2210,9 @@ export default function MyDownloadedList() {
                       placeholder="Enter Tenant ID"
                       required
                     />
+                    <p className="text-xs text-gray-500 mt-1">
+                      Enter the Directory (tenant) ID from your Azure Portal.
+                    </p>
                   </div>
                   <div>
                     <Label htmlFor="ms-instance-url">
@@ -2210,6 +2225,10 @@ export default function MyDownloadedList() {
                       placeholder="https://org.crm.dynamics.com"
                       required
                     />
+                    <p className="text-xs text-gray-500 mt-1">
+                      Enter the base URL of your Dynamics 365 instance (e.g.,
+                      https://org.crm.dynamics.com).
+                    </p>
                   </div>
                   <div>
                     <Label htmlFor="ms-redirect-uri">
@@ -2222,6 +2241,10 @@ export default function MyDownloadedList() {
                       placeholder="https://your-app.com/callback"
                       required
                     />
+                    <p className="text-xs text-gray-500 mt-1">
+                      Enter the Redirect URI configured in your Azure app
+                      registration.
+                    </p>
                   </div>
                 </div>
                 <div className="mt-4 flex items-center justify-end gap-2">
@@ -2368,6 +2391,10 @@ export default function MyDownloadedList() {
                       placeholder="e.g., Marketing Alerts"
                       required
                     />
+                    <p className="text-xs text-gray-500 mt-1">
+                      A friendly name to identify this Microsoft Teams
+                      connection.
+                    </p>
                   </div>
                   <div>
                     <Label htmlFor="teams-client-key">
@@ -2380,6 +2407,10 @@ export default function MyDownloadedList() {
                       placeholder="Enter Client Key"
                       required
                     />
+                    <p className="text-xs text-gray-500 mt-1">
+                      Enter the Application (client) ID from your Azure Portal
+                      app registration.
+                    </p>
                   </div>
                   <div>
                     <Label htmlFor="teams-client-secret">
@@ -2393,6 +2424,10 @@ export default function MyDownloadedList() {
                       placeholder="Enter Client Secret"
                       required
                     />
+                    <p className="text-xs text-gray-500 mt-1">
+                      Enter the Client Secret value generated in the Azure
+                      Portal. Keep this value confidential.
+                    </p>
                   </div>
                   <div>
                     <Label htmlFor="teams-tenant-id">
@@ -2405,6 +2440,9 @@ export default function MyDownloadedList() {
                       placeholder="Enter Tenant ID"
                       required
                     />
+                    <p className="text-xs text-gray-500 mt-1">
+                      Enter the Directory (tenant) ID from your Azure Portal.
+                    </p>
                   </div>
                   <div className="sm:col-span-2">
                     <Label htmlFor="teams-redirect-uri">
@@ -2417,6 +2455,10 @@ export default function MyDownloadedList() {
                       placeholder="https://your-app.com/callback"
                       required
                     />
+                    <p className="text-xs text-gray-500 mt-1">
+                      Enter the Redirect URI configured in your Azure app
+                      registration.
+                    </p>
                   </div>
                   <div>
                     <Label htmlFor="teams-team-id">
@@ -2429,6 +2471,9 @@ export default function MyDownloadedList() {
                       placeholder="Enter Team ID"
                       required
                     />
+                    <p className="text-xs text-gray-500 mt-1">
+                      The unique ID of the MS Team where the channel is located.
+                    </p>
                   </div>
                   <div>
                     <Label htmlFor="teams-channel-id">
@@ -2441,6 +2486,10 @@ export default function MyDownloadedList() {
                       placeholder="Enter Channel ID"
                       required
                     />
+                    <p className="text-xs text-gray-500 mt-1">
+                      The unique ID of the MS Teams channel where messages will
+                      be sent.
+                    </p>
                   </div>
                 </div>
                 <div className="mt-4 flex items-center justify-end gap-2">
