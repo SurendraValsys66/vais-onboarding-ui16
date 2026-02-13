@@ -189,10 +189,10 @@ export default function MyDownloadedList() {
   const [crmDialogOpen, setCrmDialogOpen] = useState(false);
   const [crmFile, setCrmFile] = useState<DownloadedFile | null>(null);
   const [selectedCrm, setSelectedCrm] = useState<
-    "hubspot" | "salesforce" | "marketo" | "zoho" | "pipedrive"
+    "hubspot" | "salesforce" | "marketo" | "zoho" | "pipedrive" | "dynamics365"
   >("hubspot");
   const [connectedCrms, setConnectedCrms] = useState<
-    Array<"hubspot" | "salesforce" | "marketo" | "zoho" | "pipedrive">
+    Array<"hubspot" | "salesforce" | "marketo" | "zoho" | "pipedrive" | "dynamics365">
   >([]);
   const [isUploadingCrm, setIsUploadingCrm] = useState(false);
   const [uploadDone, setUploadDone] = useState(false);
@@ -209,6 +209,9 @@ export default function MyDownloadedList() {
   ] as { id: string; name: string }[]);
   const [pipedriveAccounts, setPipedriveAccounts] = useState([
     { id: "pipedrive-1", name: "Pipedrive Account" },
+  ] as { id: string; name: string }[]);
+  const [msDynamicsAccounts, setMsDynamicsAccounts] = useState([
+    { id: "dynamics-1", name: "Dynamics 365 Account" },
   ] as { id: string; name: string }[]);
   const [hsNextId, setHsNextId] = useState(() => {
     const nums = [
@@ -269,6 +272,33 @@ export default function MyDownloadedList() {
     pipedriveDisplayName.trim().length > 0 &&
     pipedriveApiToken.trim().length > 0;
 
+  const [msDynamicsAddOpen, setMsDynamicsAddOpen] = useState(false);
+  const [msDynamicsDisplayName, setMsDynamicsDisplayName] = useState("");
+  const [msDynamicsClientKey, setMsDynamicsClientKey] = useState("");
+  const [msDynamicsClientSecret, setMsDynamicsClientSecret] = useState("");
+  const [msDynamicsTenantId, setMsDynamicsTenantId] = useState("");
+  const [msDynamicsInstanceUrl, setMsDynamicsInstanceUrl] = useState("");
+  const [msDynamicsRedirectUri, setMsDynamicsRedirectUri] = useState("");
+  const [msDynamicsNextId, setMsDynamicsNextId] = useState(() => {
+    const nums = [
+      ...msDynamicsAccounts
+        .map((a) => Number(String(a.id).replace(/^dynamics-/, "")))
+        .filter((n) => !Number.isNaN(n)),
+    ];
+    return (nums.length ? Math.max(...nums) : 0) + 1;
+  });
+  const [msDynamicsThankOpen, setMsDynamicsThankOpen] = useState(false);
+  const [msDynamicsThankProcessing, setMsDynamicsThankProcessing] =
+    useState(false);
+  const [msDynamicsThankProgress, setMsDynamicsThankProgress] = useState(0);
+  const isMsDynamicsValid =
+    msDynamicsDisplayName.trim().length > 0 &&
+    msDynamicsClientKey.trim().length > 0 &&
+    msDynamicsClientSecret.trim().length > 0 &&
+    msDynamicsTenantId.trim().length > 0 &&
+    msDynamicsInstanceUrl.trim().length > 0 &&
+    msDynamicsRedirectUri.trim().length > 0;
+
   useEffect(() => {
     if (!hsThankOpen || !hsThankProcessing) return;
     let progress = 0;
@@ -328,6 +358,26 @@ export default function MyDownloadedList() {
     }, 120);
     return () => clearInterval(interval);
   }, [pipedriveThankOpen, pipedriveThankProcessing]);
+
+  useEffect(() => {
+    if (!msDynamicsThankOpen || !msDynamicsThankProcessing) return;
+    let progress = 0;
+    setMsDynamicsThankProgress(progress);
+    const interval = setInterval(() => {
+      progress += 8;
+      if (progress >= 100) {
+        progress = 100;
+        setMsDynamicsThankProgress(progress);
+        clearInterval(interval);
+        setTimeout(() => {
+          setMsDynamicsThankProcessing(false);
+        }, 400);
+      } else {
+        setMsDynamicsThankProgress(progress);
+      }
+    }, 120);
+    return () => clearInterval(interval);
+  }, [msDynamicsThankOpen, msDynamicsThankProcessing]);
 
   // Filter and search logic
   const filteredFiles = useMemo(() => {
@@ -1006,6 +1056,58 @@ export default function MyDownloadedList() {
                                       onSelect={(e) => {
                                         e.preventDefault();
                                         setPipedriveAddOpen(true);
+                                      }}
+                                    >
+                                      <Plus className="h-4 w-4 mr-2" />
+                                      Add Account
+                                    </DropdownMenuItem>
+                                  </DropdownMenuSubContent>
+                                </DropdownMenuSub>
+                                <DropdownMenuSub>
+                                  <DropdownMenuSubTrigger>
+                                    <span className="inline-flex items-center justify-center w-5 h-5 rounded bg-[#002050] text-white text-[10px] font-bold">
+                                      D3
+                                    </span>
+                                    <span className="ml-2">Dynamics 365</span>
+                                  </DropdownMenuSubTrigger>
+                                  <DropdownMenuSubContent className="w-80 p-2">
+                                    {msDynamicsAccounts.map((acc) => (
+                                      <DropdownMenuItem
+                                        key={acc.id}
+                                        onSelect={() => {
+                                          setCrmFile(file);
+                                          setSelectedCrm("dynamics365");
+                                          setCrmDialogOpen(true);
+                                        }}
+                                        className="p-0"
+                                      >
+                                        <div className="flex items-center justify-between w-full rounded-md border border-valasys-gray-200 px-3 py-2 hover:bg-accent">
+                                          <span>{acc.name}</span>
+                                          <button
+                                            aria-label="Delete account"
+                                            className="text-red-600 hover:text-red-700 p-1 rounded hover:bg-red-50"
+                                            onClick={(e) => {
+                                              e.preventDefault();
+                                              e.stopPropagation();
+                                              setMsDynamicsAccounts((prev) =>
+                                                prev.filter(
+                                                  (a) => a.id !== acc.id,
+                                                ),
+                                              );
+                                            }}
+                                            title="Delete account"
+                                          >
+                                            <Trash2 className="h-4 w-4" />
+                                          </button>
+                                        </div>
+                                      </DropdownMenuItem>
+                                    ))}
+                                    <DropdownMenuSeparator className="my-2" />
+                                    <DropdownMenuItem
+                                      className="w-full px-3 py-2 rounded-md bg-[#002050] text-white hover:bg-[#00183d] flex items-center"
+                                      onSelect={(e) => {
+                                        e.preventDefault();
+                                        setMsDynamicsAddOpen(true);
                                       }}
                                     >
                                       <Plus className="h-4 w-4 mr-2" />
@@ -1891,6 +1993,263 @@ export default function MyDownloadedList() {
           </DialogContent>
         </Dialog>
 
+        {/* Microsoft Dynamics 365 Add Account Dialog */}
+        <Dialog
+          open={msDynamicsAddOpen}
+          onOpenChange={(open) => {
+            setMsDynamicsAddOpen(open);
+            if (!open) {
+              setMsDynamicsDisplayName("");
+              setMsDynamicsClientKey("");
+              setMsDynamicsClientSecret("");
+              setMsDynamicsTenantId("");
+              setMsDynamicsInstanceUrl("");
+              setMsDynamicsRedirectUri("");
+            }
+          }}
+        >
+          <DialogContent className="max-w-2xl">
+            <DialogHeader>
+              <DialogTitle>Microsoft Dynamics 365 Connection</DialogTitle>
+              <DialogDescription>
+                Add a Microsoft Dynamics 365 account using OAuth credentials to
+                enable one-click exports.
+              </DialogDescription>
+            </DialogHeader>
+            <div className="mt-2 rounded-lg border border-blue-200 bg-gradient-to-r from-blue-50 to-[#002050]/10 p-3 flex items-center gap-3">
+              <span className="inline-flex items-center justify-center w-8 h-8 rounded bg-[#002050] text-white text-xs font-bold">
+                D3
+              </span>
+              <div className="text-sm text-blue-900">
+                Securely connect your Microsoft Dynamics 365 CRM to enable
+                one‑click exports.
+              </div>
+            </div>
+            <Tabs defaultValue="add">
+              <TabsList className="mt-3 bg-transparent p-0 border-b border-valasys-gray-200">
+                <TabsTrigger
+                  value="add"
+                  className="relative -mb-[1px] inline-flex items-center gap-2 px-0 py-2 text-sm font-medium text-valasys-gray-500 data-[state=active]:text-valasys-orange data-[state=active]:underline data-[state=active]:decoration-2 data-[state=active]:underline-offset-8 data-[state=active]:shadow-none"
+                >
+                  <ListChecks className="h-4 w-4" /> Add Dynamics 365 Account
+                </TabsTrigger>
+                <TabsTrigger
+                  value="howto"
+                  className="relative -mb-[1px] inline-flex items-center gap-2 px-0 py-2 text-sm font-medium text-valasys-gray-500 data-[state=active]:text-valasys-orange data-[state=active]:underline data-[state=active]:decoration-2 data-[state=active]:underline-offset-8 data-[state=active]:shadow-none"
+                >
+                  <Info className="h-4 w-4" /> Instructions to Add Account
+                </TabsTrigger>
+              </TabsList>
+              <TabsContent
+                value="add"
+                className="border-b border-valasys-gray-200 pb-4"
+              >
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-3 rounded-lg border border-valasys-gray-200 bg-white p-4 shadow-sm">
+                  <div>
+                    <Label htmlFor="ms-display-name">
+                      Display Name <span className="text-red-500">*</span>
+                    </Label>
+                    <Input
+                      id="ms-display-name"
+                      value={msDynamicsDisplayName}
+                      onChange={(e) => setMsDynamicsDisplayName(e.target.value)}
+                      placeholder="e.g., Dynamics Main"
+                      required
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="ms-client-key">
+                      Client Key <span className="text-red-500">*</span>
+                    </Label>
+                    <Input
+                      id="ms-client-key"
+                      value={msDynamicsClientKey}
+                      onChange={(e) => setMsDynamicsClientKey(e.target.value)}
+                      placeholder="Enter Client Key"
+                      required
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="ms-client-secret">
+                      Client Secret <span className="text-red-500">*</span>
+                    </Label>
+                    <Input
+                      id="ms-client-secret"
+                      type="password"
+                      value={msDynamicsClientSecret}
+                      onChange={(e) =>
+                        setMsDynamicsClientSecret(e.target.value)
+                      }
+                      placeholder="Enter Client Secret"
+                      required
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="ms-tenant-id">
+                      Tenant ID <span className="text-red-500">*</span>
+                    </Label>
+                    <Input
+                      id="ms-tenant-id"
+                      value={msDynamicsTenantId}
+                      onChange={(e) => setMsDynamicsTenantId(e.target.value)}
+                      placeholder="Enter Tenant ID"
+                      required
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="ms-instance-url">
+                      Instance URL <span className="text-red-500">*</span>
+                    </Label>
+                    <Input
+                      id="ms-instance-url"
+                      value={msDynamicsInstanceUrl}
+                      onChange={(e) => setMsDynamicsInstanceUrl(e.target.value)}
+                      placeholder="https://org.crm.dynamics.com"
+                      required
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="ms-redirect-uri">
+                      Redirect URI <span className="text-red-500">*</span>
+                    </Label>
+                    <Input
+                      id="ms-redirect-uri"
+                      value={msDynamicsRedirectUri}
+                      onChange={(e) => setMsDynamicsRedirectUri(e.target.value)}
+                      placeholder="https://your-app.com/callback"
+                      required
+                    />
+                  </div>
+                </div>
+                <div className="mt-4 flex items-center justify-end gap-2">
+                  <Button
+                    variant="outline"
+                    onClick={() => setMsDynamicsAddOpen(false)}
+                  >
+                    Cancel
+                  </Button>
+                  <Button
+                    disabled={!isMsDynamicsValid}
+                    className="bg-gradient-to-r from-valasys-orange to-valasys-orange-light text-white disabled:opacity-50 disabled:cursor-not-allowed"
+                    onClick={() => {
+                      if (!isMsDynamicsValid) return;
+                      setMsDynamicsAccounts((prev) => [
+                        ...prev,
+                        {
+                          id: `dynamics-${msDynamicsNextId}`,
+                          name: msDynamicsDisplayName.trim(),
+                        },
+                      ]);
+                      setMsDynamicsNextId((n) => n + 1);
+                      setMsDynamicsDisplayName("");
+                      setMsDynamicsClientKey("");
+                      setMsDynamicsClientSecret("");
+                      setMsDynamicsTenantId("");
+                      setMsDynamicsInstanceUrl("");
+                      setMsDynamicsRedirectUri("");
+                      setMsDynamicsAddOpen(false);
+                      setMsDynamicsThankOpen(true);
+                      setMsDynamicsThankProcessing(true);
+                      setMsDynamicsThankProgress(0);
+                    }}
+                  >
+                    <Save className="h-4 w-4 mr-2" /> Save Connection
+                  </Button>
+                </div>
+              </TabsContent>
+              <TabsContent
+                value="howto"
+                className="border-b border-valasys-gray-200 pb-4"
+              >
+                <div className="rounded-md border border-blue-200 bg-blue-50 p-3 text-blue-900 mt-3 text-sm">
+                  Follow these steps in Azure Portal to create credentials for
+                  Dynamics 365.
+                </div>
+                <div className="space-y-2 mt-3 text-sm text-gray-700">
+                  <ol className="list-decimal pl-5 space-y-1">
+                    <li>
+                      Log in to the Azure Portal and navigate to Microsoft
+                      Entra ID (formerly Azure AD).
+                    </li>
+                    <li>
+                      Go to App registrations and create a new registration.
+                    </li>
+                    <li>
+                      Set the Redirect URI as a Web platform with your
+                      callback URL.
+                    </li>
+                    <li>
+                      In Certificates & secrets, create a new client secret
+                      and copy its value.
+                    </li>
+                    <li>
+                      In API permissions, add permissions for Dynamics CRM
+                      (user_impersonation).
+                    </li>
+                    <li>
+                      Copy the Application (client) ID and Directory (tenant)
+                      ID.
+                    </li>
+                    <li>
+                      Paste all values into the form above and click Save
+                      Connection.
+                    </li>
+                  </ol>
+                </div>
+              </TabsContent>
+            </Tabs>
+          </DialogContent>
+        </Dialog>
+
+        {/* Microsoft Dynamics 365 Thank You Dialog */}
+        <Dialog
+          open={msDynamicsThankOpen}
+          onOpenChange={(open) => {
+            setMsDynamicsThankOpen(open);
+            if (!open) {
+              setMsDynamicsThankProcessing(false);
+              setMsDynamicsThankProgress(0);
+            }
+          }}
+        >
+          <DialogContent className="max-w-md">
+            <DialogHeader>
+              <DialogTitle>Thank you</DialogTitle>
+              <DialogDescription>
+                {msDynamicsThankProcessing
+                  ? "Processing your Microsoft Dynamics 365 connection..."
+                  : "Your Microsoft Dynamics 365 connection successfully Completed"}
+              </DialogDescription>
+            </DialogHeader>
+
+            {msDynamicsThankProcessing ? (
+              <div className="space-y-3">
+                <Progress value={msDynamicsThankProgress} />
+                <div className="text-xs text-gray-500">
+                  Please wait, this may take a few seconds…
+                </div>
+              </div>
+            ) : (
+              <div className="flex items-center gap-3 py-2">
+                <CheckCircle2 className="h-6 w-6 text-green-600 ai-pulse" />
+                <span className="text-sm text-gray-800">
+                  Your Microsoft Dynamics 365 connection successfully Completed
+                </span>
+              </div>
+            )}
+
+            <div className="flex justify-end">
+              <Button
+                onClick={() => setMsDynamicsThankOpen(false)}
+                className="bg-valasys-orange text-white hover:bg-valasys-orange/90"
+                disabled={msDynamicsThankProcessing}
+              >
+                Close
+              </Button>
+            </div>
+          </DialogContent>
+        </Dialog>
+
         {/* CRM Instruction Dialog */}
         <Dialog open={crmDialogOpen} onOpenChange={setCrmDialogOpen}>
           <DialogContent className="max-w-3xl max-h-[85vh] overflow-y-auto">
@@ -1957,6 +2316,10 @@ export default function MyDownloadedList() {
                               Marketo: use REST API credentials (Client
                               ID/Secret).
                             </p>
+                            <p>
+                              Dynamics 365: connect via OAuth (Client
+                              Key/Secret/Tenant).
+                            </p>
                           </CardContent>
                         </Card>
                       </div>
@@ -1994,7 +2357,13 @@ export default function MyDownloadedList() {
                               ? "HubSpot"
                               : c === "salesforce"
                                 ? "Salesforce"
-                                : "Marketo"}
+                                : c === "zoho"
+                                  ? "Zoho"
+                                  : c === "pipedrive"
+                                    ? "Pipedrive"
+                                    : c === "dynamics365"
+                                      ? "Dynamics 365"
+                                      : "Marketo"}
                           </SelectItem>
                         ))}
                       </SelectContent>
@@ -2029,7 +2398,9 @@ export default function MyDownloadedList() {
                                 ? "Zoho"
                                 : selectedCrm === "pipedrive"
                                   ? "Pipedrive"
-                                  : "Marketo"}
+                                  : selectedCrm === "dynamics365"
+                                    ? "Dynamics 365"
+                                    : "Marketo"}
                           ...
                         </>
                       ) : uploadDone ? (
@@ -2043,7 +2414,9 @@ export default function MyDownloadedList() {
                                 ? "Zoho"
                                 : selectedCrm === "pipedrive"
                                   ? "Pipedrive"
-                                  : "Marketo"}
+                                  : selectedCrm === "dynamics365"
+                                    ? "Dynamics 365"
+                                    : "Marketo"}
                         </>
                       ) : (
                         <>
@@ -2056,7 +2429,9 @@ export default function MyDownloadedList() {
                                 ? "Zoho"
                                 : selectedCrm === "pipedrive"
                                   ? "Pipedrive"
-                                  : "Marketo"}
+                                  : selectedCrm === "dynamics365"
+                                    ? "Dynamics 365"
+                                    : "Marketo"}
                         </>
                       )}
                     </Button>
@@ -2083,7 +2458,9 @@ export default function MyDownloadedList() {
                                 ? "https://app.zoho.com/"
                                 : selectedCrm === "pipedrive"
                                   ? "https://app.pipedrive.com/"
-                                  : "https://app.marketo.com/"
+                                  : selectedCrm === "dynamics365"
+                                    ? "https://home.dynamics.com/"
+                                    : "https://app.marketo.com/"
                         }
                         target="_blank"
                         rel="noreferrer"
@@ -2097,7 +2474,9 @@ export default function MyDownloadedList() {
                               ? "Zoho"
                               : selectedCrm === "pipedrive"
                                 ? "Pipedrive"
-                                : "Marketo"}
+                                : selectedCrm === "dynamics365"
+                                  ? "Dynamics 365"
+                                  : "Marketo"}
                       </a>
                     </Button>
                     <Button asChild variant="outline" size="sm">
@@ -2111,7 +2490,9 @@ export default function MyDownloadedList() {
                                 ? "https://www.zoho.com/crm/help/import-contacts.html"
                                 : selectedCrm === "pipedrive"
                                   ? "https://support.pipedrive.com/en/articles/1237-importing-deals-persons-organizations-products"
-                                  : "https://experienceleague.adobe.com/en/docs/marketo/using/product-docs/administration/settings/importing-a-list"
+                                  : selectedCrm === "dynamics365"
+                                    ? "https://learn.microsoft.com/en-us/dynamics365/customerengagement/on-premises/basics/import-contacts?view=op-9-1"
+                                    : "https://experienceleague.adobe.com/en/docs/marketo/using/product-docs/administration/settings/importing-a-list"
                         }
                         target="_blank"
                         rel="noreferrer"
@@ -2145,7 +2526,9 @@ export default function MyDownloadedList() {
                       ? "Zoho"
                       : selectedCrm === "pipedrive"
                         ? "Pipedrive"
-                        : "Marketo"}
+                        : selectedCrm === "dynamics365"
+                          ? "Dynamics 365"
+                          : "Marketo"}
               </Badge>
             </div>
 
@@ -2158,6 +2541,7 @@ export default function MyDownloadedList() {
                 <TabsTrigger value="salesforce">Salesforce</TabsTrigger>
                 <TabsTrigger value="zoho">Zoho</TabsTrigger>
                 <TabsTrigger value="pipedrive">Pipedrive</TabsTrigger>
+                <TabsTrigger value="dynamics365">Dynamics 365</TabsTrigger>
                 <TabsTrigger value="marketo">Marketo</TabsTrigger>
               </TabsList>
 
@@ -2649,6 +3033,95 @@ export default function MyDownloadedList() {
                           Smart Lists after import.
                         </AlertDescription>
                       </Alert>
+                    </CardContent>
+                  </Card>
+                </div>
+              </TabsContent>
+
+              <TabsContent value="dynamics365">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-3">
+                  <Card>
+                    <CardHeader className="pb-2">
+                      <CardTitle className="text-base flex items-center">
+                        <ListChecks className="h-4 w-4 mr-2 text-valasys-orange" />
+                        What you'll do
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent className="text-sm text-gray-700 space-y-2">
+                      <p>Import into Leads or Contacts in Dynamics 365.</p>
+                      <p>Map Email, Name, Company, Title, and Phone.</p>
+                      <p>Use Duplicate Detection rules for clean data.</p>
+                    </CardContent>
+                  </Card>
+
+                  <Card>
+                    <CardHeader className="pb-2">
+                      <CardTitle className="text-base flex items-center">
+                        <CheckCircle2 className="h-4 w-4 mr-2 text-green-600" />
+                        Recommended settings
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent className="text-sm text-gray-700 space-y-2">
+                      <p>Use CSV format with UTF-8 encoding.</p>
+                      <p>Select "Ignore" or "Update" for duplicates.</p>
+                      <p>Verify field mapping before finalizing.</p>
+                    </CardContent>
+                  </Card>
+                </div>
+
+                <Separator className="my-4" />
+
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                  <Card>
+                    <CardHeader className="pb-2">
+                      <CardTitle className="text-base">Steps</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <ol className="list-decimal pl-5 space-y-2 text-sm text-gray-700">
+                        <li>Dynamics 365 → Settings → Data Management.</li>
+                        <li>Click "Imports" → "Import Data".</li>
+                        <li>Upload the CSV file and click Next.</li>
+                        <li>Select "Default (Automatic Mapping)".</li>
+                        <li>Map CSV columns to Dynamics fields.</li>
+                        <li>Review and click "Submit" to start import.</li>
+                      </ol>
+                    </CardContent>
+                  </Card>
+
+                  <Card>
+                    <CardHeader className="pb-2">
+                      <CardTitle className="text-base">
+                        Field mapping guide
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm">
+                        <div className="rounded-lg border p-2 bg-white">
+                          <span className="font-medium">CSV: Email</span>
+                          <ArrowRight className="inline h-3 w-3 mx-1" />
+                          <span>Dynamics: Email</span>
+                        </div>
+                        <div className="rounded-lg border p-2 bg-white">
+                          <span className="font-medium">CSV: First Name</span>
+                          <ArrowRight className="inline h-3 w-3 mx-1" />
+                          <span>Dynamics: First Name</span>
+                        </div>
+                        <div className="rounded-lg border p-2 bg-white">
+                          <span className="font-medium">CSV: Last Name</span>
+                          <ArrowRight className="inline h-3 w-3 mx-1" />
+                          <span>Dynamics: Last Name</span>
+                        </div>
+                        <div className="rounded-lg border p-2 bg-white">
+                          <span className="font-medium">CSV: Company</span>
+                          <ArrowRight className="inline h-3 w-3 mx-1" />
+                          <span>Dynamics: Company Name</span>
+                        </div>
+                        <div className="rounded-lg border p-2 bg-white">
+                          <span className="font-medium">CSV: Job Title</span>
+                          <ArrowRight className="inline h-3 w-3 mx-1" />
+                          <span>Dynamics: Job Title</span>
+                        </div>
+                      </div>
                     </CardContent>
                   </Card>
                 </div>
