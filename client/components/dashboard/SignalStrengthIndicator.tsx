@@ -3,6 +3,7 @@ import { cn } from "@/lib/utils";
 interface SignalStrengthIndicatorProps {
   strength: string;
   className?: string;
+  compact?: boolean;
 }
 
 const getSignalBars = (strength: string): number => {
@@ -41,10 +42,36 @@ const getSignalColor = (strength: string): string => {
 export default function SignalStrengthIndicator({
   strength,
   className,
+  compact = false,
 }: SignalStrengthIndicatorProps) {
   const filledBars = getSignalBars(strength);
   const color = getSignalColor(strength);
   const totalBars = 5;
+
+  if (compact) {
+    return (
+      <div className={cn("flex items-end gap-0.5", className)}>
+        {Array.from({ length: totalBars }).map((_, index) => {
+          const isFilled = index < filledBars;
+          // Compact bar heights: 4px, 6px, 8px, 10px, 12px
+          const barHeight = `${4 + (index + 1) * 2}px`;
+
+          return (
+            <div
+              key={index}
+              className={cn(
+                "w-1 rounded-full transition-all duration-200",
+                isFilled ? color : "bg-gray-300",
+              )}
+              style={{
+                height: barHeight,
+              }}
+            />
+          );
+        })}
+      </div>
+    );
+  }
 
   return (
     <div className={cn("flex items-end gap-1", className)}>

@@ -127,19 +127,19 @@ export default function IntentSignalChart({
   return (
     <>
       <div
-        className={cn("cursor-pointer flex items-center gap-2", className)}
+        className={cn("cursor-pointer", className)}
         onMouseEnter={handleBadgeHover}
         onMouseLeave={() => setShowUnlockModal(false)}
       >
         <Badge
           className={cn(
-            "font-medium hover:shadow-md transition-shadow",
+            "font-medium hover:shadow-md transition-shadow flex items-center gap-2 px-3 py-1.5",
             getIntentSignalColor(data.intentSignal),
           )}
         >
           {data.intentSignal}
+          <SignalStrengthIndicator strength={data.intentSignal} compact />
         </Badge>
-        <SignalStrengthIndicator strength={data.intentSignal} />
       </div>
 
       <IntentSignalUnlockModal
