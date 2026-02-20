@@ -39,6 +39,13 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+} from "@/components/ui/dialog";
+import {
   Upload,
   X,
   Check,
@@ -52,6 +59,11 @@ import {
   ChevronLeft,
   Edit,
   Clock,
+  Mail,
+  User,
+  Lock,
+  Eye,
+  EyeOff,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -364,6 +376,9 @@ function FileUpload({ onFileChange, file }: FileUploadProps) {
 export default function CampaignRequestForm() {
   const [currentStep, setCurrentStep] = useState(1);
   const [uploadedFile, setUploadedFile] = useState<File | null>(null);
+  const [signupDialogOpen, setSignupDialogOpen] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const form = useForm<CampaignFormData>({
     resolver: zodResolver(campaignFormSchema),
@@ -383,6 +398,7 @@ export default function CampaignRequestForm() {
     console.log("Form submitted:", data);
     console.log("Uploaded file:", uploadedFile);
     // Handle form submission here
+    setSignupDialogOpen(true);
   };
 
   const isFormValid = () => {
@@ -990,6 +1006,159 @@ export default function CampaignRequestForm() {
           </div>
         </div>
       </div>
+      <Dialog open={signupDialogOpen} onOpenChange={setSignupDialogOpen}>
+        <DialogContent className="max-w-4xl p-0 overflow-hidden border-none rounded-2xl shadow-2xl">
+          <div className="grid grid-cols-1 md:grid-cols-2">
+            {/* Left side - Image */}
+            <div className="relative hidden md:block h-full min-h-[500px]">
+              <img
+                src="https://cdn.builder.io/api/v1/image/assets%2Fc1d6abb8b7ed4c9594742cec5cf96030%2F0bda40535a46429ba63e98ea55d70622?format=webp&width=800&height=1200"
+                alt="Campaign Success"
+                className="absolute inset-0 w-full h-full object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent flex flex-col justify-end p-8 text-white">
+                <h3 className="text-2xl font-bold mb-2">Join Valasys AI</h3>
+                <p className="text-sm opacity-90">
+                  Unlock advanced campaign analytics and reach your target
+                  audience more effectively.
+                </p>
+              </div>
+            </div>
+
+            {/* Right side - Signup Form */}
+            <div className="p-8 md:p-12 bg-white flex flex-col justify-center">
+              <div className="mb-8">
+                <img
+                  src="https://cdn.builder.io/api/v1/image/assets%2F76d83d63beb8455692b1855a78aa9524%2F5ee47be8ea214f9c9b220b553ddb9ad1?format=webp&width=800"
+                  alt="Valasys AI"
+                  className="h-10 w-auto mb-6"
+                />
+                <h2 className="text-2xl font-bold text-valasys-gray-900">
+                  Final Step!
+                </h2>
+                <p className="text-valasys-gray-600 mt-2">
+                  Sign up to submit your campaign request and start tracking
+                  results.
+                </p>
+              </div>
+
+              <form
+                className="space-y-4"
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  setSignupDialogOpen(false);
+                }}
+              >
+                <div className="space-y-2">
+                  <Label htmlFor="signup-name">Full Name</Label>
+                  <div className="relative">
+                    <User className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
+                    <Input
+                      id="signup-name"
+                      placeholder="Enter your full name"
+                      className="pl-10 focus:border-valasys-orange focus:ring-valasys-orange/20"
+                      required
+                    />
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="signup-email">Email ID</Label>
+                  <div className="relative">
+                    <Mail className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
+                    <Input
+                      id="signup-email"
+                      type="email"
+                      placeholder="name@company.com"
+                      className="pl-10 focus:border-valasys-orange focus:ring-valasys-orange/20"
+                      required
+                    />
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="signup-password">Password</Label>
+                    <div className="relative">
+                      <Lock className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
+                      <Input
+                        id="signup-password"
+                        type={showPassword ? "text" : "password"}
+                        placeholder="••••••••"
+                        className="pl-10 pr-10 focus:border-valasys-orange focus:ring-valasys-orange/20"
+                        required
+                      />
+                      <button
+                        type="button"
+                        onClick={() => setShowPassword(!showPassword)}
+                        className="absolute right-3 top-3 text-gray-400 hover:text-gray-600"
+                      >
+                        {showPassword ? (
+                          <EyeOff className="h-4 w-4" />
+                        ) : (
+                          <Eye className="h-4 w-4" />
+                        )}
+                      </button>
+                    </div>
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="signup-confirm">Confirm Password</Label>
+                    <div className="relative">
+                      <Lock className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
+                      <Input
+                        id="signup-confirm"
+                        type={showConfirmPassword ? "text" : "password"}
+                        placeholder="••••••••"
+                        className="pl-10 pr-10 focus:border-valasys-orange focus:ring-valasys-orange/20"
+                        required
+                      />
+                      <button
+                        type="button"
+                        onClick={() =>
+                          setShowConfirmPassword(!showConfirmPassword)
+                        }
+                        className="absolute right-3 top-3 text-gray-400 hover:text-gray-600"
+                      >
+                        {showConfirmPassword ? (
+                          <EyeOff className="h-4 w-4" />
+                        ) : (
+                          <Eye className="h-4 w-4" />
+                        )}
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+                <Button
+                  type="submit"
+                  className="w-full bg-valasys-orange hover:bg-valasys-orange/90 text-white h-12 text-lg font-semibold mt-6 shadow-lg shadow-valasys-orange/20 transition-all duration-200"
+                >
+                  Sign Up & Submit Request
+                </Button>
+
+                <p className="text-center text-xs text-gray-500 mt-4">
+                  By signing up, you agree to our{" "}
+                  <a
+                    href="#"
+                    className="text-valasys-orange hover:underline font-medium"
+                  >
+                    Terms
+                  </a>{" "}
+                  and{" "}
+                  <a
+                    href="#"
+                    className="text-valasys-orange hover:underline font-medium"
+                  >
+                    Privacy Policy
+                  </a>
+                  .
+                </p>
+              </form>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
     </Form>
   );
 }

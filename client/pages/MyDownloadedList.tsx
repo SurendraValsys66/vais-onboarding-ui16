@@ -43,7 +43,10 @@ import {
   ArrowRight,
   Info,
   Plus,
+  Pencil,
   Save,
+  Settings,
+  ChevronRight,
   Loader2,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -189,10 +192,10 @@ export default function MyDownloadedList() {
   const [crmDialogOpen, setCrmDialogOpen] = useState(false);
   const [crmFile, setCrmFile] = useState<DownloadedFile | null>(null);
   const [selectedCrm, setSelectedCrm] = useState<
-    "hubspot" | "salesforce" | "marketo" | "zoho" | "pipedrive"
+    "hubspot" | "salesforce" | "marketo" | "zoho" | "pipedrive" | "dynamics365" | "msteams"
   >("hubspot");
   const [connectedCrms, setConnectedCrms] = useState<
-    Array<"hubspot" | "salesforce" | "marketo" | "zoho" | "pipedrive">
+    Array<"hubspot" | "salesforce" | "marketo" | "zoho" | "pipedrive" | "dynamics365" | "msteams">
   >([]);
   const [isUploadingCrm, setIsUploadingCrm] = useState(false);
   const [uploadDone, setUploadDone] = useState(false);
@@ -210,6 +213,30 @@ export default function MyDownloadedList() {
   const [pipedriveAccounts, setPipedriveAccounts] = useState([
     { id: "pipedrive-1", name: "Pipedrive Account" },
   ] as { id: string; name: string }[]);
+  const [msDynamicsAccounts, setMsDynamicsAccounts] = useState([
+    { id: "dynamics-1", name: "Dynamics 365 Account" },
+  ] as { id: string; name: string }[]);
+  const [msTeamsAccounts, setMsTeamsAccounts] = useState([
+    {
+      id: "msteams-1",
+      name: "MS-Teams Channel",
+      clientKey: "4fb94f8b-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+      clientSecret: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+      tenantId: "72f988bf-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+      redirectUri: "https://your-app.com/callback",
+      teamId: "19:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx@thread.tacv2",
+      channelId: "19:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx@thread.tacv2",
+    },
+  ] as {
+    id: string;
+    name: string;
+    clientKey: string;
+    clientSecret: string;
+    tenantId: string;
+    redirectUri: string;
+    teamId: string;
+    channelId: string;
+  }[]);
   const [hsNextId, setHsNextId] = useState(() => {
     const nums = [
       ...hubspotAccounts
@@ -268,6 +295,65 @@ export default function MyDownloadedList() {
   const isPipedriveValid =
     pipedriveDisplayName.trim().length > 0 &&
     pipedriveApiToken.trim().length > 0;
+
+  const [msDynamicsAddOpen, setMsDynamicsAddOpen] = useState(false);
+  const [msDynamicsDisplayName, setMsDynamicsDisplayName] = useState("");
+  const [msDynamicsClientKey, setMsDynamicsClientKey] = useState("");
+  const [msDynamicsClientSecret, setMsDynamicsClientSecret] = useState("");
+  const [msDynamicsTenantId, setMsDynamicsTenantId] = useState("");
+  const [msDynamicsInstanceUrl, setMsDynamicsInstanceUrl] = useState("");
+  const [msDynamicsRedirectUri, setMsDynamicsRedirectUri] = useState("");
+  const [msDynamicsNextId, setMsDynamicsNextId] = useState(() => {
+    const nums = [
+      ...msDynamicsAccounts
+        .map((a) => Number(String(a.id).replace(/^dynamics-/, "")))
+        .filter((n) => !Number.isNaN(n)),
+    ];
+    return (nums.length ? Math.max(...nums) : 0) + 1;
+  });
+  const [msDynamicsThankOpen, setMsDynamicsThankOpen] = useState(false);
+  const [msDynamicsThankProcessing, setMsDynamicsThankProcessing] =
+    useState(false);
+  const [msDynamicsThankProgress, setMsDynamicsThankProgress] = useState(0);
+  const isMsDynamicsValid =
+    msDynamicsDisplayName.trim().length > 0 &&
+    msDynamicsClientKey.trim().length > 0 &&
+    msDynamicsClientSecret.trim().length > 0 &&
+    msDynamicsTenantId.trim().length > 0 &&
+    msDynamicsInstanceUrl.trim().length > 0 &&
+    msDynamicsRedirectUri.trim().length > 0;
+
+  const [msTeamsAddOpen, setMsTeamsAddOpen] = useState(false);
+  const [msTeamsDisplayName, setMsTeamsDisplayName] = useState("");
+  const [msTeamsClientKey, setMsTeamsClientKey] = useState("");
+  const [msTeamsClientSecret, setMsTeamsClientSecret] = useState("");
+  const [msTeamsTenantId, setMsTeamsTenantId] = useState("");
+  const [msTeamsRedirectUri, setMsTeamsRedirectUri] = useState("");
+  const [msTeamsTeamId, setMsTeamsTeamId] = useState("");
+  const [msTeamsChannelId, setMsTeamsChannelId] = useState("");
+  const [msTeamsNextId, setMsTeamsNextId] = useState(() => {
+    const nums = [
+      ...msTeamsAccounts
+        .map((a) => Number(String(a.id).replace(/^msteams-/, "")))
+        .filter((n) => !Number.isNaN(n)),
+    ];
+    return (nums.length ? Math.max(...nums) : 0) + 1;
+  });
+  const [msTeamsThankOpen, setMsTeamsThankOpen] = useState(false);
+  const [msTeamsThankProcessing, setMsTeamsThankProcessing] = useState(false);
+  const [msTeamsThankProgress, setMsTeamsThankProgress] = useState(0);
+  const [isMsTeamsEditing, setIsMsTeamsEditing] = useState(false);
+  const [editingMsTeamsAccountId, setEditingMsTeamsAccountId] = useState<
+    string | null
+  >(null);
+  const isMsTeamsValid =
+    msTeamsDisplayName.trim().length > 0 &&
+    msTeamsClientKey.trim().length > 0 &&
+    msTeamsClientSecret.trim().length > 0 &&
+    msTeamsTenantId.trim().length > 0 &&
+    msTeamsRedirectUri.trim().length > 0 &&
+    msTeamsTeamId.trim().length > 0 &&
+    msTeamsChannelId.trim().length > 0;
 
   useEffect(() => {
     if (!hsThankOpen || !hsThankProcessing) return;
@@ -328,6 +414,46 @@ export default function MyDownloadedList() {
     }, 120);
     return () => clearInterval(interval);
   }, [pipedriveThankOpen, pipedriveThankProcessing]);
+
+  useEffect(() => {
+    if (!msDynamicsThankOpen || !msDynamicsThankProcessing) return;
+    let progress = 0;
+    setMsDynamicsThankProgress(progress);
+    const interval = setInterval(() => {
+      progress += 8;
+      if (progress >= 100) {
+        progress = 100;
+        setMsDynamicsThankProgress(progress);
+        clearInterval(interval);
+        setTimeout(() => {
+          setMsDynamicsThankProcessing(false);
+        }, 400);
+      } else {
+        setMsDynamicsThankProgress(progress);
+      }
+    }, 120);
+    return () => clearInterval(interval);
+  }, [msDynamicsThankOpen, msDynamicsThankProcessing]);
+
+  useEffect(() => {
+    if (!msTeamsThankOpen || !msTeamsThankProcessing) return;
+    let progress = 0;
+    setMsTeamsThankProgress(progress);
+    const interval = setInterval(() => {
+      progress += 8;
+      if (progress >= 100) {
+        progress = 100;
+        setMsTeamsThankProgress(progress);
+        clearInterval(interval);
+        setTimeout(() => {
+          setMsTeamsThankProcessing(false);
+        }, 400);
+      } else {
+        setMsTeamsThankProgress(progress);
+      }
+    }, 120);
+    return () => clearInterval(interval);
+  }, [msTeamsThankOpen, msTeamsThankProcessing]);
 
   // Filter and search logic
   const filteredFiles = useMemo(() => {
@@ -804,227 +930,515 @@ export default function MyDownloadedList() {
                                   Send to CRM
                                 </Button>
                               </DropdownMenuTrigger>
-                              <DropdownMenuContent align="end" className="w-72">
-                                <DropdownMenuSub>
-                                  <DropdownMenuSubTrigger>
-                                    <span className="inline-flex items-center justify-center w-5 h-5 rounded bg-[#00A1E0] text-white text-[10px] font-bold">
-                                      SF
-                                    </span>
-                                    <span className="ml-2">Salesforce</span>
-                                  </DropdownMenuSubTrigger>
-                                  <DropdownMenuSubContent className="w-80 p-2">
-                                    {salesforceAccounts.map((acc) => (
+                              <DropdownMenuContent align="end" className="w-80 p-0 overflow-hidden rounded-xl border-gray-200 shadow-xl">
+                                <div className="bg-gray-50/80 px-4 py-3 border-b border-gray-100 flex items-center justify-between">
+                                  <h3 className="text-[10px] font-bold text-gray-500 uppercase tracking-widest flex items-center">
+                                    <Settings className="w-3 h-3 mr-2" />
+                                    CRM Integrations
+                                  </h3>
+                                  <Badge className="bg-blue-100 text-blue-700 hover:bg-blue-100 text-[9px] border-none px-1.5 h-4">
+                                    7 Platforms
+                                  </Badge>
+                                </div>
+                                <div className="p-1.5 space-y-1">
+                                  {/* Salesforce */}
+                                  <DropdownMenuSub>
+                                    <DropdownMenuSubTrigger className="flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all hover:bg-blue-50/50 focus:bg-blue-50/50 data-[state=open]:bg-blue-50 border-transparent hover:border-blue-100 border">
+                                      <div className="w-8 h-8 rounded-lg bg-white shadow-sm border border-gray-100 flex items-center justify-center p-1.5 flex-shrink-0">
+                                        <img
+                                          src="https://cdn.builder.io/api/v1/image/assets%2Fc1d6abb8b7ed4c9594742cec5cf96030%2F28d611916abe4e3bb3b827ad1de3c806?format=webp&width=800&height=1200"
+                                          alt="Salesforce"
+                                          className="w-full h-full object-contain"
+                                        />
+                                      </div>
+                                      <div className="flex flex-col text-left overflow-hidden">
+                                        <span className="text-sm font-semibold text-gray-700">
+                                          Salesforce
+                                        </span>
+                                        <span className="text-[9px] text-gray-400 font-medium uppercase truncate">
+                                          {salesforceAccounts.length}{" "}
+                                          {salesforceAccounts.length === 1
+                                            ? "Account"
+                                            : "Accounts"}{" "}
+                                          Connected
+                                        </span>
+                                      </div>
+                                    </DropdownMenuSubTrigger>
+                                    <DropdownMenuSubContent className="w-80 p-2 rounded-xl shadow-lg border-gray-200">
+                                      {salesforceAccounts.map((acc) => (
+                                        <DropdownMenuItem
+                                          key={acc.id}
+                                          onSelect={() => {
+                                            setCrmFile(file);
+                                            setSelectedCrm("salesforce");
+                                            setCrmDialogOpen(true);
+                                          }}
+                                          className="p-0 mb-1 last:mb-0 focus:bg-transparent"
+                                        >
+                                          <div className="flex items-center justify-between w-full rounded-md border border-gray-100 px-3 py-2.5 hover:bg-blue-50/50 hover:border-blue-200 transition-colors">
+                                            <div className="flex items-center gap-2">
+                                              <div className="w-2 h-2 rounded-full bg-blue-500" />
+                                              <span className="text-sm font-medium text-gray-700">
+                                                {acc.name}
+                                              </span>
+                                            </div>
+                                            <button
+                                              aria-label="Delete account"
+                                              className="text-gray-400 hover:text-red-600 p-1 rounded hover:bg-red-50 transition-colors"
+                                              onClick={(e) => {
+                                                e.preventDefault();
+                                                e.stopPropagation();
+                                                setSalesforceAccounts((prev) =>
+                                                  prev.filter(
+                                                    (a) => a.id !== acc.id,
+                                                  ),
+                                                );
+                                              }}
+                                              title="Delete account"
+                                            >
+                                              <Trash2 className="h-4 w-4" />
+                                            </button>
+                                          </div>
+                                        </DropdownMenuItem>
+                                      ))}
+                                      <DropdownMenuSeparator className="my-2 bg-gray-100" />
                                       <DropdownMenuItem
-                                        key={acc.id}
-                                        onSelect={() => {
-                                          setCrmFile(file);
-                                          setSelectedCrm("salesforce");
-                                          setCrmDialogOpen(true);
+                                        className="w-full px-4 py-2.5 rounded-lg bg-[#00A1E0] text-white hover:bg-[#008fcc] focus:bg-[#008fcc] focus:text-white flex items-center justify-center font-bold text-sm shadow-sm transition-all active:scale-[0.98]"
+                                        onSelect={(e) => {
+                                          e.preventDefault();
+                                          setSfAddOpen(true);
                                         }}
-                                        className="p-0"
                                       >
-                                        <div className="flex items-center justify-between w-full rounded-md border border-valasys-gray-200 px-3 py-2 hover:bg-accent">
-                                          <span>{acc.name}</span>
-                                          <button
-                                            aria-label="Delete account"
-                                            className="text-red-600 hover:text-red-700 p-1 rounded hover:bg-red-50"
-                                            onClick={(e) => {
-                                              e.preventDefault();
-                                              e.stopPropagation();
-                                              setSalesforceAccounts((prev) =>
-                                                prev.filter(
-                                                  (a) => a.id !== acc.id,
-                                                ),
-                                              );
-                                            }}
-                                            title="Delete account"
-                                          >
-                                            <Trash2 className="h-4 w-4" />
-                                          </button>
-                                        </div>
+                                        <Plus className="h-4 w-4 mr-2" />
+                                        Add Account
                                       </DropdownMenuItem>
-                                    ))}
-                                    <DropdownMenuSeparator className="my-2" />
-                                    <DropdownMenuItem
-                                      className="w-full px-3 py-2 rounded-md bg-[#00A1E0] text-white hover:bg-[#008fcc] flex items-center"
-                                      onSelect={(e) => {
-                                        e.preventDefault();
-                                        setSfAddOpen(true);
-                                      }}
-                                    >
-                                      <Plus className="h-4 w-4 mr-2" />
-                                      Add Account
-                                    </DropdownMenuItem>
-                                  </DropdownMenuSubContent>
-                                </DropdownMenuSub>
-                                <DropdownMenuSub>
-                                  <DropdownMenuSubTrigger>
-                                    <span className="inline-flex items-center justify-center w-5 h-5 rounded bg-[#FF7A59] text-white text-[10px] font-bold">
-                                      HS
-                                    </span>
-                                    <span className="ml-2">HubSpot</span>
-                                  </DropdownMenuSubTrigger>
-                                  <DropdownMenuSubContent className="w-80 p-2">
-                                    {hubspotAccounts.map((acc) => (
+                                    </DropdownMenuSubContent>
+                                  </DropdownMenuSub>
+                                  {/* HubSpot */}
+                                  <DropdownMenuSub>
+                                    <DropdownMenuSubTrigger className="flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all hover:bg-orange-50/50 focus:bg-orange-50/50 data-[state=open]:bg-orange-50 border-transparent hover:border-orange-100 border">
+                                      <div className="w-8 h-8 rounded-lg bg-white shadow-sm border border-gray-100 flex items-center justify-center p-1.5 flex-shrink-0">
+                                        <img
+                                          src="https://cdn.builder.io/api/v1/image/assets%2Fc1d6abb8b7ed4c9594742cec5cf96030%2F40b715f86ba846e3a21fae42e8f6e64d?format=webp&width=800&height=1200"
+                                          alt="HubSpot"
+                                          className="w-full h-full object-contain"
+                                        />
+                                      </div>
+                                      <div className="flex flex-col text-left overflow-hidden">
+                                        <span className="text-sm font-semibold text-gray-700">
+                                          HubSpot
+                                        </span>
+                                        <span className="text-[9px] text-gray-400 font-medium uppercase truncate">
+                                          {hubspotAccounts.length}{" "}
+                                          {hubspotAccounts.length === 1
+                                            ? "Account"
+                                            : "Accounts"}{" "}
+                                          Connected
+                                        </span>
+                                      </div>
+                                    </DropdownMenuSubTrigger>
+                                    <DropdownMenuSubContent className="w-80 p-2 rounded-xl shadow-lg border-gray-200">
+                                      {hubspotAccounts.map((acc) => (
+                                        <DropdownMenuItem
+                                          key={acc.id}
+                                          onSelect={() => {
+                                            setCrmFile(file);
+                                            setSelectedCrm("hubspot");
+                                            setCrmDialogOpen(true);
+                                          }}
+                                          className="p-0 mb-1 last:mb-0 focus:bg-transparent"
+                                        >
+                                          <div className="flex items-center justify-between w-full rounded-md border border-gray-100 px-3 py-2.5 hover:bg-orange-50/50 hover:border-orange-200 transition-colors">
+                                            <div className="flex items-center gap-2">
+                                              <div className="w-2 h-2 rounded-full bg-[#FF7A59]" />
+                                              <span className="text-sm font-medium text-gray-700">
+                                                {acc.name}
+                                              </span>
+                                            </div>
+                                            <button
+                                              aria-label="Delete account"
+                                              className="text-gray-400 hover:text-red-600 p-1 rounded hover:bg-red-50 transition-colors"
+                                              onClick={(e) => {
+                                                e.preventDefault();
+                                                e.stopPropagation();
+                                                setHubspotAccounts((prev) =>
+                                                  prev.filter(
+                                                    (a) => a.id !== acc.id,
+                                                  ),
+                                                );
+                                              }}
+                                              title="Delete account"
+                                            >
+                                              <Trash2 className="h-4 w-4" />
+                                            </button>
+                                          </div>
+                                        </DropdownMenuItem>
+                                      ))}
+                                      <DropdownMenuSeparator className="my-2 bg-gray-100" />
                                       <DropdownMenuItem
-                                        key={acc.id}
-                                        onSelect={() => {
-                                          setCrmFile(file);
-                                          setSelectedCrm("hubspot");
-                                          setCrmDialogOpen(true);
+                                        className="w-full px-4 py-2.5 rounded-lg bg-[#FF7A59] text-white hover:bg-[#e7674f] focus:bg-[#e7674f] focus:text-white flex items-center justify-center font-bold text-sm shadow-sm transition-all active:scale-[0.98]"
+                                        onSelect={(e) => {
+                                          e.preventDefault();
+                                          setHsAddOpen(true);
                                         }}
-                                        className="p-0"
                                       >
-                                        <div className="flex items-center justify-between w-full rounded-md border border-valasys-gray-200 px-3 py-2 hover:bg-accent">
-                                          <span>{acc.name}</span>
-                                          <button
-                                            aria-label="Delete account"
-                                            className="text-red-600 hover:text-red-700 p-1 rounded hover:bg-red-50"
-                                            onClick={(e) => {
-                                              e.preventDefault();
-                                              e.stopPropagation();
-                                              setHubspotAccounts((prev) =>
-                                                prev.filter(
-                                                  (a) => a.id !== acc.id,
-                                                ),
-                                              );
-                                            }}
-                                            title="Delete account"
-                                          >
-                                            <Trash2 className="h-4 w-4" />
-                                          </button>
-                                        </div>
+                                        <Plus className="h-4 w-4 mr-2" />
+                                        Add Account
                                       </DropdownMenuItem>
-                                    ))}
-                                    <DropdownMenuSeparator className="my-2" />
-                                    <DropdownMenuItem
-                                      className="w-full px-3 py-2 rounded-md bg-[#FF7A59] text-white hover:bg-[#e7674f] flex items-center"
-                                      onSelect={(e) => {
-                                        e.preventDefault();
-                                        setHsAddOpen(true);
-                                      }}
-                                    >
-                                      <Plus className="h-4 w-4 mr-2" />
-                                      Add Account
-                                    </DropdownMenuItem>
-                                  </DropdownMenuSubContent>
-                                </DropdownMenuSub>
-                                <DropdownMenuSub>
-                                  <DropdownMenuSubTrigger>
-                                    <span className="inline-flex items-center justify-center w-5 h-5 rounded bg-[#026AA7] text-white text-[10px] font-bold">
-                                      ZH
-                                    </span>
-                                    <span className="ml-2">Zoho</span>
-                                  </DropdownMenuSubTrigger>
-                                  <DropdownMenuSubContent className="w-80 p-2">
-                                    {zohoAccounts.map((acc) => (
+                                    </DropdownMenuSubContent>
+                                  </DropdownMenuSub>
+                                  {/* Zoho */}
+                                  <DropdownMenuSub>
+                                    <DropdownMenuSubTrigger className="flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all hover:bg-blue-50/50 focus:bg-blue-50/50 data-[state=open]:bg-blue-50 border-transparent hover:border-blue-100 border">
+                                      <div className="w-8 h-8 rounded-lg bg-white shadow-sm border border-gray-100 flex items-center justify-center p-1.5 flex-shrink-0">
+                                        <img
+                                          src="https://cdn.builder.io/api/v1/image/assets%2Fc1d6abb8b7ed4c9594742cec5cf96030%2Ff9461315c70742a7bc20336186312fae?format=webp&width=800&height=1200"
+                                          alt="Zoho"
+                                          className="w-full h-full object-contain"
+                                        />
+                                      </div>
+                                      <div className="flex flex-col text-left overflow-hidden">
+                                        <span className="text-sm font-semibold text-gray-700">
+                                          Zoho
+                                        </span>
+                                        <span className="text-[9px] text-gray-400 font-medium uppercase truncate">
+                                          {zohoAccounts.length}{" "}
+                                          {zohoAccounts.length === 1
+                                            ? "Account"
+                                            : "Accounts"}{" "}
+                                          Connected
+                                        </span>
+                                      </div>
+                                    </DropdownMenuSubTrigger>
+                                    <DropdownMenuSubContent className="w-80 p-2 rounded-xl shadow-lg border-gray-200">
+                                      {zohoAccounts.map((acc) => (
+                                        <DropdownMenuItem
+                                          key={acc.id}
+                                          onSelect={() => {
+                                            setCrmFile(file);
+                                            setSelectedCrm("zoho");
+                                            setCrmDialogOpen(true);
+                                          }}
+                                          className="p-0 mb-1 last:mb-0 focus:bg-transparent"
+                                        >
+                                          <div className="flex items-center justify-between w-full rounded-md border border-gray-100 px-3 py-2.5 hover:bg-blue-50/50 hover:border-blue-200 transition-colors">
+                                            <div className="flex items-center gap-2">
+                                              <div className="w-2 h-2 rounded-full bg-[#026AA7]" />
+                                              <span className="text-sm font-medium text-gray-700">
+                                                {acc.name}
+                                              </span>
+                                            </div>
+                                            <button
+                                              aria-label="Delete account"
+                                              className="text-gray-400 hover:text-red-600 p-1 rounded hover:bg-red-50 transition-colors"
+                                              onClick={(e) => {
+                                                e.preventDefault();
+                                                e.stopPropagation();
+                                                setZohoAccounts((prev) =>
+                                                  prev.filter(
+                                                    (a) => a.id !== acc.id,
+                                                  ),
+                                                );
+                                              }}
+                                              title="Delete account"
+                                            >
+                                              <Trash2 className="h-4 w-4" />
+                                            </button>
+                                          </div>
+                                        </DropdownMenuItem>
+                                      ))}
+                                      <DropdownMenuSeparator className="my-2 bg-gray-100" />
                                       <DropdownMenuItem
-                                        key={acc.id}
-                                        onSelect={() => {
-                                          setCrmFile(file);
-                                          setSelectedCrm("zoho");
-                                          setCrmDialogOpen(true);
+                                        className="w-full px-4 py-2.5 rounded-lg bg-[#026AA7] text-white hover:bg-[#01529b] focus:bg-[#01529b] focus:text-white flex items-center justify-center font-bold text-sm shadow-sm transition-all active:scale-[0.98]"
+                                        onSelect={(e) => {
+                                          e.preventDefault();
+                                          setZohoAddOpen(true);
                                         }}
-                                        className="p-0"
                                       >
-                                        <div className="flex items-center justify-between w-full rounded-md border border-valasys-gray-200 px-3 py-2 hover:bg-accent">
-                                          <span>{acc.name}</span>
-                                          <button
-                                            aria-label="Delete account"
-                                            className="text-red-600 hover:text-red-700 p-1 rounded hover:bg-red-50"
-                                            onClick={(e) => {
-                                              e.preventDefault();
-                                              e.stopPropagation();
-                                              setZohoAccounts((prev) =>
-                                                prev.filter(
-                                                  (a) => a.id !== acc.id,
-                                                ),
-                                              );
-                                            }}
-                                            title="Delete account"
-                                          >
-                                            <Trash2 className="h-4 w-4" />
-                                          </button>
-                                        </div>
+                                        <Plus className="h-4 w-4 mr-2" />
+                                        Add Account
                                       </DropdownMenuItem>
-                                    ))}
-                                    <DropdownMenuSeparator className="my-2" />
-                                    <DropdownMenuItem
-                                      className="w-full px-3 py-2 rounded-md bg-[#026AA7] text-white hover:bg-[#01529b] flex items-center"
-                                      onSelect={(e) => {
-                                        e.preventDefault();
-                                        setZohoAddOpen(true);
-                                      }}
-                                    >
-                                      <Plus className="h-4 w-4 mr-2" />
-                                      Add Account
-                                    </DropdownMenuItem>
-                                  </DropdownMenuSubContent>
-                                </DropdownMenuSub>
-                                <DropdownMenuSub>
-                                  <DropdownMenuSubTrigger>
-                                    <span className="inline-flex items-center justify-center w-5 h-5 rounded bg-[#2ED8B6] text-white text-[10px] font-bold">
-                                      PD
-                                    </span>
-                                    <span className="ml-2">Pipedrive</span>
-                                  </DropdownMenuSubTrigger>
-                                  <DropdownMenuSubContent className="w-80 p-2">
-                                    {pipedriveAccounts.map((acc) => (
+                                    </DropdownMenuSubContent>
+                                  </DropdownMenuSub>
+                                  {/* Pipedrive */}
+                                  <DropdownMenuSub>
+                                    <DropdownMenuSubTrigger className="flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all hover:bg-emerald-50/50 focus:bg-emerald-50/50 data-[state=open]:bg-emerald-50 border-transparent hover:border-emerald-100 border">
+                                      <div className="w-8 h-8 rounded-lg bg-white shadow-sm border border-gray-100 flex items-center justify-center p-1.5 flex-shrink-0">
+                                        <img
+                                          src="https://cdn.builder.io/api/v1/image/assets%2Fc1d6abb8b7ed4c9594742cec5cf96030%2F89a50adb31fb4b0a86972a2871fe141a?format=webp&width=800&height=1200"
+                                          alt="Pipedrive"
+                                          className="w-full h-full object-contain"
+                                        />
+                                      </div>
+                                      <div className="flex flex-col text-left overflow-hidden">
+                                        <span className="text-sm font-semibold text-gray-700">
+                                          Pipedrive
+                                        </span>
+                                        <span className="text-[9px] text-gray-400 font-medium uppercase truncate">
+                                          {pipedriveAccounts.length}{" "}
+                                          {pipedriveAccounts.length === 1
+                                            ? "Account"
+                                            : "Accounts"}{" "}
+                                          Connected
+                                        </span>
+                                      </div>
+                                    </DropdownMenuSubTrigger>
+                                    <DropdownMenuSubContent className="w-80 p-2 rounded-xl shadow-lg border-gray-200">
+                                      {pipedriveAccounts.map((acc) => (
+                                        <DropdownMenuItem
+                                          key={acc.id}
+                                          onSelect={() => {
+                                            setCrmFile(file);
+                                            setSelectedCrm("pipedrive");
+                                            setCrmDialogOpen(true);
+                                          }}
+                                          className="p-0 mb-1 last:mb-0 focus:bg-transparent"
+                                        >
+                                          <div className="flex items-center justify-between w-full rounded-md border border-gray-100 px-3 py-2.5 hover:bg-emerald-50/50 hover:border-emerald-200 transition-colors">
+                                            <div className="flex items-center gap-2">
+                                              <div className="w-2 h-2 rounded-full bg-[#2ED8B6]" />
+                                              <span className="text-sm font-medium text-gray-700">
+                                                {acc.name}
+                                              </span>
+                                            </div>
+                                            <button
+                                              aria-label="Delete account"
+                                              className="text-gray-400 hover:text-red-600 p-1 rounded hover:bg-red-50 transition-colors"
+                                              onClick={(e) => {
+                                                e.preventDefault();
+                                                e.stopPropagation();
+                                                setPipedriveAccounts((prev) =>
+                                                  prev.filter(
+                                                    (a) => a.id !== acc.id,
+                                                  ),
+                                                );
+                                              }}
+                                              title="Delete account"
+                                            >
+                                              <Trash2 className="h-4 w-4" />
+                                            </button>
+                                          </div>
+                                        </DropdownMenuItem>
+                                      ))}
+                                      <DropdownMenuSeparator className="my-2 bg-gray-100" />
                                       <DropdownMenuItem
-                                        key={acc.id}
-                                        onSelect={() => {
-                                          setCrmFile(file);
-                                          setSelectedCrm("pipedrive");
-                                          setCrmDialogOpen(true);
+                                        className="w-full px-4 py-2.5 rounded-lg bg-[#2ED8B6] text-white hover:bg-[#25c5a4] focus:bg-[#25c5a4] focus:text-white flex items-center justify-center font-bold text-sm shadow-sm transition-all active:scale-[0.98]"
+                                        onSelect={(e) => {
+                                          e.preventDefault();
+                                          setPipedriveAddOpen(true);
                                         }}
-                                        className="p-0"
                                       >
-                                        <div className="flex items-center justify-between w-full rounded-md border border-valasys-gray-200 px-3 py-2 hover:bg-accent">
-                                          <span>{acc.name}</span>
-                                          <button
-                                            aria-label="Delete account"
-                                            className="text-red-600 hover:text-red-700 p-1 rounded hover:bg-red-50"
-                                            onClick={(e) => {
-                                              e.preventDefault();
-                                              e.stopPropagation();
-                                              setPipedriveAccounts((prev) =>
-                                                prev.filter(
-                                                  (a) => a.id !== acc.id,
-                                                ),
-                                              );
-                                            }}
-                                            title="Delete account"
-                                          >
-                                            <Trash2 className="h-4 w-4" />
-                                          </button>
-                                        </div>
+                                        <Plus className="h-4 w-4 mr-2" />
+                                        Add Account
                                       </DropdownMenuItem>
-                                    ))}
-                                    <DropdownMenuSeparator className="my-2" />
-                                    <DropdownMenuItem
-                                      className="w-full px-3 py-2 rounded-md bg-[#2ED8B6] text-white hover:bg-[#25c5a4] flex items-center"
-                                      onSelect={(e) => {
-                                        e.preventDefault();
-                                        setPipedriveAddOpen(true);
-                                      }}
-                                    >
-                                      <Plus className="h-4 w-4 mr-2" />
-                                      Add Account
-                                    </DropdownMenuItem>
-                                  </DropdownMenuSubContent>
-                                </DropdownMenuSub>
-                                <DropdownMenuItem
-                                  onSelect={() => {
-                                    setCrmFile(file);
-                                    setSelectedCrm("marketo");
-                                    setCrmDialogOpen(true);
-                                  }}
-                                >
-                                  <span className="inline-flex items-center justify-center w-5 h-5 rounded bg-[#5C4BAF] text-white text-[10px] font-bold mr-2">
-                                    MK
-                                  </span>
-                                  Marketo
-                                </DropdownMenuItem>
+                                    </DropdownMenuSubContent>
+                                  </DropdownMenuSub>
+                                  {/* Dynamics 365 */}
+                                  <DropdownMenuSub>
+                                    <DropdownMenuSubTrigger className="flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all hover:bg-blue-50/50 focus:bg-blue-50/50 data-[state=open]:bg-blue-50 border-transparent hover:border-blue-100 border">
+                                      <div className="w-8 h-8 rounded-lg bg-white shadow-sm border border-gray-100 flex items-center justify-center p-1.5 flex-shrink-0">
+                                        <img
+                                          src="https://cdn.builder.io/api/v1/image/assets%2Fc1d6abb8b7ed4c9594742cec5cf96030%2Fd6509f15327e401cad5147a39dbde9a1?format=webp&width=800&height=1200"
+                                          alt="Dynamics 365"
+                                          className="w-full h-full object-contain"
+                                        />
+                                      </div>
+                                      <div className="flex flex-col text-left overflow-hidden">
+                                        <span className="text-sm font-semibold text-gray-700">
+                                          Dynamics 365
+                                        </span>
+                                        <span className="text-[9px] text-gray-400 font-medium uppercase truncate">
+                                          {msDynamicsAccounts.length}{" "}
+                                          {msDynamicsAccounts.length === 1
+                                            ? "Account"
+                                            : "Accounts"}{" "}
+                                          Connected
+                                        </span>
+                                      </div>
+                                    </DropdownMenuSubTrigger>
+                                    <DropdownMenuSubContent className="w-80 p-2 rounded-xl shadow-lg border-gray-200">
+                                      {msDynamicsAccounts.map((acc) => (
+                                        <DropdownMenuItem
+                                          key={acc.id}
+                                          onSelect={() => {
+                                            setCrmFile(file);
+                                            setSelectedCrm("dynamics365");
+                                            setCrmDialogOpen(true);
+                                          }}
+                                          className="p-0 mb-1 last:mb-0 focus:bg-transparent"
+                                        >
+                                          <div className="flex items-center justify-between w-full rounded-md border border-gray-100 px-3 py-2.5 hover:bg-blue-50/50 hover:border-blue-200 transition-colors">
+                                            <div className="flex items-center gap-2">
+                                              <div className="w-2 h-2 rounded-full bg-[#002050]" />
+                                              <span className="text-sm font-medium text-gray-700">
+                                                {acc.name}
+                                              </span>
+                                            </div>
+                                            <button
+                                              aria-label="Delete account"
+                                              className="text-gray-400 hover:text-red-600 p-1 rounded hover:bg-red-50 transition-colors"
+                                              onClick={(e) => {
+                                                e.preventDefault();
+                                                e.stopPropagation();
+                                                setMsDynamicsAccounts((prev) =>
+                                                  prev.filter(
+                                                    (a) => a.id !== acc.id,
+                                                  ),
+                                                );
+                                              }}
+                                              title="Delete account"
+                                            >
+                                              <Trash2 className="h-4 w-4" />
+                                            </button>
+                                          </div>
+                                        </DropdownMenuItem>
+                                      ))}
+                                      <DropdownMenuSeparator className="my-2 bg-gray-100" />
+                                      <DropdownMenuItem
+                                        className="w-full px-4 py-2.5 rounded-lg bg-[#002050] text-white hover:bg-[#00183d] focus:bg-[#00183d] focus:text-white flex items-center justify-center font-bold text-sm shadow-sm transition-all active:scale-[0.98]"
+                                        onSelect={(e) => {
+                                          e.preventDefault();
+                                          setMsDynamicsAddOpen(true);
+                                        }}
+                                      >
+                                        <Plus className="h-4 w-4 mr-2" />
+                                        Add Account
+                                      </DropdownMenuItem>
+                                    </DropdownMenuSubContent>
+                                  </DropdownMenuSub>
+                                  {/* MS-Teams */}
+                                  <DropdownMenuSub>
+                                    <DropdownMenuSubTrigger className="flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all hover:bg-indigo-50/50 focus:bg-indigo-50/50 data-[state=open]:bg-indigo-50 border-transparent hover:border-indigo-100 border">
+                                      <div className="w-8 h-8 rounded-lg bg-white shadow-sm border border-gray-100 flex items-center justify-center p-1.5 flex-shrink-0">
+                                        <img
+                                          src="https://cdn.builder.io/api/v1/image/assets%2Fc1d6abb8b7ed4c9594742cec5cf96030%2F3b4884a105cf45798527733b74a30228?format=webp&width=800&height=1200"
+                                          alt="MS-Teams"
+                                          className="w-full h-full object-contain"
+                                        />
+                                      </div>
+                                      <div className="flex flex-col text-left overflow-hidden">
+                                        <span className="text-sm font-semibold text-gray-700">
+                                          MS-Teams
+                                        </span>
+                                        <span className="text-[9px] text-gray-400 font-medium uppercase truncate">
+                                          {msTeamsAccounts.length}{" "}
+                                          {msTeamsAccounts.length === 1
+                                            ? "Channel"
+                                            : "Channels"}{" "}
+                                          Connected
+                                        </span>
+                                      </div>
+                                    </DropdownMenuSubTrigger>
+                                    <DropdownMenuSubContent className="w-80 p-2 rounded-xl shadow-lg border-gray-200">
+                                      {msTeamsAccounts.map((acc) => (
+                                        <DropdownMenuItem
+                                          key={acc.id}
+                                          onSelect={() => {
+                                            setCrmFile(file);
+                                            setSelectedCrm("msteams");
+                                            setCrmDialogOpen(true);
+                                          }}
+                                          className="p-0 mb-1 last:mb-0 focus:bg-transparent"
+                                        >
+                                          <div className="flex items-center justify-between w-full rounded-md border border-gray-100 px-3 py-2.5 hover:bg-indigo-50/50 hover:border-indigo-200 transition-colors">
+                                            <div className="flex items-center gap-2">
+                                              <div className="w-2 h-2 rounded-full bg-[#4B53BC]" />
+                                              <span className="text-sm font-medium text-gray-700">
+                                                {acc.name}
+                                              </span>
+                                            </div>
+                                            <div className="flex items-center gap-1">
+                                              <button
+                                                aria-label="Edit channel"
+                                                className="text-gray-400 hover:text-blue-600 p-1 rounded hover:bg-blue-50 transition-colors"
+                                                onClick={(e) => {
+                                                  e.preventDefault();
+                                                  e.stopPropagation();
+                                                  setIsMsTeamsEditing(true);
+                                                  setEditingMsTeamsAccountId(
+                                                    acc.id,
+                                                  );
+                                                  setMsTeamsDisplayName(
+                                                    acc.name,
+                                                  );
+                                                  setMsTeamsClientKey(
+                                                    acc.clientKey,
+                                                  );
+                                                  setMsTeamsClientSecret(
+                                                    acc.clientSecret,
+                                                  );
+                                                  setMsTeamsTenantId(
+                                                    acc.tenantId,
+                                                  );
+                                                  setMsTeamsRedirectUri(
+                                                    acc.redirectUri,
+                                                  );
+                                                  setMsTeamsTeamId(acc.teamId);
+                                                  setMsTeamsChannelId(
+                                                    acc.channelId,
+                                                  );
+                                                  setMsTeamsAddOpen(true);
+                                                }}
+                                                title="Edit channel"
+                                              >
+                                                <Pencil className="h-4 w-4" />
+                                              </button>
+                                              <button
+                                                aria-label="Delete channel"
+                                                className="text-gray-400 hover:text-red-600 p-1 rounded hover:bg-red-50 transition-colors"
+                                                onClick={(e) => {
+                                                  e.preventDefault();
+                                                  e.stopPropagation();
+                                                  setMsTeamsAccounts((prev) =>
+                                                    prev.filter(
+                                                      (a) => a.id !== acc.id,
+                                                    ),
+                                                  );
+                                                }}
+                                                title="Delete channel"
+                                              >
+                                                <Trash2 className="h-4 w-4" />
+                                              </button>
+                                            </div>
+                                          </div>
+                                        </DropdownMenuItem>
+                                      ))}
+                                      <DropdownMenuSeparator className="my-2 bg-gray-100" />
+                                      <DropdownMenuItem
+                                        className="w-full px-4 py-2.5 rounded-lg bg-[#4B53BC] text-white hover:bg-[#3f46a3] focus:bg-[#3f46a3] focus:text-white flex items-center justify-center font-bold text-sm shadow-sm transition-all active:scale-[0.98]"
+                                        onSelect={(e) => {
+                                          e.preventDefault();
+                                          setMsTeamsAddOpen(true);
+                                        }}
+                                      >
+                                        <Plus className="h-4 w-4 mr-2" />
+                                        Add Channel
+                                      </DropdownMenuItem>
+                                    </DropdownMenuSubContent>
+                                  </DropdownMenuSub>
+
+                                  {/* Marketo */}
+                                  <DropdownMenuItem
+                                    onSelect={() => {
+                                      setCrmFile(file);
+                                      setSelectedCrm("marketo");
+                                      setCrmDialogOpen(true);
+                                    }}
+                                    className="flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all hover:bg-purple-50/50 focus:bg-purple-50/50 border-transparent hover:border-purple-100 border"
+                                  >
+                                    <div className="w-8 h-8 rounded-lg bg-[#5C4BAF] shadow-sm flex items-center justify-center text-white text-[10px] font-bold flex-shrink-0">
+                                      MK
+                                    </div>
+                                    <div className="flex flex-col text-left overflow-hidden">
+                                      <span className="text-sm font-semibold text-gray-700">
+                                        Marketo
+                                      </span>
+                                      <span className="text-[9px] text-gray-400 font-medium uppercase truncate">
+                                        Import via API
+                                      </span>
+                                    </div>
+                                  </DropdownMenuItem>
+                                </div>
                               </DropdownMenuContent>
                             </DropdownMenu>
                           </div>
@@ -1891,6 +2305,631 @@ export default function MyDownloadedList() {
           </DialogContent>
         </Dialog>
 
+        {/* Microsoft Dynamics 365 Add Account Dialog */}
+        <Dialog
+          open={msDynamicsAddOpen}
+          onOpenChange={(open) => {
+            setMsDynamicsAddOpen(open);
+            if (!open) {
+              setMsDynamicsDisplayName("");
+              setMsDynamicsClientKey("");
+              setMsDynamicsClientSecret("");
+              setMsDynamicsTenantId("");
+              setMsDynamicsInstanceUrl("");
+              setMsDynamicsRedirectUri("");
+            }
+          }}
+        >
+          <DialogContent className="max-w-2xl">
+            <DialogHeader>
+              <DialogTitle>Microsoft Dynamics 365 Connection</DialogTitle>
+              <DialogDescription>
+                Add a Microsoft Dynamics 365 account using OAuth credentials to
+                enable one-click exports.
+              </DialogDescription>
+            </DialogHeader>
+            <div className="mt-2 rounded-lg border border-blue-200 bg-gradient-to-r from-blue-50 to-[#002050]/10 p-3 flex items-center gap-3">
+              <span className="inline-flex items-center justify-center w-8 h-8 rounded bg-[#002050] text-white text-xs font-bold">
+                D3
+              </span>
+              <div className="text-sm text-blue-900">
+                Securely connect your Microsoft Dynamics 365 CRM to enable
+                one‑click exports.
+              </div>
+            </div>
+            <Tabs defaultValue="add">
+              <TabsList className="mt-3 bg-transparent p-0 border-b border-valasys-gray-200">
+                <TabsTrigger
+                  value="add"
+                  className="relative -mb-[1px] inline-flex items-center gap-2 px-0 py-2 text-sm font-medium text-valasys-gray-500 data-[state=active]:text-valasys-orange data-[state=active]:underline data-[state=active]:decoration-2 data-[state=active]:underline-offset-8 data-[state=active]:shadow-none"
+                >
+                  <ListChecks className="h-4 w-4" /> Add Dynamics 365 Account
+                </TabsTrigger>
+                <TabsTrigger
+                  value="howto"
+                  className="relative -mb-[1px] inline-flex items-center gap-2 px-0 py-2 text-sm font-medium text-valasys-gray-500 data-[state=active]:text-valasys-orange data-[state=active]:underline data-[state=active]:decoration-2 data-[state=active]:underline-offset-8 data-[state=active]:shadow-none"
+                >
+                  <Info className="h-4 w-4" /> Instructions to Add Account
+                </TabsTrigger>
+              </TabsList>
+              <TabsContent
+                value="add"
+                className="border-b border-valasys-gray-200 pb-4"
+              >
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-3 rounded-lg border border-valasys-gray-200 bg-white p-4 shadow-sm">
+                  <div>
+                    <Label htmlFor="ms-display-name">
+                      Display Name <span className="text-red-500">*</span>
+                    </Label>
+                    <Input
+                      id="ms-display-name"
+                      value={msDynamicsDisplayName}
+                      onChange={(e) => setMsDynamicsDisplayName(e.target.value)}
+                      placeholder="e.g., Dynamics Main"
+                      required
+                    />
+                    <p className="text-xs text-gray-500 mt-1">
+                      A friendly name to identify this Microsoft Dynamics 365
+                      account.
+                    </p>
+                  </div>
+                  <div>
+                    <Label htmlFor="ms-client-key">
+                      Client Key <span className="text-red-500">*</span>
+                    </Label>
+                    <Input
+                      id="ms-client-key"
+                      value={msDynamicsClientKey}
+                      onChange={(e) => setMsDynamicsClientKey(e.target.value)}
+                      placeholder="Enter Client Key"
+                      required
+                    />
+                    <p className="text-xs text-gray-500 mt-1">
+                      Enter the Application (client) ID from your Azure Portal
+                      app registration.
+                    </p>
+                  </div>
+                  <div>
+                    <Label htmlFor="ms-client-secret">
+                      Client Secret <span className="text-red-500">*</span>
+                    </Label>
+                    <Input
+                      id="ms-client-secret"
+                      type="password"
+                      value={msDynamicsClientSecret}
+                      onChange={(e) =>
+                        setMsDynamicsClientSecret(e.target.value)
+                      }
+                      placeholder="Enter Client Secret"
+                      required
+                    />
+                    <p className="text-xs text-gray-500 mt-1">
+                      Enter the Client Secret value generated in the Azure
+                      Portal. Keep this value confidential.
+                    </p>
+                  </div>
+                  <div>
+                    <Label htmlFor="ms-tenant-id">
+                      Tenant ID <span className="text-red-500">*</span>
+                    </Label>
+                    <Input
+                      id="ms-tenant-id"
+                      value={msDynamicsTenantId}
+                      onChange={(e) => setMsDynamicsTenantId(e.target.value)}
+                      placeholder="Enter Tenant ID"
+                      required
+                    />
+                    <p className="text-xs text-gray-500 mt-1">
+                      Enter the Directory (tenant) ID from your Azure Portal.
+                    </p>
+                  </div>
+                  <div>
+                    <Label htmlFor="ms-instance-url">
+                      Instance URL <span className="text-red-500">*</span>
+                    </Label>
+                    <Input
+                      id="ms-instance-url"
+                      value={msDynamicsInstanceUrl}
+                      onChange={(e) => setMsDynamicsInstanceUrl(e.target.value)}
+                      placeholder="https://org.crm.dynamics.com"
+                      required
+                    />
+                    <p className="text-xs text-gray-500 mt-1">
+                      Enter the base URL of your Dynamics 365 instance (e.g.,
+                      https://org.crm.dynamics.com).
+                    </p>
+                  </div>
+                  <div>
+                    <Label htmlFor="ms-redirect-uri">
+                      Redirect URI <span className="text-red-500">*</span>
+                    </Label>
+                    <Input
+                      id="ms-redirect-uri"
+                      value={msDynamicsRedirectUri}
+                      onChange={(e) => setMsDynamicsRedirectUri(e.target.value)}
+                      placeholder="https://your-app.com/callback"
+                      required
+                    />
+                    <p className="text-xs text-gray-500 mt-1">
+                      Enter the Redirect URI configured in your Azure app
+                      registration.
+                    </p>
+                  </div>
+                </div>
+                <div className="mt-4 flex items-center justify-end gap-2">
+                  <Button
+                    variant="outline"
+                    onClick={() => setMsDynamicsAddOpen(false)}
+                  >
+                    Cancel
+                  </Button>
+                  <Button
+                    disabled={!isMsDynamicsValid}
+                    className="bg-gradient-to-r from-valasys-orange to-valasys-orange-light text-white disabled:opacity-50 disabled:cursor-not-allowed"
+                    onClick={() => {
+                      if (!isMsDynamicsValid) return;
+                      setMsDynamicsAccounts((prev) => [
+                        ...prev,
+                        {
+                          id: `dynamics-${msDynamicsNextId}`,
+                          name: msDynamicsDisplayName.trim(),
+                        },
+                      ]);
+                      setMsDynamicsNextId((n) => n + 1);
+                      setMsDynamicsDisplayName("");
+                      setMsDynamicsClientKey("");
+                      setMsDynamicsClientSecret("");
+                      setMsDynamicsTenantId("");
+                      setMsDynamicsInstanceUrl("");
+                      setMsDynamicsRedirectUri("");
+                      setMsDynamicsAddOpen(false);
+                      setMsDynamicsThankOpen(true);
+                      setMsDynamicsThankProcessing(true);
+                      setMsDynamicsThankProgress(0);
+                    }}
+                  >
+                    <Save className="h-4 w-4 mr-2" /> Save Connection
+                  </Button>
+                </div>
+              </TabsContent>
+              <TabsContent
+                value="howto"
+                className="border-b border-valasys-gray-200 pb-4"
+              >
+                <div className="rounded-md border border-blue-200 bg-blue-50 p-3 text-blue-900 mt-3 text-sm">
+                  Follow these steps in Azure Portal to create credentials for
+                  Dynamics 365.
+                </div>
+                <div className="space-y-2 mt-3 text-sm text-gray-700">
+                  <ol className="list-decimal pl-5 space-y-1">
+                    <li>
+                      Log in to the Azure Portal and navigate to Microsoft
+                      Entra ID (formerly Azure AD).
+                    </li>
+                    <li>
+                      Go to App registrations and create a new registration.
+                    </li>
+                    <li>
+                      Set the Redirect URI as a Web platform with your
+                      callback URL.
+                    </li>
+                    <li>
+                      In Certificates & secrets, create a new client secret
+                      and copy its value.
+                    </li>
+                    <li>
+                      In API permissions, add permissions for Dynamics CRM
+                      (user_impersonation).
+                    </li>
+                    <li>
+                      Copy the Application (client) ID and Directory (tenant)
+                      ID.
+                    </li>
+                    <li>
+                      Paste all values into the form above and click Save
+                      Connection.
+                    </li>
+                  </ol>
+                </div>
+              </TabsContent>
+            </Tabs>
+          </DialogContent>
+        </Dialog>
+
+        {/* Microsoft Teams Add Channel Dialog */}
+        <Dialog
+          open={msTeamsAddOpen}
+          onOpenChange={(open) => {
+            setMsTeamsAddOpen(open);
+            if (!open) {
+              setMsTeamsDisplayName("");
+              setMsTeamsClientKey("");
+              setMsTeamsClientSecret("");
+              setMsTeamsTenantId("");
+              setMsTeamsRedirectUri("");
+              setMsTeamsTeamId("");
+              setMsTeamsChannelId("");
+              setIsMsTeamsEditing(false);
+              setEditingMsTeamsAccountId(null);
+            }
+          }}
+        >
+          <DialogContent className="max-w-2xl">
+            <DialogHeader>
+              <DialogTitle>Microsoft Teams Connection</DialogTitle>
+              <DialogDescription>
+                Add a Microsoft Teams channel using OAuth credentials to enable
+                one-click exports.
+              </DialogDescription>
+            </DialogHeader>
+            <div className="mt-2 rounded-lg border border-blue-200 bg-gradient-to-r from-blue-50 to-[#4B53BC]/10 p-3 flex items-center gap-3">
+              <span className="inline-flex items-center justify-center w-8 h-8 rounded bg-[#4B53BC] text-white text-xs font-bold">
+                TM
+              </span>
+              <div className="text-sm text-blue-900">
+                Securely connect your MS-Teams to enable one‑click exports to
+                channels.
+              </div>
+            </div>
+            <Tabs defaultValue="add">
+              <TabsList className="mt-3 bg-transparent p-0 border-b border-valasys-gray-200">
+                <TabsTrigger
+                  value="add"
+                  className="relative -mb-[1px] inline-flex items-center gap-2 px-0 py-2 text-sm font-medium text-valasys-gray-500 data-[state=active]:text-valasys-orange data-[state=active]:underline data-[state=active]:decoration-2 data-[state=active]:underline-offset-8 data-[state=active]:shadow-none"
+                >
+                  <ListChecks className="h-4 w-4" />{" "}
+                  {isMsTeamsEditing ? "Edit Teams Account" : "Add Teams Account"}
+                </TabsTrigger>
+                <TabsTrigger
+                  value="howto"
+                  className="relative -mb-[1px] inline-flex items-center gap-2 px-0 py-2 text-sm font-medium text-valasys-gray-500 data-[state=active]:text-valasys-orange data-[state=active]:underline data-[state=active]:decoration-2 data-[state=active]:underline-offset-8 data-[state=active]:shadow-none"
+                >
+                  <Info className="h-4 w-4" /> Instructions to Add Account
+                </TabsTrigger>
+              </TabsList>
+              <TabsContent
+                value="add"
+                className="border-b border-valasys-gray-200 pb-4"
+              >
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-3 rounded-lg border border-valasys-gray-200 bg-white p-4 shadow-sm">
+                  <div>
+                    <Label htmlFor="teams-display-name">
+                      Display Name <span className="text-red-500">*</span>
+                    </Label>
+                    <Input
+                      id="teams-display-name"
+                      value={msTeamsDisplayName}
+                      onChange={(e) => setMsTeamsDisplayName(e.target.value)}
+                      placeholder="e.g., Marketing Alerts"
+                      required
+                      disabled={isMsTeamsEditing}
+                    />
+                    <p className="text-xs text-gray-500 mt-1">
+                      A friendly name to identify this Microsoft Teams
+                      connection.
+                    </p>
+                  </div>
+                  <div>
+                    <Label htmlFor="teams-client-key">
+                      Client Key <span className="text-red-500">*</span>
+                    </Label>
+                    <Input
+                      id="teams-client-key"
+                      value={msTeamsClientKey}
+                      onChange={(e) => setMsTeamsClientKey(e.target.value)}
+                      placeholder="Enter Client Key"
+                      required
+                      disabled={isMsTeamsEditing}
+                    />
+                    <p className="text-xs text-gray-500 mt-1">
+                      Enter the Application (client) ID from your Azure Portal
+                      app registration.
+                    </p>
+                  </div>
+                  <div>
+                    <Label htmlFor="teams-client-secret">
+                      Client Secret <span className="text-red-500">*</span>
+                    </Label>
+                    <Input
+                      id="teams-client-secret"
+                      type="password"
+                      value={msTeamsClientSecret}
+                      onChange={(e) => setMsTeamsClientSecret(e.target.value)}
+                      placeholder="Enter Client Secret"
+                      required
+                      disabled={isMsTeamsEditing}
+                    />
+                    <p className="text-xs text-gray-500 mt-1">
+                      Enter the Client Secret value generated in the Azure
+                      Portal. Keep this value confidential.
+                    </p>
+                  </div>
+                  <div>
+                    <Label htmlFor="teams-tenant-id">
+                      Tenant ID <span className="text-red-500">*</span>
+                    </Label>
+                    <Input
+                      id="teams-tenant-id"
+                      value={msTeamsTenantId}
+                      onChange={(e) => setMsTeamsTenantId(e.target.value)}
+                      placeholder="Enter Tenant ID"
+                      required
+                      disabled={isMsTeamsEditing}
+                    />
+                    <p className="text-xs text-gray-500 mt-1">
+                      Enter the Directory (tenant) ID from your Azure Portal.
+                    </p>
+                  </div>
+                  <div className="sm:col-span-2">
+                    <Label htmlFor="teams-redirect-uri">
+                      Redirect URI <span className="text-red-500">*</span>
+                    </Label>
+                    <Input
+                      id="teams-redirect-uri"
+                      value={msTeamsRedirectUri}
+                      onChange={(e) => setMsTeamsRedirectUri(e.target.value)}
+                      placeholder="https://your-app.com/callback"
+                      required
+                      disabled={isMsTeamsEditing}
+                    />
+                    <p className="text-xs text-gray-500 mt-1">
+                      Enter the Redirect URI configured in your Azure app
+                      registration.
+                    </p>
+                  </div>
+                  <div>
+                    <Label htmlFor="teams-team-id">
+                      Team ID <span className="text-red-500">*</span>
+                    </Label>
+                    <Input
+                      id="teams-team-id"
+                      value={msTeamsTeamId}
+                      onChange={(e) => setMsTeamsTeamId(e.target.value)}
+                      placeholder="Enter Team ID"
+                      required
+                    />
+                    <p className="text-xs text-gray-500 mt-1">
+                      The unique ID of the MS Team where the channel is located.
+                    </p>
+                  </div>
+                  <div>
+                    <Label htmlFor="teams-channel-id">
+                      Channel ID <span className="text-red-500">*</span>
+                    </Label>
+                    <Input
+                      id="teams-channel-id"
+                      value={msTeamsChannelId}
+                      onChange={(e) => setMsTeamsChannelId(e.target.value)}
+                      placeholder="Enter Channel ID"
+                      required
+                    />
+                    <p className="text-xs text-gray-500 mt-1">
+                      The unique ID of the MS Teams channel where messages will
+                      be sent.
+                    </p>
+                  </div>
+                </div>
+                <div className="mt-4 flex items-center justify-end gap-2">
+                  <Button
+                    variant="outline"
+                    onClick={() => setMsTeamsAddOpen(false)}
+                  >
+                    Cancel
+                  </Button>
+                  <Button
+                    disabled={!isMsTeamsValid}
+                    className="bg-gradient-to-r from-valasys-orange to-valasys-orange-light text-white disabled:opacity-50 disabled:cursor-not-allowed"
+                    onClick={() => {
+                      if (!isMsTeamsValid) return;
+                      if (isMsTeamsEditing) {
+                        setMsTeamsAccounts((prev) =>
+                          prev.map((a) =>
+                            a.id === editingMsTeamsAccountId
+                              ? {
+                                  ...a,
+                                  name: msTeamsDisplayName.trim(),
+                                  clientKey: msTeamsClientKey,
+                                  clientSecret: msTeamsClientSecret,
+                                  tenantId: msTeamsTenantId,
+                                  redirectUri: msTeamsRedirectUri,
+                                  teamId: msTeamsTeamId,
+                                  channelId: msTeamsChannelId,
+                                }
+                              : a,
+                          ),
+                        );
+                      } else {
+                        setMsTeamsAccounts((prev) => [
+                          ...prev,
+                          {
+                            id: `msteams-${msTeamsNextId}`,
+                            name: msTeamsDisplayName.trim(),
+                            clientKey: msTeamsClientKey,
+                            clientSecret: msTeamsClientSecret,
+                            tenantId: msTeamsTenantId,
+                            redirectUri: msTeamsRedirectUri,
+                            teamId: msTeamsTeamId,
+                            channelId: msTeamsChannelId,
+                          },
+                        ]);
+                        setMsTeamsNextId((n) => n + 1);
+                      }
+                      setMsTeamsDisplayName("");
+                      setMsTeamsClientKey("");
+                      setMsTeamsClientSecret("");
+                      setMsTeamsTenantId("");
+                      setMsTeamsRedirectUri("");
+                      setMsTeamsTeamId("");
+                      setMsTeamsChannelId("");
+                      setIsMsTeamsEditing(false);
+                      setEditingMsTeamsAccountId(null);
+                      setMsTeamsAddOpen(false);
+                      setMsTeamsThankOpen(true);
+                      setMsTeamsThankProcessing(true);
+                      setMsTeamsThankProgress(0);
+                    }}
+                  >
+                    <Save className="h-4 w-4 mr-2" />{" "}
+                    {isMsTeamsEditing ? "Update Connection" : "Save Connection"}
+                  </Button>
+                </div>
+              </TabsContent>
+              <TabsContent
+                value="howto"
+                className="border-b border-valasys-gray-200 pb-4"
+              >
+                <div className="rounded-md border border-blue-200 bg-blue-50 p-3 text-blue-900 mt-3 text-sm">
+                  Follow these steps in Azure Portal and MS Teams to connect.
+                </div>
+                <div className="space-y-2 mt-3 text-sm text-gray-700">
+                  <ol className="list-decimal pl-5 space-y-1">
+                    <li>
+                      Go to Azure Portal → Microsoft Entra ID → App
+                      registrations.
+                    </li>
+                    <li>Create a new registration and set the Redirect URI.</li>
+                    <li>
+                      Generate a Client Secret and copy the Client ID and
+                      Tenant ID.
+                    </li>
+                    <li>
+                      Add API permissions for Microsoft Graph:
+                      <code className="mx-1 bg-gray-100 px-1 rounded">
+                        Group.ReadWrite.All
+                      </code>
+                      ,
+                      <code className="mx-1 bg-gray-100 px-1 rounded">
+                        ChannelMessage.Send
+                      </code>
+                      .
+                    </li>
+                    <li>
+                      In Microsoft Teams, create or select a Team and a Channel.
+                    </li>
+                    <li>
+                      To get Team ID: Right-click Team name → Get link to team
+                      (ID is between
+                      <code className="mx-1 bg-gray-100 px-1 rounded">
+                        groupId=
+                      </code>
+                      and
+                      <code className="mx-1 bg-gray-100 px-1 rounded">&</code>
+                      ).
+                    </li>
+                    <li>
+                      To get Channel ID: Right-click Channel → Get link to
+                      channel (ID is after
+                      <code className="mx-1 bg-gray-100 px-1 rounded">
+                        channel/
+                      </code>
+                      ).
+                    </li>
+                    <li>Paste all values into the form and save.</li>
+                  </ol>
+                </div>
+              </TabsContent>
+            </Tabs>
+          </DialogContent>
+        </Dialog>
+
+        {/* Microsoft Dynamics 365 Thank You Dialog */}
+        <Dialog
+          open={msDynamicsThankOpen}
+          onOpenChange={(open) => {
+            setMsDynamicsThankOpen(open);
+            if (!open) {
+              setMsDynamicsThankProcessing(false);
+              setMsDynamicsThankProgress(0);
+            }
+          }}
+        >
+          <DialogContent className="max-w-md">
+            <DialogHeader>
+              <DialogTitle>Thank you</DialogTitle>
+              <DialogDescription>
+                {msDynamicsThankProcessing
+                  ? "Processing your Microsoft Dynamics 365 connection..."
+                  : "Your Microsoft Dynamics 365 connection successfully Completed"}
+              </DialogDescription>
+            </DialogHeader>
+
+            {msDynamicsThankProcessing ? (
+              <div className="space-y-3">
+                <Progress value={msDynamicsThankProgress} />
+                <div className="text-xs text-gray-500">
+                  Please wait, this may take a few seconds…
+                </div>
+              </div>
+            ) : (
+              <div className="flex items-center gap-3 py-2">
+                <CheckCircle2 className="h-6 w-6 text-green-600 ai-pulse" />
+                <span className="text-sm text-gray-800">
+                  Your Microsoft Dynamics 365 connection successfully Completed
+                </span>
+              </div>
+            )}
+
+            <div className="flex justify-end">
+              <Button
+                onClick={() => setMsDynamicsThankOpen(false)}
+                className="bg-valasys-orange text-white hover:bg-valasys-orange/90"
+                disabled={msDynamicsThankProcessing}
+              >
+                Close
+              </Button>
+            </div>
+          </DialogContent>
+        </Dialog>
+
+        {/* Microsoft Teams Thank You Dialog */}
+        <Dialog
+          open={msTeamsThankOpen}
+          onOpenChange={(open) => {
+            setMsTeamsThankOpen(open);
+            if (!open) {
+              setMsTeamsThankProcessing(false);
+              setMsTeamsThankProgress(0);
+            }
+          }}
+        >
+          <DialogContent className="max-w-md">
+            <DialogHeader>
+              <DialogTitle>Thank you</DialogTitle>
+              <DialogDescription>
+                {msTeamsThankProcessing
+                  ? "Processing your Microsoft Teams connection..."
+                  : "Your Microsoft Teams connection successfully Completed"}
+              </DialogDescription>
+            </DialogHeader>
+
+            {msTeamsThankProcessing ? (
+              <div className="space-y-3">
+                <Progress value={msTeamsThankProgress} />
+                <div className="text-xs text-gray-500">
+                  Please wait, this may take a few seconds…
+                </div>
+              </div>
+            ) : (
+              <div className="flex items-center gap-3 py-2">
+                <CheckCircle2 className="h-6 w-6 text-green-600 ai-pulse" />
+                <span className="text-sm text-gray-800">
+                  Your Microsoft Teams connection successfully Completed
+                </span>
+              </div>
+            )}
+
+            <div className="flex justify-end">
+              <Button
+                onClick={() => setMsTeamsThankOpen(false)}
+                className="bg-valasys-orange text-white hover:bg-valasys-orange/90"
+                disabled={msTeamsThankProcessing}
+              >
+                Close
+              </Button>
+            </div>
+          </DialogContent>
+        </Dialog>
+
         {/* CRM Instruction Dialog */}
         <Dialog open={crmDialogOpen} onOpenChange={setCrmDialogOpen}>
           <DialogContent className="max-w-3xl max-h-[85vh] overflow-y-auto">
@@ -1957,6 +2996,10 @@ export default function MyDownloadedList() {
                               Marketo: use REST API credentials (Client
                               ID/Secret).
                             </p>
+                            <p>
+                              Dynamics 365: connect via OAuth (Client
+                              Key/Secret/Tenant).
+                            </p>
                           </CardContent>
                         </Card>
                       </div>
@@ -1994,7 +3037,15 @@ export default function MyDownloadedList() {
                               ? "HubSpot"
                               : c === "salesforce"
                                 ? "Salesforce"
-                                : "Marketo"}
+                                : c === "zoho"
+                                  ? "Zoho"
+                                  : c === "pipedrive"
+                                    ? "Pipedrive"
+                                    : c === "dynamics365"
+                                      ? "Dynamics 365"
+                                      : c === "msteams"
+                                        ? "MS-Teams"
+                                        : "Marketo"}
                           </SelectItem>
                         ))}
                       </SelectContent>
@@ -2029,7 +3080,11 @@ export default function MyDownloadedList() {
                                 ? "Zoho"
                                 : selectedCrm === "pipedrive"
                                   ? "Pipedrive"
-                                  : "Marketo"}
+                                  : selectedCrm === "dynamics365"
+                                    ? "Dynamics 365"
+                                    : selectedCrm === "msteams"
+                                      ? "MS-Teams"
+                                      : "Marketo"}
                           ...
                         </>
                       ) : uploadDone ? (
@@ -2043,7 +3098,11 @@ export default function MyDownloadedList() {
                                 ? "Zoho"
                                 : selectedCrm === "pipedrive"
                                   ? "Pipedrive"
-                                  : "Marketo"}
+                                  : selectedCrm === "dynamics365"
+                                    ? "Dynamics 365"
+                                    : selectedCrm === "msteams"
+                                      ? "MS-Teams"
+                                      : "Marketo"}
                         </>
                       ) : (
                         <>
@@ -2056,7 +3115,11 @@ export default function MyDownloadedList() {
                                 ? "Zoho"
                                 : selectedCrm === "pipedrive"
                                   ? "Pipedrive"
-                                  : "Marketo"}
+                                  : selectedCrm === "dynamics365"
+                                    ? "Dynamics 365"
+                                    : selectedCrm === "msteams"
+                                      ? "MS-Teams"
+                                      : "Marketo"}
                         </>
                       )}
                     </Button>
@@ -2083,7 +3146,11 @@ export default function MyDownloadedList() {
                                 ? "https://app.zoho.com/"
                                 : selectedCrm === "pipedrive"
                                   ? "https://app.pipedrive.com/"
-                                  : "https://app.marketo.com/"
+                                  : selectedCrm === "dynamics365"
+                                    ? "https://home.dynamics.com/"
+                                    : selectedCrm === "msteams"
+                                      ? "https://teams.microsoft.com/"
+                                      : "https://app.marketo.com/"
                         }
                         target="_blank"
                         rel="noreferrer"
@@ -2097,7 +3164,11 @@ export default function MyDownloadedList() {
                               ? "Zoho"
                               : selectedCrm === "pipedrive"
                                 ? "Pipedrive"
-                                : "Marketo"}
+                                : selectedCrm === "dynamics365"
+                                  ? "Dynamics 365"
+                                  : selectedCrm === "msteams"
+                                    ? "MS-Teams"
+                                    : "Marketo"}
                       </a>
                     </Button>
                     <Button asChild variant="outline" size="sm">
@@ -2111,7 +3182,11 @@ export default function MyDownloadedList() {
                                 ? "https://www.zoho.com/crm/help/import-contacts.html"
                                 : selectedCrm === "pipedrive"
                                   ? "https://support.pipedrive.com/en/articles/1237-importing-deals-persons-organizations-products"
-                                  : "https://experienceleague.adobe.com/en/docs/marketo/using/product-docs/administration/settings/importing-a-list"
+                                  : selectedCrm === "dynamics365"
+                                    ? "https://learn.microsoft.com/en-us/dynamics365/customerengagement/on-premises/basics/import-contacts?view=op-9-1"
+                                    : selectedCrm === "msteams"
+                                      ? "https://learn.microsoft.com/en-us/microsoftteams/platform/graph-api/teams-api-overview"
+                                      : "https://experienceleague.adobe.com/en/docs/marketo/using/product-docs/administration/settings/importing-a-list"
                         }
                         target="_blank"
                         rel="noreferrer"
@@ -2145,7 +3220,11 @@ export default function MyDownloadedList() {
                       ? "Zoho"
                       : selectedCrm === "pipedrive"
                         ? "Pipedrive"
-                        : "Marketo"}
+                        : selectedCrm === "dynamics365"
+                          ? "Dynamics 365"
+                          : selectedCrm === "msteams"
+                            ? "MS-Teams"
+                            : "Marketo"}
               </Badge>
             </div>
 
@@ -2158,6 +3237,8 @@ export default function MyDownloadedList() {
                 <TabsTrigger value="salesforce">Salesforce</TabsTrigger>
                 <TabsTrigger value="zoho">Zoho</TabsTrigger>
                 <TabsTrigger value="pipedrive">Pipedrive</TabsTrigger>
+                <TabsTrigger value="dynamics365">Dynamics 365</TabsTrigger>
+                <TabsTrigger value="msteams">MS-Teams</TabsTrigger>
                 <TabsTrigger value="marketo">Marketo</TabsTrigger>
               </TabsList>
 
@@ -2542,6 +3623,82 @@ export default function MyDownloadedList() {
                 </div>
               </TabsContent>
 
+              <TabsContent value="msteams">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-3">
+                  <Card>
+                    <CardHeader className="pb-2">
+                      <CardTitle className="text-base flex items-center">
+                        <ListChecks className="h-4 w-4 mr-2 text-valasys-orange" />
+                        What you'll do
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent className="text-sm text-gray-700 space-y-2">
+                      <p>Export prospect data directly to a Teams Channel.</p>
+                      <p>Automate lead alerts for your sales team.</p>
+                      <p>Include key details: Name, Company, Title, and LinkedIn.</p>
+                    </CardContent>
+                  </Card>
+
+                  <Card>
+                    <CardHeader className="pb-2">
+                      <CardTitle className="text-base flex items-center">
+                        <CheckCircle2 className="h-4 w-4 mr-2 text-green-600" />
+                        Setup Requirements
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent className="text-sm text-gray-700 space-y-2">
+                      <p>Requires Team ID and Channel ID.</p>
+                      <p>Microsoft Graph API permissions enabled.</p>
+                      <p>Active Teams Channel for incoming messages.</p>
+                    </CardContent>
+                  </Card>
+                </div>
+
+                <Separator className="my-4" />
+
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                  <Card>
+                    <CardHeader className="pb-2">
+                      <CardTitle className="text-base">Steps</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <ol className="list-decimal pl-5 space-y-2 text-sm text-gray-700">
+                        <li>Register App in Azure Portal (Entra ID).</li>
+                        <li>Grant <code className="bg-gray-100 px-1 rounded">ChannelMessage.Send</code> permissions.</li>
+                        <li>Identify your Team and Channel in MS Teams.</li>
+                        <li>Add the Channel credentials in Valasys AI.</li>
+                        <li>Click "Send to CRM" to push data to Teams.</li>
+                      </ol>
+                    </CardContent>
+                  </Card>
+
+                  <Card>
+                    <CardHeader className="pb-2">
+                      <CardTitle className="text-base">
+                        Data formatting
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <div className="space-y-3 text-sm">
+                        <div className="rounded-lg border p-3 bg-valasys-gray-50 border-valasys-gray-200">
+                          <p className="font-mono text-xs text-blue-700 font-bold mb-1">Incoming Message Preview:</p>
+                          <p className="font-semibold">New Prospect Alert!</p>
+                          <p>Name: John Doe</p>
+                          <p>Company: Acme Corp</p>
+                          <p>Source: Valasys AI</p>
+                        </div>
+                        <Alert className="bg-blue-50 border-blue-200">
+                          <Info className="h-4 w-4 text-blue-600" />
+                          <AlertDescription className="text-blue-800 text-xs">
+                            Data is sent as a formatted Adaptive Card for clear visibility in Teams.
+                          </AlertDescription>
+                        </Alert>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </div>
+              </TabsContent>
+
               <TabsContent value="marketo">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-3">
                   <Card>
@@ -2649,6 +3806,95 @@ export default function MyDownloadedList() {
                           Smart Lists after import.
                         </AlertDescription>
                       </Alert>
+                    </CardContent>
+                  </Card>
+                </div>
+              </TabsContent>
+
+              <TabsContent value="dynamics365">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-3">
+                  <Card>
+                    <CardHeader className="pb-2">
+                      <CardTitle className="text-base flex items-center">
+                        <ListChecks className="h-4 w-4 mr-2 text-valasys-orange" />
+                        What you'll do
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent className="text-sm text-gray-700 space-y-2">
+                      <p>Import into Leads or Contacts in Dynamics 365.</p>
+                      <p>Map Email, Name, Company, Title, and Phone.</p>
+                      <p>Use Duplicate Detection rules for clean data.</p>
+                    </CardContent>
+                  </Card>
+
+                  <Card>
+                    <CardHeader className="pb-2">
+                      <CardTitle className="text-base flex items-center">
+                        <CheckCircle2 className="h-4 w-4 mr-2 text-green-600" />
+                        Recommended settings
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent className="text-sm text-gray-700 space-y-2">
+                      <p>Use CSV format with UTF-8 encoding.</p>
+                      <p>Select "Ignore" or "Update" for duplicates.</p>
+                      <p>Verify field mapping before finalizing.</p>
+                    </CardContent>
+                  </Card>
+                </div>
+
+                <Separator className="my-4" />
+
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                  <Card>
+                    <CardHeader className="pb-2">
+                      <CardTitle className="text-base">Steps</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <ol className="list-decimal pl-5 space-y-2 text-sm text-gray-700">
+                        <li>Dynamics 365 → Settings → Data Management.</li>
+                        <li>Click "Imports" → "Import Data".</li>
+                        <li>Upload the CSV file and click Next.</li>
+                        <li>Select "Default (Automatic Mapping)".</li>
+                        <li>Map CSV columns to Dynamics fields.</li>
+                        <li>Review and click "Submit" to start import.</li>
+                      </ol>
+                    </CardContent>
+                  </Card>
+
+                  <Card>
+                    <CardHeader className="pb-2">
+                      <CardTitle className="text-base">
+                        Field mapping guide
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm">
+                        <div className="rounded-lg border p-2 bg-white">
+                          <span className="font-medium">CSV: Email</span>
+                          <ArrowRight className="inline h-3 w-3 mx-1" />
+                          <span>Dynamics: Email</span>
+                        </div>
+                        <div className="rounded-lg border p-2 bg-white">
+                          <span className="font-medium">CSV: First Name</span>
+                          <ArrowRight className="inline h-3 w-3 mx-1" />
+                          <span>Dynamics: First Name</span>
+                        </div>
+                        <div className="rounded-lg border p-2 bg-white">
+                          <span className="font-medium">CSV: Last Name</span>
+                          <ArrowRight className="inline h-3 w-3 mx-1" />
+                          <span>Dynamics: Last Name</span>
+                        </div>
+                        <div className="rounded-lg border p-2 bg-white">
+                          <span className="font-medium">CSV: Company</span>
+                          <ArrowRight className="inline h-3 w-3 mx-1" />
+                          <span>Dynamics: Company Name</span>
+                        </div>
+                        <div className="rounded-lg border p-2 bg-white">
+                          <span className="font-medium">CSV: Job Title</span>
+                          <ArrowRight className="inline h-3 w-3 mx-1" />
+                          <span>Dynamics: Job Title</span>
+                        </div>
+                      </div>
                     </CardContent>
                   </Card>
                 </div>
