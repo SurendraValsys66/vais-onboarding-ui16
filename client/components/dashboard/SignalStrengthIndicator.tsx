@@ -26,16 +26,17 @@ const getSignalBars = (strength: string): number => {
 const getSignalColor = (strength: string): string => {
   switch (strength) {
     case "Super Strong":
+      return "bg-emerald-700";
     case "Very Strong":
-      return "bg-green-600";
+      return "bg-green-700";
     case "Strong":
-      return "bg-blue-600";
+      return "bg-blue-700";
     case "Medium":
-      return "bg-orange-600";
+      return "bg-amber-700";
     case "Weak":
-      return "bg-red-600";
+      return "bg-rose-700";
     default:
-      return "bg-gray-400";
+      return "bg-slate-500";
   }
 };
 
@@ -61,7 +62,7 @@ export default function SignalStrengthIndicator({
               key={index}
               className={cn(
                 "w-1 rounded-full transition-all duration-200",
-                isFilled ? color : "bg-gray-300",
+                isFilled ? color : "bg-black/15",
               )}
               style={{
                 height: barHeight,
@@ -85,7 +86,7 @@ export default function SignalStrengthIndicator({
             key={index}
             className={cn(
               "w-2 rounded-full transition-all duration-200",
-              isFilled ? color : "bg-gray-300",
+              isFilled ? color : "bg-black/10",
             )}
             style={{
               height: barHeight,
