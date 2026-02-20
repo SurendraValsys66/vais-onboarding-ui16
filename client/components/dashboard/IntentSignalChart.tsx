@@ -133,7 +133,7 @@ export default function IntentSignalChart({
       >
         <Badge
           className={cn(
-            "font-semibold text-sm transition-all duration-200 flex items-center gap-1.5 px-2.5 py-1 rounded-lg",
+            "font-semibold text-sm transition-all duration-200 flex items-center gap-1 px-2.5 py-1 pr-1 rounded-lg",
             getIntentSignalColor(data.intentSignal),
           )}
         >
