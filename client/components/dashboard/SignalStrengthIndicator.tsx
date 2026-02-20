@@ -47,16 +47,17 @@ export default function SignalStrengthIndicator({
   const totalBars = 5;
 
   return (
-    <div className={cn("flex items-center gap-0.5", className)}>
+    <div className={cn("flex items-end gap-1", className)}>
       {Array.from({ length: totalBars }).map((_, index) => {
-        const barHeight = `${16 + (index + 1) * 4}px`;
         const isFilled = index < filledBars;
+        // Bar heights: 8px, 16px, 24px, 32px, 40px
+        const barHeight = `${8 + (index + 1) * 8}px`;
 
         return (
           <div
             key={index}
             className={cn(
-              "w-1.5 rounded-sm transition-all duration-200",
+              "w-2 rounded-full transition-all duration-200",
               isFilled ? color : "bg-gray-300",
             )}
             style={{
