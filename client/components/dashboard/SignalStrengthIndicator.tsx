@@ -9,11 +9,11 @@ interface SignalStrengthIndicatorProps {
 const getSignalBars = (strength: string): number => {
   switch (strength) {
     case "Super Strong":
-      return 5;
-    case "Very Strong":
-      return 5;
-    case "Strong":
       return 3;
+    case "Very Strong":
+      return 3;
+    case "Strong":
+      return 2;
     case "Medium":
       return 2;
     case "Weak":
@@ -50,11 +50,12 @@ export default function SignalStrengthIndicator({
   const totalBars = 5;
 
   if (compact) {
+    const compactBars = 3;
     return (
       <div className={cn("flex items-end gap-0.5", className)}>
-        {Array.from({ length: totalBars }).map((_, index) => {
+        {Array.from({ length: compactBars }).map((_, index) => {
           const isFilled = index < filledBars;
-          // Compact bar heights: 4px, 6px, 8px, 10px, 12px
+          // Compact bar heights: 4px, 6px, 8px
           const barHeight = `${4 + (index + 1) * 2}px`;
 
           return (
