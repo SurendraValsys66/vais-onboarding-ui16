@@ -21,6 +21,7 @@ import {
 import { Building2, MapPin, DollarSign, Target } from "lucide-react";
 import { cn } from "@/lib/utils";
 import IntentSignalUnlockModal from "./IntentSignalUnlockModal";
+import SignalStrengthIndicator from "./SignalStrengthIndicator";
 
 interface IntentSignalData {
   compositeScore: number;
@@ -126,7 +127,7 @@ export default function IntentSignalChart({
   return (
     <>
       <div
-        className={cn("cursor-pointer", className)}
+        className={cn("cursor-pointer flex items-center gap-2", className)}
         onMouseEnter={handleBadgeHover}
         onMouseLeave={() => setShowUnlockModal(false)}
       >
@@ -138,6 +139,7 @@ export default function IntentSignalChart({
         >
           {data.intentSignal}
         </Badge>
+        <SignalStrengthIndicator strength={data.intentSignal} />
       </div>
 
       <IntentSignalUnlockModal
