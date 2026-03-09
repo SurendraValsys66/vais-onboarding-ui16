@@ -21,6 +21,7 @@ import {
 import { Building2, MapPin, DollarSign, Target } from "lucide-react";
 import { cn } from "@/lib/utils";
 import IntentSignalUnlockModal from "./IntentSignalUnlockModal";
+import SignalStrengthIndicator from "./SignalStrengthIndicator";
 
 interface IntentSignalData {
   compositeScore: number;
@@ -86,17 +87,17 @@ const generateChartData = (intentData: IntentSignalData) => {
 const getIntentSignalColor = (signal: string) => {
   switch (signal) {
     case "Super Strong":
-      return "bg-emerald-100 text-emerald-800 border border-emerald-200";
+      return "bg-gradient-to-r from-emerald-50 to-emerald-100 text-emerald-700 border border-emerald-300 shadow-sm hover:shadow-md";
     case "Very Strong":
-      return "bg-green-100 text-green-800 border border-green-200";
+      return "bg-gradient-to-r from-green-50 to-green-100 text-green-700 border border-green-300 shadow-sm hover:shadow-md";
     case "Strong":
-      return "bg-blue-100 text-blue-800 border border-blue-200";
+      return "bg-gradient-to-r from-blue-50 to-blue-100 text-blue-700 border border-blue-300 shadow-sm hover:shadow-md";
     case "Medium":
-      return "bg-orange-100 text-orange-800 border border-orange-200";
+      return "bg-gradient-to-r from-amber-50 to-amber-100 text-amber-700 border border-amber-300 shadow-sm hover:shadow-md";
     case "Weak":
-      return "bg-red-100 text-red-800 border border-red-200";
+      return "bg-gradient-to-r from-rose-50 to-rose-100 text-rose-700 border border-rose-300 shadow-sm hover:shadow-md";
     default:
-      return "bg-gray-100 text-gray-800 border border-gray-200";
+      return "bg-gradient-to-r from-slate-50 to-slate-100 text-slate-700 border border-slate-300 shadow-sm hover:shadow-md";
   }
 };
 
@@ -132,11 +133,12 @@ export default function IntentSignalChart({
       >
         <Badge
           className={cn(
-            "font-medium hover:shadow-md transition-shadow",
+            "font-semibold text-sm transition-all duration-200 flex items-center gap-1 px-2 py-1 rounded-lg w-fit",
             getIntentSignalColor(data.intentSignal),
           )}
         >
-          {data.intentSignal}
+          <SignalStrengthIndicator strength={data.intentSignal} compact />
+          <span>{data.intentSignal}</span>
         </Badge>
       </div>
 
